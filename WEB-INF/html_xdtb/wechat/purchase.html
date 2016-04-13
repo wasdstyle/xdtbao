@@ -1,0 +1,28 @@
+    </div>
+    <div id="operator">
+        <#if borrow.status==0>
+            <span  class="btn">等待初审</span>
+        <#elseif borrow.status==1&&(borrow.accountYes lt borrow.account ) > 
+            <a href="${webroot}/wx/invest.html?borrowid=${borrow.id?c}" class="btn">立即投标</a>
+        <#elseif borrow.status==1&&(borrow.accountYes gt borrow.account || borrow.accountYes==borrow.account) > 
+            <span  class="btn">等待复审</span>
+        <#elseif borrow.status==2> 
+            <span  class="btn">初审失败</span>
+        <#elseif borrow.status==3> 
+            <span  class="btn">复审通过</span>
+        <#elseif borrow.status==5||borrow.status==-1> 
+            <span  class="btn">用户取消</span>
+        <#elseif borrow.status==4> 
+            <span  class="btn">复审失败</span>
+        <#elseif borrow.status==6> 
+            <span  class="btn">还款中</span>
+        <#elseif borrow.status==7> 
+            <span  class="btn">还款中</span>
+        <#elseif borrow.status==8> 
+            <span  class="btn">已还款</span>
+        <#else> 
+            <span  class="btn">用户取消</span> 
+        </#if> 
+    </div>
+</body>
+</html>

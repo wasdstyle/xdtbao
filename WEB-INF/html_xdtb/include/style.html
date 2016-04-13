@@ -1,0 +1,33 @@
+<head>
+	<title>${webname!webname}</title>
+	<meta charset="utf-8">
+	<meta name="keywords" content="${meta_keywords!meta_keywords}">
+	<meta name="description" content="${meta_description!meta_description}" >
+
+	<link rel="stylesheet" type="text/css" href="${theme_dir}/css/common.css">
+	<#if nid??&&nid=="member">
+		<link rel="stylesheet" type="text/css" href="${theme_dir}/css/account.css">
+	<#else>
+		<link rel="stylesheet" type="text/css" href="${theme_dir}/css/style.css">
+	</#if>
+	
+	<script type="text/javascript" src="${theme_dir}/plugin/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript">
+		// v1.9.1 访问页面后提示版本太低 zza 2015-03-18 start
+		//var themeDir = '${theme_dir}';
+		// /(6.0|7.0)/.test($.browser.version) ? location.href = '/obsolete.html' : '';
+		var themeDir = '${theme_dir}';
+		if (navigator.appName == "Microsoft Internet Explorer"
+				&& navigator.appVersion.split(";")[1].replace(/[ ]/g, "") == "MSIE7.0") {
+			location.href = '/obsolete.html'
+		} else if (navigator.appName == "Microsoft Internet Explorer"
+				&& navigator.appVersion.split(";")[1].replace(/[ ]/g, "") == "MSIE6.0") {
+			location.href = '/obsolete.html'
+		}
+		// v1.9.1 访问页面后提示版本太低 zza 2015-03-18 end
+	</script>
+	<!--[if IE]>
+		<script type="text/javascript" src="${theme_dir}/plugin/html5.js"></script>
+		<script type="text/javascript" src="${theme_dir}/plugin/excanvas.js"></script>
+	<![endif]-->
+</head>

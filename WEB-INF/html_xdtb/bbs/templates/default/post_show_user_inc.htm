@@ -1,0 +1,39 @@
+<#if karmaEnabled && post.userId != 1>
+	<script type="text/javascript">writeStars(${user.karma.karmaPoints}, "${user.id}${post.id}");</script>
+</#if>
+
+<span class="gensmall">
+
+
+<#if (user.avatar?exists && user.avatar?length > 0)>
+	<#if user.isExternalAvatar() || user.avatar.startsWith("http://")>
+		<#if avatarAllowExternalUrl>
+			<div class="user_img"><img src="${user.avatar?html}" border="0" alt="[Avatar]" /></div>
+		</#if>
+	<#else>
+		<div class="user_img"><img src="${contextPath}/images/avatar/${user.avatar}" border="0" alt="[Avatar]" /></div>
+	</#if>
+</#if>
+    用户等级：${rank.getRankTitle(user.rankId, user.totalPosts)}<br />
+	${I18n.getMessage("PostShow.userRegistrationDate")}：${user.registrationDate}<br />
+	发表${I18n.getMessage("PostShow.userTotalMessages")}：${user.totalPosts}<br />
+
+<#if (user.from?exists && user.from?length > 0)>
+	${I18n.getMessage("PostShow.userFrom")}: ${user.from?html}
+
+</#if>
+<#--  
+<#if post.userIp?exists && isModerator>
+	${I18n.getMessage("PostShow.userIP")}: ${post.userIp}
+	<br />
+</#if>
+-->
+
+<#if post.userId != 1>
+<#if user.isOnline()>
+	用户状态：<span class="online">${I18n.getMessage("PostShow.userOnline")}</span>
+<#else>
+	用户状态：<span class="offline">${I18n.getMessage("PostShow.userOffline")} </span>
+</#if>
+</#if>
+</span>

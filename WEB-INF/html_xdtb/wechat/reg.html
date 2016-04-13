@@ -1,0 +1,94 @@
+<#include "header/base_top.html">
+<style>
+    #main .form-style-reg input {
+      border: none;
+      font-size: 1em;
+      width: 93%;
+      margin-top:10px;
+      margin-left:3%;
+      height: 40px;
+      border: none!important;
+    }
+</style>
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">注册</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg step-cont1">
+            <form action="/wx/reg.html" method="post" id="form-register" class="form-register" >
+                <ul>
+                    <li style="border-bottom:1px solid #E8E8E8;">
+                        <input type="text" id="username" name="username" maxlength="15" forbidspace="true" tabindex="3" autocomplete="off" placeholder="用户名">
+                    </li>
+
+                    <li style="border-bottom:1px solid #E8E8E8;">
+                        <input type="hidden" id="count-down" value="${countDown!120}">
+                        <input  type="text" id="phone" name="phone" maxlength="11" forbidspace="true" tabindex="1" autocomplete="off" placeholder="手机号码">
+                    </li>
+
+                    <li style="border-bottom:1px solid #E8E8E8;">
+                        
+                        <input type="text" id="phoneCode" name="phone_code" class="phoneCode" maxlength="6" forbidspace="true" tabindex="3" autocomplete="off" placeholder="短信验证码" style="width:45%;">
+
+                        <a href="javascript:" id="getvaliCode">获取验证码</a>
+                        <input type="hidden" name ="codeUniqueId" id ="codeUniqueId"/>
+                    </li>
+
+					<li style="border-bottom:1px solid #E8E8E8;">
+                        <input type="password" style="display: none;">
+                        <input type="password" id="password" name="password" maxlength="16" tabindex="4" autocomplete="off" onkeyup="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')" placeholder="密码">
+                    </li>
+					<li style="border-bottom:1px solid #E8E8E8;">
+                        <input type="password" id="con-pwd" name="confirm_password" maxlength="16" tabindex="5" autocomplete="off" onkeyup="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')" placeholder="确认密码">
+                    </li>
+					<li style="border-bottom:1px solid #E8E8E8;">
+                        <input type="text" id="inviter" name="invite_username" maxlength="15" value="<#if inviteUser?exists&&inviteUser.username?exists>${inviteUser.username}</#if>" forbidspace="true" tabindex="6" autocomplete="off" placeholder="邀请人用户名（选填）">
+                    </li>
+					
+					<li style="border-bottom:1px solid #E8E8E8;">
+                        <input type="hidden" name="validCodeHidden" id="validCodeHidden">
+
+                        <input type="text" id="validcode" name="valicode" class="validcode" maxlength="5" tabindex="9" forbidspace="true" autocomplete="off" placeholder="验证码" style="width:20%;"/>
+
+                        <img src="/validimg.html" id="validcode-img" onmousedown="return false"  
+                        onclick="this.src='/validimg.html?t=' + Math.random();" title="点击刷新"/>
+                    </li>
+
+					<!-- <li style="border-bottom:1px solid #E8E8E8;">
+						<div class="protocol" style="position:relative; top:5px;">
+							<input type="checkbox" id="agree" checked="checked" style="position:relative; top:0; border: 0 none; width: 14px; height:14px margin-right:5px;"> 我已阅读并且同意
+                            <a href="javascript:" style="color: #4971b6;">《信达通宝服务协议条款》</a>
+						</div>
+					</li> -->
+                </ul>  
+                <div class="protocol" style="position:relative; top:5px;">
+                    <input type="checkbox" id="agree" checked="checked" style="position:relative; top:0; border: 0 none; width: 14px; height:14px margin-right:5px;"> 我已阅读并且同意
+                    <a href="javascript:" style="color: #4971b6;">《信达通宝服务协议条款》</a>
+                </div>      
+                <input type="hidden" name="actionType"  value="register" />
+                <input type="hidden" name="openLoginId"  value="${openLoginId!}" />
+            </form>
+			<a href="login.html" style="margin-left:3%;margin-top:15px;color:#057DFF;font-weight:bold;display:block;">已有账号？请登入</a>
+
+            <div id="operator">
+                <a class="btn btn-register" id="btn-register">立即注册</a>
+            </div>
+        </div>
+
+
+        
+        
+
+
+<#include "header/footer.html">
+<script type="text/javascript">
+    var themeDir = '${theme_dir}';
+</script>
+<script type="text/javascript" src="${theme_dir}/plugin/LAB.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/common.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/layer.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/jquery.form.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/weixin/register.js"></script>

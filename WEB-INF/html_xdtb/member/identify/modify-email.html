@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#include "../../include/style.html">
+<body>
+	<script type="text/javascript">
+		if(window.location.href.match('step=first')) {
+			document.write('<style>#modify-email-validcode{display: block;}#form-modify-email{display: none;}</style>');
+		}
+	</script>
+	<input type="hidden" id="email_count-down" value="${countDown!60}">
+	<div class="wp-modify-form">
+		<!-- 原始邮箱获取校验码:begin -->
+		<form action="/member/identify/emailChange.html" method="post" id="modify-email-validcode">
+			<h1>为了保护您的帐号安全，修改前请您进行安全验证</h1>
+			<ul>
+				<li class="cf">
+					<label>原始邮箱：</label>
+					<span>${oldEmail!}</span>
+					<input type="hidden" id="email" value="${oldEmail!}">
+				</li>
+				<li class="cf">
+					<label>校验码：</label>
+					<input type="text" name="emailValicode" id="email-valicode" autocomplete="off" /> 
+					<a href="javascript:" class="btn-email-validcode" id="btn-email-validcode">获取校验码</a>
+				</li>
+				<li class="email-prompt"></li>
+				<input type="hidden" name="query_type" value="email_change">
+				<a href="javascript:" id="email-next-step">下一步</a>
+			</ul>
+		</form>
+		<!-- 原始邮箱获取校验码:end -->
+
+		<!-- 新邮箱获取校验码:begin -->
+		<form action="/member/identify/emailCheck.html" method="post" id="form-modify-email">
+			<h1>输入新的邮箱地址，获取新的校验码即可完成修改</h1>
+			<ul>
+				<li class="cf text">
+					<label>新邮箱地址：</label>
+					<input type="text" name="email" id="email" autocomplete="off" maxlength="30" />
+				</li>
+				<li class="cf">
+					<label>校验码：</label>
+					<input type="text" name="valicode" id="valicode" maxlength="6" autocomplete="off"/>
+					<a href="javascript:" id="btn-email-validcode">获取校验码</a>
+				</li>
+				<li class="email-prompt"></li>
+				<a href="javascript:" id="btn-submit-modify-email">确定</a>
+			</ul>
+		</form>
+		<!-- 新邮箱获取校验码:end -->
+	</div>
+	<#include "../../include/script.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-identify.js"></script>
+</html>

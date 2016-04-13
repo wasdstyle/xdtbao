@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${webname!}</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<#include "head.htm"/>
+</head>
+
+<script type="text/javascript" src="${contextPath}/themes/bbs/templates/${templateName}/js/pagination.js?${startupTime}"></script>
+
+<#import "../macros/pagination.ftl" as topicPagination>
+<#import "../macros/search_pagination.ftl" as pagination>
+<#import "../macros/presentation.ftl" as presentation/>
+
+<body class="full">
+	<!--S 快速导航开始-->
+	<!--S 快速导航开始-->
+	<#include "quickNav.htm"/>
+	<!--E 快速导航结束-->
+	
+	 <!--S 主体部分开始-->
+	<section class="bd bbs_search mid m_t_10 m_b_10">
+		<div class="quick_nav">
+			<ul class="clearfix">
+				<li><a class="on" href="${JForumContext.encodeURL("/search/filters")}" title="搜索"><figure class="ico1"></figure>搜索</a></li>
+				<li><a href="${JForumContext.encodeURL("/forums/list")}" title="论坛首页"><figure class="ico4"></figure>论坛首页</a></li>
+				<li><a href="${JForumContext.encodeURL("/recentTopics/list")}" title="最新主题"><figure class="ico2"></figure>最新主题</a></li>
+				<li><a href="${JForumContext.encodeURL("/hottestTopics/list")}" title="热门主题"><figure class="ico3"></figure>热门主题</a></li>
+			</ul>
+		</div>
+		<form accept-charset="${encoding}" action="${JForumContext.encodeURL("/jforum")}" method="get" id="formSearch" name="formSearch">
+		<input type="hidden" name="module" value="${moduleName}" />
+		<input type="hidden" name="action" value="search" />
+		<div class="search_con">
+			<div class="search_main clearfix">
+				<label class="keyword_tit" for="">搜索关键字：</label>
+				<input class="keyword_txt"  name="search_keywords" type="text">
+				<input class="submit_btn" type="submit" value="搜索">
+				<div class="options_con">
+					<input checked="checked" name="match_type" value="all" type="radio">
+					<label for=""  > 搜索符合以上所有关键字的资料</label>
+					<br />
+					<input type="radio" value="any" name="match_type">
+					<label for="">搜索符合以上任一关键字的资料</label>
+				</div>
+			</div>
+			<div class="screening">
+				<label for="">版面：</label>
+				<select class="post" name="search_forum">
+					<option value="" selected="selected">${I18n.getMessage("Search.allAvailable")}</option>
+					<#list categories as c>
+						<optgroup label="${c.name}">
+							<#list c.getForums() as f>
+								<option value="${f.id}">${f.name}</option>
+							</#list>
+						</optgroup>
+					</#list>
+				</select>&nbsp;&nbsp;&nbsp;
+				<label for="">排列顺序：</label>
+				<select class="post" name="sort_by" onChange="enableDisableOrderBy(this.value);">
+					<option value="relevance" selected="selected">${I18n.getMessage("Search.relevance")}</option>
+					<option value="time">${I18n.getMessage("Search.postDate")}</option>
+				</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="radio" value="ASC" name="sort_dir" id="sort_asc"/>
+				<label for="">按序递增</label>&nbsp;
+				<input type="radio" checked="checked" value="DESC" name="sort_dir" id="sort_desc"/>
+				<label for="">按序递减</label>
+			</div>
+		</div>
+		</form>
+	</section>
+	<!--E 主体部分结束-->
+	<!--S 页脚-->
+	<!--S 页脚-->
+	<#include "foot.htm"/>
+	<!--E 页脚-->
+	<#include "resource.htm"/>
+</body>
+</html>

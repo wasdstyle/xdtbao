@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_setting">
+<#assign fid="f_invite">
+<#assign webname='邀请好友- 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "setting-list-tab.html"></div>
+			<div class="account-content">
+				<ul class="prompt">
+					<li>请不要发送邀请链接给不熟悉的人,避免给别人带来不必要的困扰;</li>
+					<li>请把下边的邀请链接发给您的好友，好友在本网站注册之后您就成功邀请了一名用户。</li>
+				</ul>
+				<div class="copy-url cf">
+					<input type="text" id="invite-url" value="${weburl}/user/regInvite.html?u=${userid}" readonly="true">
+					<a href="javascript:" id="btn-copy-url">复制链接</a>
+				</div>
+				<div class="wp-invite">
+					<h1>邀请记录</h1>
+					<ul class="name cf">
+						<li>真实姓名</li>
+						<li>用户名</li>
+						<li>注册时间</li>
+						<li>充值金额</li>
+						<li>投资金额</li>
+					</ul>
+					<#list friendList as item>
+						<ul class="item cf">
+							<li>
+								<#if item.realname?exists && item.realname!="">
+							     ${item.realname!"&nbsp;&nbsp;--"}
+							    <#else>
+							       &nbsp;&nbsp;--
+							    </#if>
+							</li>
+							<li>${item.username}</li>
+							<li>${dateformat(item.addtime, "yyyy-MM-dd")}</li>
+							<li>${item.recharge?string('##.##')}元</li>
+							<li>${item.invest_amount?string('##.##')}元</li>
+						</ul>
+					</#list>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-friend.js"></script>
+</html>

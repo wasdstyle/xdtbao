@@ -1,0 +1,139 @@
+<#macro pagestyle_new page url param>
+	<#if page.pages lt 2>
+		<script type="text/javascript">
+			$('head').append('<style>.page, .account-page{display: none}</style>');
+		</script>
+	</#if>
+	<div class="wp-page cf">
+		<input type="hidden" id="page-count" value="${page.pages!0}">
+		<#if page.hasPreview()>
+			<a href="${url}page=${(page.currentPage-1)?c}${param?default("")}" class="btn-prev">&lt;</a>
+		<#else>
+			<a class="btn-prev btn-disabled">&lt;</a> 
+		</#if>
+		<dl class="list-btn-page cf"></dl>
+		<#if page.hasNext()>
+			<a href="${url}page=${(page.currentPage+1)?c}${param}" class="btn-next">&gt;</a>
+		<#else>
+			<a class="btn-prev btn-disabled">&gt;</a> 
+		</#if>
+		<div class="goto">
+			<b></b>
+			<div class="arrow"></div>
+			<dl></dl>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(function() {
+			// 总页数
+			var pageCount   = parseInt($('#page-count').val());
+			// 首页按钮
+			var firstBtn    = '<dd><a href="${url}page=1${param}">1</a></dd>';
+			// 尾页按钮
+			var lastBtn     = '<dd><a href="${url}page=' + pageCount + '${param}">' + pageCount + '</a></dd>';
+			// 除首页以外页码最小的数字按钮
+			var minIndexBtn;
+			// 除尾页以外页码最大的数字按钮
+			var maxIndexBtn;
+			//省略号
+			var omitSymbol  = '<dd class="omit-symbol">...</dd>';
+			//当前页码
+			var currentPage = getQueryString('page') ? parseInt(getQueryString('page')) : 1;
+
+			/*如果总页数小于或等于1，分页按钮不显示*/
+			if(pageCount <= 1) {
+				$('.wp-page').parent().remove();
+			}
+
+			/*将页码按钮写入上一页和下一页之间*/
+			//如果总页数小于等于7页
+			if(pageCount <= 7) {
+				for(var i = 1;i <= pageCount;i++) {
+					var pageBtn = '<dd><a href="${url}page=' + i + '${param}">' + i + '</a></dd>';
+					$('.list-btn-page').append(pageBtn);
+				}
+			//如果总页数大于7页
+			}else{
+				// 如果当前页码大于等于5,最小页码按钮和最大页码按钮的页码与当前页码的差值都是2，因为当前页码居中显示
+				if(currentPage >= 5) {
+					if(currentPage + 2 >= pageCount) {
+						minIndexBtn = pageCount - 5;
+						maxIndexBtn = pageCount - 1 
+					}else {
+						minIndexBtn = currentPage - 2;
+						maxIndexBtn = currentPage + 2;
+					}
+				}else {
+					minIndexBtn = 2;
+					maxIndexBtn = 6;
+				}
+				$('.list-btn-page').append(firstBtn);
+				// 如果minIndexBtn大于2，在首页按钮后面插入一个省略号
+				if(minIndexBtn > 2) {
+					$('.list-btn-page').append(omitSymbol);
+				}
+				for(var i = minIndexBtn;i <= maxIndexBtn;i++) {
+					var pageBtn = '<dd><a href="${url}page=' + i + '${param}">' + i + '</a></dd>';
+					$('.list-btn-page').append(pageBtn);
+				}
+				// 如果maxIndexBtn小于pageCount-1，在尾页按钮前面插入一个省略号
+				if(maxIndexBtn < pageCount - 1) {
+					$('.list-btn-page').append(omitSymbol);
+				}
+				$('.list-btn-page').append(lastBtn);
+			}
+
+			/*给对应页码的按钮加上高亮样式*/
+			if(getQueryString('page')) {
+				$('.list-btn-page dd a').each(function() {
+					if($(this).text() == getQueryString('page')) {
+						$('.list-btn-page dd a').removeClass('current');
+						$(this).addClass('current');
+					}
+				});
+			}else{
+				$('.list-btn-page dd a:first').addClass('current');
+			}
+
+			/*将分页数字写入到跳转列表中*/
+			$('.goto b').text(currentPage);
+			if(getQueryString('page') >= 10) {
+				$('.goto b').css({'text-indent':12});
+			}
+			for (var i = 1;i <= pageCount;i++) {
+				var pageNum = '<dd><a href="${url}page=' + i + '${param}">' + i + '</a></dd>';
+				$('.goto dl').append(pageNum);
+			}
+
+			/*点击跳转列表中的数字改变url*/
+			$('.goto').hover(function() {
+				$('.goto dl').stop(true, true).slideDown(200);
+			},function() {
+				$('.goto dl').fadeOut(200);
+			});
+
+			/*跳转列表过长时，使用perfect-scrollbar滚动条*/
+			var gotoDlheight = 0;
+			$('.goto dl dd').each(function() {
+				gotoDlheight += $(this).outerHeight();
+			});
+
+			if($('.goto').is(':visible') && gotoDlheight > $('.goto dl').height()) {
+				loadCss(themeDir + '/plugin/perfect-scrollbar-0.4.6/perfect-scrollbar-0.4.6.css');
+				$LAB.script(themeDir + '/plugin/perfect-scrollbar-0.4.6/jquery.mousewheel.js')
+					.script(themeDir + '/plugin/perfect-scrollbar-0.4.6/perfect-scrollbar-0.4.6.js')
+					.wait(function() {
+						$('.goto dl').perfectScrollbar( {
+							wheelSpeed:25
+						});
+					});
+			}
+			$('.wp-page').css('display', 'inline-block');
+			$('.wp-page').css({
+				width: $('.wp-page').width(),
+				display: 'block'
+			})
+		});
+	</script>
+</#macro>

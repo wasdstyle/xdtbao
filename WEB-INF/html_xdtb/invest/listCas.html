@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!-- v1.9.u2 BIAOZHUN-235 zza 2015-02-28 modify -->
+<html>
+<#assign nid="assignment">
+<#assign webname="债权列表 - ${webname!}">
+<#include "../include/style.html">
+<body>
+    <#include "../include/header.html">
+    <#include "../common/function.html">
+    <div id="container">
+        <div class="wrap">
+        	<!--  
+            <div class="filter-invest">
+                <h3 class="filter-invest-h3">筛选投资项目</h3>
+                <ul id="sType" class="cf">
+                    <label>投资类型：</label>
+                    <li data-value="100">全部</li>
+                    <li data-value="103">抵押标</li>
+                    <li data-value="102">信用标</li>
+                    <li data-value="110">流转标</li>
+                    <li data-value="101">秒还标</li>
+                    <li data-value="105">担保标</li>
+                </ul>
+                <ul id="status" class="cf">
+                    <label>招标状态：</label>
+                    <li data-value="14">全部</li>
+                    <li data-value="1">招标中</li>
+                    <li data-value="10">还款中</li>
+                    <li data-value="12">已完成</li>
+                </ul> 
+            </div>
+            <div class="more-filter"><a href="javascript:"><i></i>更多筛选条件</a></div>
+            -->
+            <h3 class="list-invest-h3">债权转让专区</h3>
+            <div class="list-invest">
+            	<#if (itemList??)&&(itemList?size gt 0)>
+            	<#list itemList as item>
+            	<div class="list-i-box cf">
+	               <h1>
+				        <a href="/invest/detail.html?borrowid=${item.related_borrow_id?c}" title="${item.borrow_name!'-'}详情" target="_blank">
+                            [<#if item.borrow_name?length lt 15>${item.borrow_name}<#else>${item.borrow_name[0..14]}...</#if>]
+                        </a>
+				        <a href="" class="red"> [债权转让项目]</a>
+	               </h1>
+				    <ul class="list-i-item cf">     
+				        <li>
+				            债权价值：<b>￥${item.credit_price}</b><sub>元</sub>
+				        </li>
+				        <li>
+				            预期收益率：<b>${(item.credit_value - item.credit_price) * 100 / item.credit_price }</b><sub>%</sub>
+				        </li>
+				        <li>
+				              债权人：<span class="gray">${item.username}</span> 
+				        </li>
+				        <li>
+				              状态： <span class="gray">转让中</span>
+				        </li>
+				    </ul>
+				    <ul class="list-i-item cf">     
+				        <li>
+				            转让价格：<b>${item.credit_value}</b><sub>元</sub>
+				        </li>
+				        <li>
+				            发布时间：<span class="gray">${dateformat(item.addtime?c, "yyyy-MM-dd")}</span>
+				        </li>
+				        <li>
+				              截止日期 ：<span class="gray">${dateformat(item.buy_end_time?c, "yyyy-MM-dd")}</span>
+				        </li>
+				        <li>
+				              债权等级：<span class="gray"><#if item.level == 1>优质<#elseif item.level == 2>普通</#if></span>
+				        </li>
+				    </ul>
+				    <a href="/invest/view.html?caId=${item.id?c}" id="zq-btn" class="zq-btn" target="_blank">立即购买</a>
+    			</div>
+    			</#list>
+    			<div class="page">
+                    <#import "../common/page.html" as pager>
+                    <@pager.pagination page=page url="/invest/listCas.html" map=param style="style-new"/>
+                </div>
+    			<#else>
+                    <div class="no-data">暂无需要转让的债权</div>
+                </#if>
+             </div>
+        </div>
+    </div>
+    <#include "../include/footer.html">
+</body>
+</html>

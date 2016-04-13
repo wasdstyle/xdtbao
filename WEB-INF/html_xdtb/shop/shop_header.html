@@ -1,0 +1,41 @@
+<#assign nid="credit_shop"> 
+<#assign webname="积分商城 - ${webname!}">
+<#include "../include/style.html">
+<#include "../common/function.html"> 
+<#include "../include/header.html">
+<script type="text/javascript" src="${theme_dir}/js/Plugin.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/credit.js"></script>
+<link rel="stylesheet" type="text/css" href="${theme_dir}/css/Plugin.css">
+<div>
+	<div class="shop-banner">
+		<div class="wrap cf">
+			<!-- 头部个人信息：begin	-->
+			<div class="shop-info">
+				<div class="banner-title">
+					<i></i>积分商城
+				</div>
+				<div class="banner-bg"></div>
+				<div class="banner-inner-info">
+					<#if session_user?exists>
+						<a href="" class="a-img"> 
+							<img src="/imgurl.html?userid=${session_user.user_id?c}&size=middel" style="width: 85px; height: 85px; border-radius: 45px;">
+						</a>
+                        <ul>
+							<li><span class="s-title">欢迎您，${session_user.username}</span></li>
+							<li>
+								<span class="s-info">您当前可用积分为：<span class="orange">${creditModel.valid_value}</span></span> <i></i> 
+								<a href="/article/list.html?nid=cjwt" class="s-info">如何获得积分?</a>
+							</li>
+						</ul>
+                    <#else>
+                    	<a href="" class="a-img"> 
+							<img src="${theme_dir}/bg/banner-bg.png" style="width: 85px; height: 85px; border-radius: 45px;">
+						</a>
+                        <a href="/user/login.html" class="please-login">请登录后查看</a>
+                    </#if>
+				</div>
+			</div>
+			<!-- 头部个人信息：end -->
+		</div>
+	</div>
+</div>

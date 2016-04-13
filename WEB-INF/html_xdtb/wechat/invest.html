@@ -1,0 +1,173 @@
+<#include "header/base_top.html">
+<#include "../common/function.html"> 
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">产品投资</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<style>
+		#main .form-style-reg label{
+			width:25%;
+			float:left;
+			color:#222222;
+		}		
+		#main .form-style-reg input{
+			width:60%;
+			float:left;
+			margin-left:0px;
+			margin-top:6px;
+			margin-right:5px;
+		}
+		.aui_title{border:none!important;}
+		.aui_state_focus .aui_content{text-align:left!important;}
+		.aui_outer,.aui_inner{border:none!important;}
+		.aui_content{padding:40px 25px 25px 25px!important;}
+		.aui_icon div{margin:26px 0 10px 10px!important;}
+	</style>
+	
+	<div id="main">
+		<div class="form-style-reg">
+			<ul style="background:#EEF3FA;">
+				<li style="height:auto;">					
+					<label style="width:100%;font-size:18px;"><#if borrow.name?length lt 20>${borrow.name}<#else>${borrow.name[0..18]}...</#if></label>
+				</li>
+			</ul>
+            <form action="/wx/borrowtender.html" name="form-tender" id="form-tender" method="post" autocomplete="off">
+                <ul>
+					<li>
+						<label>账户余额</label>
+						<#if userAccount??>
+							<#assign use_money=(((ceil((userAccount.use_money)!0))?number)?c) >
+							<input type="text" class="account-remain" placeholder="${use_money?number}元" readonly="readonly"
+							style="width:40%; border:none;" />
+							<input type="hidden" value="${use_money}" id="user-money">
+						<#else>
+							<a href="/wx/login.html">请登录</a>
+						</#if>
+						<a href="/wx/recharge.html" style="position:relative; top:14px;">我要充值</a>
+	                </li>
+
+					
+					<#assign borrow_remain=borrow.account > 
+                    <#if borrow.account_yes?exists> 
+                        <#assign borrow_remain=(borrow.account-borrow.account_yes) >
+                    </#if>
+
+		            <#if borrow.type==110>
+		                <input type="hidden" value="${(borrow.flow_money)?string("0.##")}" id="single-flow-money">
+		                <input type="hidden" value="${((borrow.account?c!0)?number-(borrow.account_yes?c!0)?number)/borrow.flow_money}" id="remain-invest-amount">
+		            <#else>
+		                <input type="hidden" value="${(borrow_remain)?string("0.##")}" id="remain-invest-amount">
+		            </#if>
+			        
+
+			        <!-- 最小、最大投标隐藏域 -->
+			        <#if borrow.type!=110>
+			            <#if borrow.most_account?? && borrow.most_account?c?number gt 0>
+			                <input type="hidden" value="${(borrow.most_account)?string("0.##")}" id="max-invest-amount">
+			            </#if>
+			            <input type="hidden" value="${(borrow.lowest_account)?string("0.##")}" id="min-invest-amount">
+			        </#if>
+
+			        <li>
+			            <#if borrow.type==110>
+			                <label for="money">购买份数</label>
+			            <#else>
+			                <label for="money">投资金额</label>
+			            </#if>
+			            <#if borrow.type==110>
+			                <input type="text" id="money" name="flow_count" onlynumber="true" tabindex="1" 
+			                placeholder="请输入购买份数" style="width:40%;">
+			            <#else>
+			                <input type="text" id="money" name="money" onlynumber="true" tabindex="1" 
+			                placeholder="请输入投资金额" style="width:40%;">
+			            </#if>
+			            <span class="auto-input" id="auto-input" title="将账户中的可用余额全部投入"
+			            style="position:relative; bottom:5px;"
+			            >自动填入</span>
+			        </li>
+
+
+
+					<li>
+			            <#if !session_user?exists>
+			                <input type="password" name="paypassword" id="paypassword" disabled="disabled"/> 
+			            <#elseif session_user.paypassword?exists>
+				            <label for="paypassword">交易密码</label>
+				            <input type="password" style="display: none;">
+			                <input type="password" name="paypassword" id="paypassword" tabindex="3"
+			                placeholder="交易密码"/> 
+			            <#else>
+			                <a href="/wx/paypwd.html" style="margin-left:3%;">请先设置一个支付密码</font></a>
+			            </#if>
+			        </li>
+
+
+			        <#if borrow.pwd??&&borrow.pwd!="">
+			            <li>
+			                <label class="pwd-direct">输入定向密码</label>
+			                <#if session_user?exists>
+			                    <input type="password" name="pwd" id="pwd-direct" tabindex="2" placeholder="请输入定向密码">
+			                <#else>
+			                    <input type="password" name="pwd" id="pwd-direct" disabled="disabled" 
+			                    placeholder="请输入定向密码">
+			                </#if>
+			            </li>
+			        </#if>
+                </ul>
+				
+				<div id="operator">
+		        	<@showInvestButton/>
+				    <input type="hidden" name="id" value="${((borrow.id)?default(0))?c}" />
+				    <input type="hidden" name="borrow_token"  value="${borrow_token}" />
+				    <input type="checkbox" name="auto_repurchase" value="1" checked="checked" style="display: none;" />
+				</div> 	
+            </form>
+	    </div> 
+		
+		<#macro showInvestButton>
+		    <#if borrow.status==0>
+		       <span  class="btn">等待初审</span>
+		    <#elseif (borrow.status==1&&((borrow.account_yes?c)?number lt (borrow.account?c)?number)&&borrow.type!=110&&(getRemainTime(borrow.verify_time,borrow.valid_time)?number gt 0))||(borrow.status==1&&((borrow.account_yes?c)?number lt (borrow.account?c)?number)&&borrow.type==110)>
+		        <#if session_user?exists>
+		            <a href="javascript:" class="btn-invest btn" id="btn-invest">确认投资</a>
+		        <#else>
+		            <a href="/wx/login.html" class="btn disable">请先登录</a>
+		        </#if>
+		    <#elseif borrow.status==1&&((borrow.account_yes?c)?number lt (borrow.account?c)?number)&&borrow.type!=110&&(getRemainTime(borrow.verify_time,borrow.valid_time)?number lt 0)>
+		        <span  class="btn">已经结束</span>
+		    <#elseif borrow.type!=110&&borrow.status==1&&((borrow.account_yes?c)?number gt (borrow.account?c)?number || (borrow.account_yes?c)?number==(borrow.account?c)?number) > 
+		        <span  class="btn">等待复审</span>
+		    <#elseif borrow.type==110&&borrow.status==1&&((borrow.account_yes?c)?number gt (borrow.account?c)?number || (borrow.account_yes?c)?number==(borrow.account?c)?number)> 
+		        <span  class="btn">流转中</span>
+		    <#elseif borrow.status==2> 
+		        <span  class="btn">初审失败</span>
+		    <#elseif borrow.status==3> 
+		        <span  class="btn">复审通过</span>
+		    <#elseif borrow.status==5||borrow.status==-1> 
+		        <span  class="btn">用户取消</span>
+		    <#elseif borrow.status==4> 
+		        <span  class="btn">复审失败</span>
+		    <#elseif borrow.status==6> 
+		        <span  class="btn">还款中</span>
+		    <#elseif borrow.status==7> 
+		        <span  class="btn">还款中</span>
+		    <#elseif borrow.type==110&&borrow.status==8> 
+		        <span  class="btn">停止流转</span>
+		    <#elseif borrow.status==8> 
+		        <span  class="btn">已还款</span>
+		    <#else> 
+		        <span  class="btn">用户取消</span>
+		    </#if>
+		</#macro>	
+
+
+<#include "header/footer.html">	
+<script type="text/javascript" src="${theme_dir}/js/common.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/account.js"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/artDialog-4.1.7/jquery.artDialog.js?skin=default"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/artDialog-4.1.7/plugins/iframeTools.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/layer.min.js"></script>
+<script src="${theme_dir}/js/weixin/invest-detail.js"></script>
+			

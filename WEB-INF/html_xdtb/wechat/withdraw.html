@@ -1,0 +1,136 @@
+<#include "header/base_top.html">
+<style type="text/css">
+	button.aui_state_highlight{font-size:16px; outline:none;}
+	.aui_buttons{padding:10px;}
+	.aui_icon{border-bottom:1px solid #DCDCDC;}
+	#main .form-style-reg label{
+		color:#868686;
+		float:left;
+		width:32%;
+	}
+	#main .form-style-reg li span{
+		color:#868686;
+		margin-top:15px;
+		margin-left:10px;
+	}
+	select{display:none;}
+	i{font-style:normal;}
+	.aui_content{padding:0!important; text-align:left!important;}
+	.aui_state_focus{border:1px solid #ccc!important;}
+	.aui_icon,.aui_main{border:none!important;}
+	#main .form-style-reg li{height:auto;}
+	#main .form-style-reg li b{float:none; display:inline;}
+</style>
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">提现</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg">
+			<ul style="background:#EEF3FA;">
+				<li style="height:auto;">					
+					<label style="width:97%;">
+						充值后15日之内若提现将收取提现金额的千分之二作为手续费；
+						<span style="display:none;">
+							单笔提现最低<b id="min-cash-amount">100</b>元，最高<b id="max-cash-amount">50000</b>元;
+						</span>
+					</label>
+				</li>
+			</ul>
+			
+			<!-- 消息提示 start -->
+			<#if errormsg ??>
+			<!-- <div class="msg-text failure"><h1>${errormsg!}</h1></div> -->
+				<label style="width:97%; padding-left:5px; color:red; font-size:16px;">
+					交易密码不正确，是否
+					<a href="paypwd.html">修改</a>
+				</label>
+			</#if>
+			<!-- 消息提示 end -->
+
+			<!-- <form action="withdraw.html" method="post" id="form-cash"> -->
+			<form action="extract.html" method="post" id="form-cash">
+				<input type="hidden" value="${user.real_status}" id="real_status">
+				<input type="hidden" value="${user.phone_status}" id="phone_status">
+				<input type="hidden" value="<#if banklist??>${banklist?size!0}<#else>0</#if>" id="bank_size">
+				<ul>
+					<li>
+						<label>可提现余额：</label>
+						<span class="number remain-amount">${account.use_money!0}元</span>
+						<input type="hidden" value="${account.use_money!0}" id="remain_money"/>
+					</li>
+					<li>
+						<label>提现金额：</label>
+						<input type="text" name="money" id="cash-money" numberpoint="true" decimal="2" maxlength="8" autocomplete="off" placeholder="提现金额" style="width:50%;margin-top:6px;"/>
+						
+						<!-- <span class="number money-tip"></span>
+						<span class="number cash-fee"></span>
+						<div class="pb10 cf"></div> -->
+					</li>
+
+					<li>
+						<!-- <span class="number money-tip"></span> -->
+						<span class="number cash-fee" style="margin-top:0;"></span>
+						<!-- <div class="pb10 cf"></div> -->
+					</li>
+
+					<li style="margin-bottom:10px;">
+						<#if dailySurplusCash?exists>
+							<div>
+								<span class="number today-cash-amount">本日还可提现：<i>${dailySurplusCash?c}</i> 元</span>
+								<!-- <span class="number">免手续费提现额度：${maxFreeMoney!0} 元</span> -->
+							</div>
+						</#if>
+					</li>
+
+					<li>
+						<label>提现银行卡：</label>
+						
+							<@linkage name="bank" id="bank" nid="account_bank"/>
+							<dl class="cash-bank" style="float:left; width:30%;">
+								<#if banklist?exists>
+								<#list banklist as item>
+									<dd style="margin-top:0;">
+										<input type="radio" name="account" value="<#if item.bankaccount??>${item.bankaccount!""}</#if>" style="display:none;">
+										<input type="hidden" class="bank-id" value="${item.bank}" bankname="${item.bankname!}">
+										<!-- <div class="bg-bank"></div> -->
+										<span style="width:100%;">尾号<b><#if item.bankaccount?length gt 4>${item.bankaccount?substring((item.bankaccount?length)-4,(item.bankaccount?length))}<#else>${item.bankaccount}</#if></b></span>
+									</dd>
+								</#list>
+								</#if>
+							</dl>
+						
+					</li>
+
+					<li>
+						<label>交易密码：</label>
+						<span>
+							<input type="password" style="display: none;">
+							<#if session_user.paypassword?exists>
+								<input type="password" name="paypassword" id="pay-password" placeholder="交易密码"
+								style="margin-top:-6px; position:relative; bottom:3px;" />
+								<!-- <span class='error'>${errormsg!}</span> -->
+							<#else>
+								<a href="/wx/paypwd.html">请设置一个交易密码</a>
+							</#if> 
+						</span> 
+					</li>
+				</ul>
+
+				<div id="operator">
+					
+					<a href="javascript:" class="btn-confirm-cash btn">确认提现</a>
+					<input type="hidden" name="newcash_token" value="${newcash_token?if_exists}" />
+					<input type="hidden" name="type" value="newcash" />
+				</div>
+			</form>
+        </div>		
+<#include "header/footer.html">	
+
+<script type="text/javascript" src="${theme_dir}/js/account.js"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/artDialog-4.1.7/jquery.artDialog.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/layer.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/weixin/account-cash.js"></script>
+	

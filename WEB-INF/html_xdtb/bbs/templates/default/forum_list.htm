@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${webname!}论坛_投资理财产品_网上理财_怎样投资理财_家庭理财_个人理财</title>
+	<meta name="description" content="${webname!}论坛：旨在服务个人理财产品的投资,为家庭理财评估分析投资理财产品的优劣,教您怎样网上理财和投资理财,为您在投资理财的道路上做一盏指明灯.">
+	<meta name="keywords" content="${webname!}论坛,投资理财产品,网上理财,怎样投资理财,家庭理财,个人理财">
+	<#include "head.htm"/>
+</head>
+<body class="full">
+	<!--S 快速导航开始-->
+	<#include "quickNav.htm"/>
+	<!--E 快速导航结束-->
+	
+	<!--E 头部结束-->
+
+
+	<!--S 主体部分开始-->
+	<section class="bd mid clearfix">
+
+        <!--S 2014.3.19 add 论坛首页开始-->
+        <div class="bbs-page">
+            <div class="bbs-inner-t">
+                <div class="l-box">
+                    <div class="slide-inner">
+                        <ul style="margin-left: 0px;" id="con_scrollPic">
+                               
+                        </ul>
+                        <div class="btn" id="btn"></div>
+                    </div>
+
+                    <div class="bbs-info-inner">
+                        <dl>
+                            <dt>今日文章：<#if todayTopics??>${todayTopics?size}<#else>0</#if></dt>
+                            <dd>|&nbsp;&nbsp;总文章数：<span>${totalMessages}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="${JForumContext.encodeURL("/forums/newMessages")}" target="_blank">阅读上次离开后的新文章</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>在线人数：${totalOnlineUsers}</dt>
+                            <dd>|&nbsp;&nbsp;最高在线：<span>${mostUsersEverOnline.getTotal()}</span>&nbsp;&nbsp;|&nbsp;&nbsp;欢迎新会员&nbsp;<a href="${JForumContext.encodeURL("/user/profile/${lastUser.id}")}">
+                            	<#if lastUser.username?length==11&&(lastUser.username?substring(0,2)=="13"||lastUser.username?substring(0,2)=="15"||lastUser.username?substring(0,2)=="18")>
+                            		${lastUser.username?substring(0,3)}****${lastUser.username?substring(7,lastUser.username?length)}
+                            	<#else>
+                            		${lastUser.username}
+                            	</#if>
+                            </a></dd>
+                        </dl>
+                    </div>
+
+                </div>
+
+                <div class="r-box">
+                    <div class="news-inner">
+                        <div class="nav">
+                            <ul>
+                                <li class="active"><a href="javascript:void(0);">最新主题</a></li>
+                                <li><a href="javascript:void(0);">最热主题</a></li>
+                            </ul>
+                        </div>
+                        <div class="con">
+                            <div class="list active">
+                                <ul>
+                                	<#if recentTopics?? >
+                                		<#list recentTopics as topic>
+	                                    <li>
+	                                       <span class="time"><#if topic.lastPostTime??>${topic.lastPostTime}</#if></span>
+	                                      	  <a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}"><#if (topic.title?length == 0)>No Subject<#else><#if (topic.title?length gt 18)>${topic.title?substring(0,18)}...<#else>${topic.title}</#if></#if></a>
+	                                    </li>
+	                                   	</#list>
+                                   	</#if>
+                                </ul>
+                            </div>
+
+                            <div class="list">
+                                <ul>
+                                   <#if hostestTopics?? >
+	                                	<#list hostestTopics as topic>
+	                                    <li>
+	                                        <span class="time"><#if topic.lastPostTime??>${topic.lastPostTime}</#if></span>
+	                                      	  <a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}"><#if (topic.title?length == 0)>No Subject<#else><#if (topic.title?length gt 18)>${topic.title?substring(0,18)}...<#else>${topic.title}</#if></#if></a>
+	                                    </li>
+	                                   	</#list>
+                                   	</#if>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="search-inner">
+                    	<form action="${JForumContext.encodeURL("/jforum")}">
+                    		<div class="search-val">
+                            	<input type="text"  name="search_keywords" value="搜索主题 ..." data-val="搜索主题 ..." class="input-focus">
+                        	</div>
+                        	<input type="hidden" name="module" value="search" />
+							<input type="hidden" name="action" value="search" />
+							<input type="hidden" name="match_type" value="all" />
+							<input type="hidden" name="sort_by" value="relevance" />
+                       		 <input type="submit" value="搜索" class="search-btn">
+                    	</form>
+                        
+                    </div>
+                </div>
+            </div>
+
+           
+            <div class="bbs-inner-b clearfix">
+            	<#if allCategories??>
+            	<#list allCategories as category>
+                    <#list category.getForums() as forum>
+                <div class="column-box">
+                    <div class="title">
+                        <div class="info">${forum.totalTopics!0}/${forum.totalPosts!0}</div>
+                        		<a href="${JForumContext.encodeURL("/forums/show/${forum.id}/0/${category.id}")}"><#if (category.name?length == 0)>No Subject<#else><#if (category.name?length gt 18)>${category.name?substring(0,18)}...<#else>${category.name}</#if></#if></a>
+                       
+                    </div>
+                    <div class="con">
+                    	<#assign file_pic = forumRepository.getFileUrl(forum.id)/>
+                        <div class="icon"><a href="${JForumContext.encodeURL("/forums/show/${forum.id}/0/${category.id}")}"><#if category.picPath!='null'><img alt="" src="${category.picPath!}"><#else><img src="${contextPath}/data/avatar/noavatar_big.gif"/></#if></a></div>
+                        <div class="cn">
+                            <div class="tit"><a href="${JForumContext.encodeURL("/forums/show/${forum.id}/0/${category.id}")}">${forum.name?html}</a></div>
+                            <ul>
+                            	
+                            	<#assign topics = forumRepository.findByForumId(forum.id,3)/>
+	                           		<#list topics as topic>
+                                <li>
+                                    <span class="author">
+                                    <#if topic.username?length==11&&(topic.username?substring(0,2)=="13"||topic.username?substring(0,2)=="15"||topic.username?substring(0,2)=="18")>
+                                    	 ${topic.username?substring(0,3)}****${topic.username?substring(7,topic.username?length)}
+                                    <#else>
+                                    	 ${topic.username}
+                                    </#if>
+                                    </span>
+                                    <a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}">
+                                          	<#if (topic.title?length == 0)>No Subject<#else><#if (topic.title?length gt 18)>${topic.title?substring(0,18)}...<#else>${topic.title}</#if></#if>
+                                    </a>
+                                </li>
+                                </#list>
+                       
+                       
+                            </ul>
+                        </div>
+                        
+                    </div>
+                     
+                </div>
+                </#list>
+                </#list>
+            		
+            	</#if>
+            	
+              </div>
+            
+             <div class="bbs-inner-ll">
+            <div class="tit">合作伙伴</div>
+            <div class="con con-panter">
+                
+            </div>
+        </div>
+        </div>
+        <!--E 2014.3.19 add 论坛首页结束-->
+
+	</section>
+	<script src="${contextPath}/themes/bbs/templates/default/js/jquery.js"></script>
+	<script>
+	//首页轮播图片加载
+	$.ajax({
+		url:"${WZ_URL}/article/scrollPicList.html?typeId=4",
+		type:"post",
+        async:false,
+		success:function(result){
+			var data = result.data;
+			var len = data.length;
+			var str = "";
+			for(i=0;i<len;i++){
+				str+="<li><a href="+data[i].url+"><img src="+data[i].pic+"></a></li>"
+			}
+			$("#con_scrollPic").html(str);
+		}
+	});
+
+  
+	//合作伙伴
+	$.ajax({
+		url:"${WZ_URL}/article/scrollPicList.html?typeId=2",
+		type:"get",
+		dataType:"json",
+		success:function(data){
+			var strs="";
+            var strlenght =data.data.length;
+            for(var i = 0; i<strlenght; i++){ 
+				strs+="<span>"+"<a href='"+data.data[i].url+"' target='_blank'>"+"<img src='"+data.data[i].pic+"' alt='"+data.data[i].name+"'>"+"</a>"+"</span>";
+            }
+			$(".con-panter").html(strs);
+		}
+	})
+	</script>
+	<!--E 主体部分结束-->
+	<!--S 页脚-->
+	<#include "foot.htm"/>
+	<!--E 页脚-->
+	<#include "resource.htm"/>
+</body>
+</html>

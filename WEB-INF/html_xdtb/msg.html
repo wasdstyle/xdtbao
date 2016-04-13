@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie ie6" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie ie7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie ie8" lang="en"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie ie9" lang="en"><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="zh" class="no-js"><!--<![endif]-->
+<#assign nid="member">
+<#assign webname='${rsmsg!webname!} - ${webname!}'>
+<head>
+	<link rel="stylesheet" type="text/css" href="${theme_dir}/css/common.css">
+	<link rel="stylesheet" type="text/css" href="${theme_dir}/plugin/pro-bars/assets/css/pro-bars.min.css"/>
+	<script type="text/javascript" src="${theme_dir}/plugin/jquery-1.7.2.min.js"></script>
+</head>
+<body>
+<#if rsmsg??>
+	<#if rsmsg.contains("取消提现")>
+		<script type="text/javascript">
+			location.href = document.referrer;
+		</script>
+	</#if>
+	<#if rsmsg.contains("目前已经不可以撤销")>
+		<script type="text/javascript">
+			document.write('<style>#header, .container-msg, #footer, .online-service, .calc{display: none;}</style>');
+		</script>
+		<div class="msg-text failure" style="margin-top: 50px;"><h1>${rsmsg!""}</h1></div>
+		<div class="btn-back-prev">${backurl!"/"}</div>
+	</#if>
+	
+	<#include "include/style.html"> 
+	<#include "include/header.html"> 
+	<div class="container-msg">
+		<#if rsmsg.contains("登录成功")>
+			<div class="msg-text success"><h1>登录成功</h1></div>
+			<h2>正在加载用户数据...</h2>
+			<div class="pro-bar-container"><div class="pro-bar color-custom"></div></div>
+		<#elseif rsmsg.contains("验证码") || rsmsg.contains("用户不存在或密码错误")>
+			<div class="msg-text failure"><h1><i></i>${rsmsg!""}</h1></div>
+			<div class="btn-back-prev">${backurl!"/"}</div>
+		<#elseif rsmsg.contains("成功")>
+			<div class="msg-text success"><h1><i></i>${rsmsg!""}</h1></div>
+			<div class="btn-back-prev">${backurl!"/"}</div>
+		<#else>
+			<div class="msg-text"><h1>${rsmsg!""}</h1></div>
+			<div class="btn-back-prev">${backurl!"/"}</div>
+		</#if>
+	</div>
+</#if>
+</body>
+<#if rsmsg?? && rsmsg.contains("登录成功")>
+	<script type="text/javascript">
+		var downTime = 1500;
+		$('.pro-bar').animate({width:$('.pro-bar-container').width()},downTime,function() {
+			location.href="/member/index.html";
+		});	
+	</script>
+	<script src="${theme_dir}/plugin/pro-bars/assets/js/smoothscroll.js" type="text/javascript"></script>
+	<script src="${theme_dir}/plugin/pro-bars/assets/js/visible.min.js" type="text/javascript"></script>
+	<script src="${theme_dir}/plugin/pro-bars/assets/js/pro-bars.js" type="text/javascript"></script>
+	<script src="${theme_dir}/plugin/pro-bars/assets/js/backbone.js" type="text/javascript"></script>
+</#if>
+</html>

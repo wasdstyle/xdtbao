@@ -1,0 +1,133 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">充值</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg">
+			<ul style="background:#EEF3FA;">
+				<li style="height:auto; padding-left:4%;">					
+					<label style="width:97%; margin:0 auto;">
+						使用网上充值方式进行充值前必须开通个人网上银行；
+                    </label>
+				</li>
+			</ul>
+			<style>
+				#main .form-style-reg label{
+					color:#868686;
+					float:left;
+					width:25%;
+				}
+				#main .form-style-reg li span{
+					color:#868686;
+					margin-top:15px;
+					margin-left:10px;
+				}
+				button.aui_state_highlight{font-size:16px; outline:none;}
+				.aui_buttons{padding:10px;}
+				.aui_icon{border-bottom:1px solid #DCDCDC;}
+				.aui_content{padding:20px 15px!important;}
+			</style>
+				<form action="newrecharge.html" method="post" id="form-recharge">
+					<input type="hidden" value="${user.real_status}" id="real_status">
+					<input type="hidden" value="<#if user.phone_status??>${user.phone_status}<#else>0</#if>" id="phone_status">
+				<ul>
+
+
+					<li style="margin-top:20px;">
+						<label>充值金额：</label>
+						
+						<input type="text" name="money" id="recharge-money" numberpoint="true" decimal="2" maxlength="11" autocomplete="off" placeholder="输入充值金额需" style="width:50%;margin-top:6px;margin-left:10px;">
+						元
+						<!-- <span class="money-tip"></span> -->
+					</li>
+
+					<!-- 网上充值:begin -->
+					<#if enable_online_recharge?? && enable_online_recharge=="1">
+						<!-- 网上银行列表:begin -->
+						<!-- <#if onlineBankList??>
+							<li class="list-online-bank cf">
+								<label>网上充值银行：</label>
+								<dl class="cf">
+									<#list onlineBankList as item>
+										<dd>
+											<div class="bg-bank" style="background: url(${item.bank_logo}) no-repeat center center;"></div>
+										    <input type="radio" name="payment1" value="${item.bank_value}"/>
+										</dd>
+									</#list>
+								</dl>
+							</li>
+						</#if> -->
+						<!-- 网上银行列表:end -->
+
+						<!-- 第三方支付列表:begin -->
+						<style type="text/css">
+							.ra{float:left;}
+							dl dd{margin-top:15px;}
+						</style>
+						<#if interfaceList??>
+							<li style="height:33px;">
+								<label>第三方支付：</label>
+							</li>
+
+							<li style="padding-left:4%;">
+								<dl>
+									<#list interfaceList as item>
+										<div class="ra">
+											<input type="radio" name="payment1" value="${item.interface_value}" 
+											checked="checked" style="width:15px; height:15px; float:left; margin-right:5px;margin-top:18px;"/>
+
+											<dd <#if item.interface_value == 'yunRong_pay_kjcz'> id="yunRong_pay_kjcz"<#else>class="no_yunRong_pay_kjcz" </#if>>
+												<#if item.image_url??&&item.image_url!=''&&item.image_url!='msg'>
+													<div class="bg-third-party" style="background: url(${item.image_url}) no-repeat center center;"></div>
+												<#else>
+													${item.name}
+												</#if>
+											</dd>
+										</div>
+										<input type="hidden" name="payname13" value="${item.name}" />
+									</#list>
+								</dl>
+							</li>
+						</#if>
+						<!-- 第三方支付列表:end -->
+					</#if>
+					<!-- 网上充值:end -->
+
+
+					<li class="recharge-amount" style="display:none;" id="kjcz">
+						<label>银行卡号</label>
+						<span>
+							<input type="text" name="card_no" id ="card_no" value="" placeholder="银行卡号"
+							style="margin-top:-2px;" />
+						</span>
+					    <!-- <span class="money-tip"></span> -->
+					</li>
+
+					<li>
+						<label>验证码：</label>
+						<input type="text" name="valicode" class="validcode helper" maxlength="5" autocomplete="off" 
+						placeholder="验证码" style="position:relative; bottom:4px;" />
+						<img src="/validimg.html" class="validcode-img" title="点击刷新" onclick="this.src='/validimg.html?t=' + Math.random();" />
+					</li>
+				</ul>
+
+				<div id="operator">
+				    <a href="javascript:" class="btn-confirm-recharge btn">确认充值</a>
+            	</div>	
+            	<input type="hidden" name="type" value="1">			
+			</form>	
+        </div>									
+<#include "header/footer.html">	
+<script type="text/javascript" src="${theme_dir}/js/account.js"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/artDialog-4.1.7/jquery.artDialog.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/layer.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/weixin/account-recharge.js"></script>
+
+<script type="text/javascript">
+	$('dl dd').eq(0).css('width','120px');
+	$('dl dd').eq(1).css('width','140px');
+</script>
+	

@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_account" >
+<#assign aid="a_newrecharge">
+<#assign webname='充值 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "account-list-tab.html"></div>
+			<div class="account-content">
+				<ul class="prompt">
+					<li>使用网上充值方式进行充值前必须开通个人网上银行；</li>
+					<li>线下充值最低金额100元，请在备注输入框中填写您的用户名、转账银行卡号、转账流水号和转账时间；</li>
+					<li>线下充值有效的登记时间为周一至周日的8:30到22:00，充值后请跟我们的客服联系进行审核；</li>
+				</ul>
+				<ul class="wp-form-recharge">
+					<a href="javascript:" class="btn-record"><i></i>充值记录</a>
+					<form action="" method="post" id="form-recharge">
+					<input type="hidden" value="${user.real_status}" id="real_status">
+					<input type="hidden" value="${user.phone_status}" id="phone_status">
+						<!-- 充值方式:begin -->
+						<li class="recharge-type cf">
+							<#if enable_online_recharge?? && enable_online_recharge=="1">
+								<span class="current">网上充值</span>
+								<span>线下充值</span>
+								<input type="hidden" name="type" value="1">
+							<#else>
+								<span class="current">线下充值</span>
+								<input type="hidden" name="type" value="2"/>
+							</#if>
+						</li>
+						<!-- 充值方式:end -->
+						<li class="recharge-amount cf">
+							<label>充值金额：</label>
+							<input type="text" name="money" id="recharge-money" numberpoint="true" decimal="2" maxlength="11" autocomplete="off">
+							<span class="money-tip"></span>
+						</li>
+						<!-- 网上充值:begin -->
+						<#if enable_online_recharge?? && enable_online_recharge=="1">
+							<!-- 网上银行列表:begin -->
+							<#if onlineBankList??>
+								<li class="list-online-bank cf">
+									<label>网上充值银行：</label>
+									<dl class="cf">
+										<#list onlineBankList as item>
+											<dd>
+												<div class="bg-bank" style="background: url(${item.bank_logo}) no-repeat center center;"></div>
+											    <input type="radio" name="payment1" value="${item.bank_value}"/>
+											</dd>
+										</#list>
+									</dl>
+								</li>
+							</#if>
+							<!-- 网上银行列表:end -->
+
+							<!-- 第三方支付列表:begin -->
+							<#if interfaceList??>
+								<li class="list-third-party cf">
+									<label>第三方支付：</label>
+									<dl>
+										<#list interfaceList as item>
+											<dd>
+												<#if item.image_url??&&item.image_url!=''&&item.image_url!='msg'>
+													<div class="bg-third-party" style="background: url(${item.image_url}) no-repeat center center;"></div>
+												<#else>
+													${item.name}
+												</#if>
+												<input type="radio" name="payment1" value="${item.interface_value}"/>
+												<input type="hidden" name="payname13" value="${item.name}" />
+											</dd>
+										</#list>
+									</dl>
+								</li>
+							</#if>
+							<!-- 第三方支付列表:end -->
+						</#if>
+						<!-- 网上充值:end -->
+
+						<!-- 线下充值:begin -->
+						<li class="list-offline-bank cf" style="<#if enable_online_recharge??&&enable_online_recharge=="1">display:none</#if>">
+							<label>线下充值银行：</label>
+							<dl>
+								<#if downBankList??>
+								<#list downBankList as item>
+									<dd>
+										<input type="radio" name="payment2" value="${item.payment!}" />
+										<div class="select-box"><div></div></div>
+										<span style="display:inline-block">银行账号：<b>${item.account!}</b></span>
+										<span style="display:block">开户银行：<b>${item.bank_name!}&nbsp;&nbsp;${item.branch!}</b></span>
+										<span style="display:inline-block">法人账户：<b>${item.bank_realname!}</b></span>
+									</dd>
+								</#list>
+								</#if>
+							</dl>
+							<div class="cf mb20"></div>
+							<label>备注：</label>
+							<!-- v1.9.u2 BIAOZHUN-346 zza 2015-03-20 start -->
+							<input type="text" name="remark" class="remark" maxlength="200"/>
+							<!-- v1.9.u2 BIAOZHUN-346 zza 2015-03-20 end -->
+							<div class="cf mb20"></div>
+						</li>
+						<!-- 线下充值:end -->
+
+						<li class="cf">
+							<label>验证码：</label>
+							<input type="text" name="valicode" class="validcode" maxlength="5" autocomplete="off"/>
+							<img src="/validimg.html" class="validcode-img" title="点击刷新" onclick="this.src='/validimg.html?t=' + Math.random();" />
+						</li>
+						<li>
+							<a href="javascript:" class="btn-confirm-recharge">确认充值</a>
+						</li>
+					</form>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-recharge.js"></script>
+</html>

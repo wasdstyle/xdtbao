@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member"> 
+<#assign mid="m_account">
+<#assign aid="a_cash">
+<#assign webname='提现记录 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../common/function.html">
+	<div class="wp-cash-record">
+		<ul class="name cf">
+			<li>&nbsp;<@linkage name="bank" id="bank" nid="account_bank"/></li>
+			<li>银行账号</li>
+			<li>提现金额</li>
+			<li>到账金额</li>
+			<li>手续费</li>
+			<li>状态</li>
+			<li>操作</li>
+			<li>时间</li>
+		</ul>
+		<#include "../../common/function.html"> 
+		<#list cash as item>
+			<ul class="item cf">
+				<li class="bank">
+					<input type="hidden" class="bank-id" value="${item.bank}" bankname="${item.bankname!}">
+					<label></label>
+				</li>
+				<li class="bank-account">
+					尾号 <b><#if item.account?length gt 4>${item.account?substring((item.account?length)-4,(item.account?length))}<#else>${item.account}</#if></b>
+				</li>
+				<li>${format2((item.total!"0"))}</li>
+				<li>${format2((item.credited!"0"))}</li>
+				<li>${format2((item.fee!"0"))}</li>
+				<#if item.status==0||item.status=5||item.status=7>
+					<li class="audit">审核中</li>
+				<#elseif item.status==1>
+					<li class="succeed">提现成功</li>
+				<#elseif item.status==4>
+					<li class="canceled">提现取消</li>
+				<#else>
+					<li class="failure">审核失败</li>
+				</#if>
+				<li>
+					<#if item.status==0||item.status=5||item.status=7>
+						<a href="javascript:" class="cancel" url="cancelcash.html?id=${item.id?c}">取消提现</a>
+					<#else>
+						--
+					</#if>
+				</li>
+				<li class="time" title="${dateformat(item.addtime!)}">
+				${dateformat(item.addtime,"yyyy-MM-dd")}
+<!-- 				${dateformat(item.addtime!)[5..6]}月${dateformat(item.addtime!)[8..9]}日 -->
+				</li>
+			</ul>
+		</#list>
+		<div class="account-page">
+			<#import "../../common/page.html" as pager>  
+			<@pager.pagination page=p url="/member/account/cash.html" map=param style="style-new"/>
+		</div>
+	</div>
+	<#include "../../include/script.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account.js"></script>
+<script type="text/javascript">
+	$('.wp-cash-record ul li.time').dateTimeConvert();
+	$('.wp-cash-record ul li.bank label').bankBgSet('#bank', '.bank-id');
+	$('.wp-cash-record ul li a.cancel').click(function() {
+		var self = this;
+		art.dialog.confirm('确定要取消此提现的申请吗？', function() {
+			location.href = $(self).attr('url'); 
+		});
+	});
+</script>
+</html>

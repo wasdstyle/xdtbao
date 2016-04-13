@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_account">
+<#assign aid="a_recharge">
+<#assign webname='充值记录 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<div class="wp-recharge-record">
+		<ul class="name cf">
+			<li>充值方式</li>
+			<li>充值金额</li>
+			<li>状态</li>
+			<li>时间</li>
+		</ul>
+		<#list recharge as item>
+			<ul class="item cf">
+				<li><#if item.payment?exists>${item.paymentname!}</#if><#if item.type!="1">(线下)</#if></li>
+				<li class="amount">${item.money}</li>
+				<#if item.status==0>
+					<li class="audit">审核中</li>
+				<#elseif item.status==1>
+					<li class="succeed">充值成功</li>
+				<#elseif item.status==2>
+					<li class="failure">充值失败</li>
+				</#if>
+				<li class="time" title="${dateformat(item.addtime!)}">
+				${dateformat(item.addtime,"yyyy-MM-dd")}
+<!-- 				${dateformat(item.addtime!)[5..6]}月${dateformat(item.addtime!)[8..9]}日 -->
+				</li>
+			</ul>
+		</#list>
+		<div class="account-page">
+			<#import "../../common/page.html" as pager>  
+ 	 		<@pager.pagination page=p url="/member/account/recharge.html" map=param style="style-new"/>
+		</div>
+	</div>
+	<#include "../../include/script.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account.js"></script>
+<script type="text/javascript">
+	$('.wp-recharge-record ul li.time').dateTimeConvert();
+</script>
+</html>

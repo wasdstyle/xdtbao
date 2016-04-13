@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_message">
+<#assign msgid="msg_box">
+<#assign webname='站内信息 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "message-list-tab.html"></div>
+			<div class="account-content">
+				<form action="set.html" method="post" id="form-list-message">
+					<div class="operate cf">
+						<input type="checkbox" name="allcheck" class="select-all"/>
+						<input type="hidden" name="type" id="type" value="0" />
+						<a href="javascript:" operate-type="1" class="btn-delete"><i></i>删除</a>
+						<a href="javascript:" operate-type="4" class="btn-read"><i></i>标记已读</a>
+					</div>
+					<#list msgList as item>
+						<ul class="list-message cf">
+							<li class="select"><input type="checkbox" name="ids" value="${item.id?c}"/></li>
+							<a href="/member/message/view.html?id=${item.id?c}">
+								<li class="title <#if item.status?exists&&item.status==0>unread</#if>">
+									<#if item.name?length lt 60>${item.name!}<#else>${item.name![0..55]}...</#if>
+								</li>
+								<li class="date" title="${dateformat(item.addtime!)}">${dateformat(item.addtime!)[5..6]}月${dateformat(item.addtime!)[8..9]}日</li>
+							</a>
+						</ul>
+					</#list>
+					<div class="account-page pr0">
+						<#import "../../common/page.html" as pager>  
+		         	 	<@pager.pagination page=page url="/member/message/box.html" map=param style="style-new"  />
+					</div>
+				</form>	
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html"> 
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-message.js"></script>
+</html>

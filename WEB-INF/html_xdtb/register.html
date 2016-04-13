@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<#assign webnameInit='${webname!}'>
+<#assign webname='注册账号 - ${webname!}'>
+<#if !nid??><#assign nid=""></#if>
+<#include "include/style.html">
+<body>
+ <div id="header-simple">
+        <div class="wrap cf">
+            <a href="/" class="logo"></a>
+            <h1>用户注册</h1>
+            <#if tree??&&tree.hasChild()>
+                <ul class="cf fr login-nav">
+                    <#list tree.child as item>
+                    <#if (item.model.status)??&&item.model.status==1>
+                        <li <#if ((item.model.nid)??&&(item.model.nid)==nid)> class="current" <#else> class="" </#if>>
+                            <a href="<@showSiteUrl site=item.model />">${item.model.name!}</a>
+                        </li>
+                    </#if>
+                    </#list>
+                </ul>
+            </#if>
+        </div>
+    </div>
+    <div id="container-simple">
+        <div class="wrap reg-container">
+            <div class="wp-form-register cf">
+                <div class="step-cont1">
+                    <form action="/user/register.html" method="post" id="form-register" class="form-register" >
+                        <h1>信达通宝·开启财富之门！</h1>
+                        <ul>
+                            <li>
+                                <label for="username">用户名-* 4~15位字符，可使用字母、数字或下划线，中文2~6位</label>
+                                <input type="text" id="username" name="username" maxlength="15" forbidspace="true" tabindex="1" autocomplete="off">
+                            </li>
+                            <li>
+                                <label for="phone">手机号码-* 短信验证和消息通知的重要方式</label>
+                                <input type="hidden" id="count-down" value="${countDown!120}">
+                                <input  type="text" id="phone" name="phone" maxlength="11" forbidspace="true" tabindex="2" autocomplete="off">
+                            </li>
+                            <li class="cf">
+                                <label for="validcode">验证码</label>
+                                <input type="hidden" name="validCodeHidden" id="validCodeHidden">
+                                <input type="text" id="validcode" name="valicode" class="validcode" maxlength="5" tabindex="3" onfocus="document.getElementById('validcode-img').src+='?'" forbidspace="true" autocomplete="off"/>
+                                <img src="/validimg.html" id="validcode-img" onmousedown="return false"  onclick="this.src='/validimg.html?t=' + Math.random();" title="点击刷新"/>
+                            </li>
+                            <li class="phoneCode-li">
+                              <label for="phoneCode">短信验证码-* 请输入手机验证码</label>
+                                 <input type="text" id="phoneCode" name="phone_code" class="phoneCode" maxlength="6" forbidspace="true" tabindex="4" autocomplete="off">
+                                 <span  id="getvaliCode">获取验证码</span>
+                                 <input type="hidden" name ="codeUniqueId" id ="codeUniqueId"  />
+                                 <div id="timeval"></div>
+                            </li>
+                            <li>
+                                <input type="password" style="display: none;">
+                                <label for="password">密码-* 8~16位数字、字母或特殊符号组成的密码</label>
+                                <input type="password" id="password" name="password" maxlength="16" tabindex="5" autocomplete="off" onkeyup="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')">
+                            </li>
+                            <li>
+                                <label for="con-pwd">再次输入密码-* 再次输入密码</label>
+                                <input type="password" id="con-pwd" name="confirm_password" maxlength="16" tabindex="6" autocomplete="off" onkeyup="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')">
+                            </li>
+                            <li>
+                                <input type="text" id="inviter" name="invite_username" maxlength="15" value="<#if inviteUser?exists&&inviteUser.username?exists>${inviteUser.username}</#if>" forbidspace="true" tabindex="7" autocomplete="off" placeholder="(非必填项)邀请你注册的人在本站的用户名">
+                            </li>
+                            
+                            <#--
+                            <li>
+                                <label for="realname">真实姓名：</label>
+                                <input type="text" id="realname" name="realname" tabindex="7" autocomplete="off">
+                            </li>   
+                            <li>
+                                <label for="email">电子邮箱：</label>
+                                <input type="text" id="email" name="email" forbidspace="true" tabindex="8" autocomplete="off">
+                            </li>
+                            -->
+                           
+                            
+                           
+                            <div class="protocol">
+                                <input type="checkbox" checked="checked" id="agree">
+                                <span>我已阅读并接受<a href="javascript:">《信达通宝服务协议条款》</a></span>
+                            </div>
+                            <input type="button" class="btn-register" id="btn-register" value="立即注册">
+                            <input type="hidden" name="actionType"  value="register" />
+                            <input type="hidden" name="openLoginId"  value="${openLoginId!}" />
+                        </ul>
+                    </form>
+            	</div>
+            </div>
+        </div>
+        <div id="footer-simple">
+            <div class="wrap">
+               <div class="clearfix footer-contact">
+                   <ul class="fl">
+                        <li><a href="/">网站首页</a></li>
+                        <li><a href="/article/list.html?nid=about">关于我们</a></li>
+                        <li><a href="/guide.html">新手指引</a></li>
+                        <li><a href="/article/list.html?nid=cjwt">常见问题</a></li>
+                        <li style="border-right: none"><a href="/article/list.html?nid=lxwm">联系我们</a></li>
+                   </ul>
+                   <ul class="fr">
+                       <li>
+                           <a href="http://weibo.com/u/5664131629" title='新浪微博' class="login-sina" target="_blank"></a>
+                       </li>
+                       <li>
+                           <a href="###" title='腾讯微博' class="login-tencent"></a>
+                       </li>
+                       <li>
+                           <a href="javascript:void(0)" title='微信' class="login-weix">
+                                <img src="/themes/soonmes_xdtb/image/ewm-top.jpg" width="103" height='103' style="display:none">
+                           </a>
+                       </li>
+                       <li>
+                           <a href="###" title='QQ群' class="login-group"></a>
+                       </li>
+                   </ul>
+               </div>
+               <div class="footer-link clearfix">
+                   <span class="link-tel"><b></b>${fuwutel}</span>
+                   <span class="link-email"><b></b>kefu@xdtbao.com</span>
+                   <span class="link-addr"><b></b>${address}</span>
+               </div>
+               <p>${copyright}&nbsp;${beian}</p>
+            </div>
+        </div>
+
+    </div>
+
+    <#include "include/script.html">
+    <#macro showSiteUrl site>
+    <#if site.style??&&site.style=="2">
+        ${site.url!}
+    <#elseif site.style??&&site.style=="3">
+        ${site.url!}
+    <#else>
+        <#if site.nid??>
+            /article/list.html?nid=${site.nid}
+        <#else>
+            /article/list.html?catalog=${(site.site_id!0)?c}
+        </#if>
+    </#if>
+</#macro>
+</body>
+<script type="text/javascript">
+    $(".login-weix").mouseenter(function(){
+        $(".login-weix img").css('display','block')
+    }).mouseleave(function(){
+         $(".login-weix img").css('display','none')
+    })
+</script>
+<script type="text/javascript" src="${theme_dir}/js/register.js"></script>
+</html>

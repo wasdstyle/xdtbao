@@ -1,0 +1,24 @@
+<script src="${theme_dir}/plugin/jquery.cookie-1.4.1.js" id="jquery-cookie"></script>
+<script type="text/javascript">
+    document.write('<div id="footer-blank"></div>');
+    if ($.cookie('footerHeight')) {
+        var justAllEleHeight = $(window).height() - $.cookie('footerHeight');
+        footerBlankHeight();
+    }
+
+    function footerBlankHeight() {
+        var allEleHeight = 0;
+        $('#footer-blank').prevAll('div').each(function() {
+            if ($(this).is(':visible') && $(this).css('position') !== 'absolute' && $(this).css('position') !== 'fixed') {
+                allEleHeight += $(this).outerHeight(true);
+            }
+        });
+        
+        if (allEleHeight < justAllEleHeight) {
+            var footerBlankHeight = justAllEleHeight - allEleHeight;
+            $('#footer-blank').css('height', footerBlankHeight);
+        } else {
+            $('#footer-blank').remove()
+        }
+    }
+</script>

@@ -1,0 +1,76 @@
+<div class="account-menu">
+	<!-- 资金信息 -->
+	<div class="menu-bottom">
+		<h1 class="<#if mid??&&mid='m_account'>unfolder</#if>"><i class="item1"></i>账户</h1>
+		<ul <#if mid??&&mid='m_account'>style="display: block";</#if>>
+			<li><a href="/member/index.html" class="<#if aid??&&aid='main'>active</#if>">首页</a></li>
+			<li><a href="/member/account/bank.html" class="<#if aid??&&aid='a_bank'>active</#if>">银行卡</a></li>
+			<li><a href="/member/account/newrecharge.html" class="<#if aid??&&aid='a_newrecharge'>active</#if>">充值</a></li>
+			<li><a href="/member/account/newcash.html" class="<#if aid??&&aid='a_newcash'>active</#if>">提现</a></li>
+			<li><a href="/member/account/log.html" class="<#if aid??&&aid='a_log'>active</#if>">资金记录</a></li>
+			<!-- <li><a href="/member/account/accountStatistics.html">账户统计</a></li> -->
+		</ul>
+	</div>
+
+
+
+	<!-- 我的理财 -->
+	<div class="menu-bottom">
+		<h1 class="<#if mid??&&mid='m_invest'>unfolder</#if>"><i class="item2"></i>投资</h1>
+		<ul <#if mid??&&mid='m_invest'>style="display: block";</#if>>
+			<li><a href="/member/invest/bid.html" class="<#if iid??&&iid='i_bid'>active</#if>">未满标的项目</a></li>
+			<li><a href="/member/invest/list.html?type=1" class="<#if iid??&&iid='i_list1'>active</#if>">收款中项目</a></li>
+			<li><a href="/member/invest/collect.html?status=0" class="<#if iid??&&iid='i_collect0'>active</#if>">收款中详情</a></li>
+			<li><a href="/member/invest/list.html?type=2" class="<#if iid??&&iid='i_list2'>active</#if>">已收款项目</a></li>
+			<li><a href="/member/invest/collect.html?status=2" class="<#if iid??&&iid='i_collect1'>active</#if>">已收款详情</a></li>
+			<li><a href="/member/invest/tender.html" class="<#if iid??&&iid='i_tender'>active</#if>">投资记录</a></li>
+			<li><a href="${webroot}/member/auto/autoList.html" class="<#if iid??&&iid='i_auto'>active</#if>">自动投标</a></li>
+		</ul>
+	</div>
+
+	<!-- 债权转让 -->
+	<div class="menu-bottom">
+		<h1 class="<#if mid??&&mid='m_ca'>unfolder</#if>"><i class="item2"></i>债权转让</h1>
+		<ul <#if mid??&&mid='m_ca'>style="display: block";</#if>>
+	        <li><a href="${webroot}/member/ca/list.html" class="<#if cid??&&cid='ca_list'>active</#if>">债权转让记录</a></li>
+	        <li><a href="${webroot}/member/ca/recordList.html" class="<#if cid??&&cid='ca_recordList'>active</#if>">认购债权记录</a></li>
+		</ul>
+	</div>
+
+	<!-- 我的借款 -->
+	<div class="menu-bottom">
+		<h1 class="<#if mid??&&mid='m_borrow'>unfolder</#if>"><i class="item3"></i>借款</h1>
+		<ul <#if mid??&&mid='m_borrow'>style="display: block";</#if>>
+			<li><a href="/member/borrow/borrow.html?type=unpublish" class="<#if bid??&&bid='b_unpublish'>active</#if>">待审核项目</a></li>
+			<li><a href="/member/borrow/borrow.html" class="<#if bid??&&bid='b_publish'>active</#if>">募集中项目</a></li>
+			<li><a href="/member/borrow/borrow.html?type=repayment" class="<#if bid??&&bid='b_repayment'>active</#if>">还款中项目</a></li>
+			<li><a href="/member/borrow/borrow.html?type=repaymentyes" class="<#if bid??&&bid='b_repaymentyes'>active</#if>">已还款项目</a></li>
+			<li><a href="/member/borrow/repaymentdetail.html" class="<#if bid??&&bid='b_repaymentdetail'>active</#if>">还款明细</a></li>
+			<li><a href="/member/borrow/limitapp.html" class="<#if bid??&&bid='b_limitapp'>active</#if>">申请信用额度</a></li>
+		</ul>
+	</div>
+
+	<!-- 账户设置 -->
+	<div class="menu-bottom">
+		<h1 class="<#if mid??&&(mid='m_setting'||mid='m_message')>unfolder</#if>"><i class="item4"></i>设置</h1>
+		<ul <#if mid??&&(mid='m_setting'||mid='m_message')>style="display: block";</#if>>
+			<li><a href="/member/identify/realname.html?hand=1" class="<#if iid??&&iid='i_realname'>active</#if>">账户认证</a></li>
+			<li><a href="/memberSecurity/userpwd.html" class="<#if iid??&&iid='i_security'>active</#if>">修改密码</a></li>
+			<li><a href="/member/identify/avatar.html" class="<#if iid??&&iid='i_avatar'>active</#if>">更换头像</a></li>
+			<li><a href="/member/identify/attestation.html" class="<#if iid??&&iid='i_attestation'>active</#if>">上传证明资料</a></li>
+			<li><a href="/member/friend/invite.html" class="<#if fid??&&fid='f_invite'>active</#if>">邀请好友</a></li>
+			<li><a href="/member/message/box.html" class="<#if msgid??&&msgid='msg_box'>active</#if>">站内信息</a></li>
+		</ul>
+	</div>
+		<!-- 交易记录 -->
+	<div class="menu-bottom">
+		<h1 class="<#if mid??&&mid='m_credit'>unfolder</#if>"  ><i class="item5"></i>更多</h1>
+		<ul <#if mid??&&mid='m_credit'>style="display: block";</#if>>
+	        <li><a href="/credit/shopIndex.html">积分商城</a></li>
+	        <li><a href="/credit/cashLog.html" class="<#if cid??&&cid='c_cashLog'>active</#if>">积分兑换记录</a></li>
+	        <li><a href="/credit/userlog.html" class="<#if cid??&&cid='c_userlog'>active</#if>">积分操作记录</a></li>
+	       <!--  <li><a href="${webroot}/member/ca/list.html">债权转让记录</a></li>
+	       <li><a href="${webroot}/member/ca/recordList.html">认购债权记录</a></li>-->
+	    </ul> 
+	</div>
+</div>

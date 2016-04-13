@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>移动支付充值跳转中......</title>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+</head>
+<body  onLoad="document.dinpayForm.submit();">
+	<form name="dinpayForm" method="post"
+		action="${cmpay.gatewayUrl}">
+		<div>移动支付充值跳转中,请您不要关闭浏览器.....</div>
+		<input Type="hidden" Name="amount" value="${cmpay.amount}"/>
+		<input type="hidden" name="characterSet" value="${cmpay.characterSet}" />
+		<input type="hidden" name="callbackUrl" value="${cmpay.callbackUrl}" />
+		<input type="hidden" name="notifyUrl" value="${cmpay.notifyUrl}"/>
+		<input type="hidden" name="ipAddress" value="${cmpay.ipAddress}"/>
+		<input type="hidden" name="merchantId" value="${cmpay.merchantId}"/>
+		<input type="hidden" name="requestId" value="${cmpay.requestId}"/>
+		<input type="hidden" name="signType" value="${cmpay.signType}"/>
+		<input type="hidden" name="type" value="${cmpay.type}">
+		<input type="hidden" name="version" value="${cmpay.version}"/>
+		<input type="hidden" name="currency" value="${cmpay.currency}"/>
+		<input type="hidden" name="orderDate" value="${cmpay.orderDate}"/>
+		<input type="hidden" name="orderId" value="${cmpay.orderId}"/>
+		<input Type="hidden" Name="merAcDate" value="${cmpay.merAcDate}"/>
+		<input Type="hidden" Name="period" value="${cmpay.period}"/>
+		<input Type="hidden" Name="periodUnit" value="${cmpay.periodUnit}"/> 
+		<input Type="hidden" Name="productName" value="${cmpay.productName}"/>
+		<input type="hidden" name="merchantAbbr" value="${cmpay.merchantAbbr}" />
+			<input type="hidden" name="productDesc" value="${cmpay.productDesc}" />
+			<input type="hidden" name="productId" value="${cmpay.productId}" />
+			<input type="hidden" name="productNum" value="${cmpay.productNum}" />
+			<input type="hidden" name="reserved1" value="${cmpay.reserved1}" />
+			<input type="hidden" name="reserved2" value="${cmpay.reserved2}" />
+			<input type="hidden" name="userToken" value="${cmpay.userToken}" />
+			<input type="hidden" name="showUrl" value="${cmpay.showUrl}" />
+			<input type="hidden" name="couponsFlag" value="${cmpay.couponsFlag}" />
+		<input Type="hidden" Name="bankAbbr" value="${cmpay.bankAbbr}"/>
+		<input Type="hidden" Name="hmac" value="${cmpay.hmac}"/>
+		
+	</form>
+</body>
+</html>

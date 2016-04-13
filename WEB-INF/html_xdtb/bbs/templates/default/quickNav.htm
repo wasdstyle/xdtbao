@@ -1,0 +1,40 @@
+ <section class="loginbar">
+		<div class="mid clearfix">
+			<h3 class="no_txt">快速导航</h3>
+			<div class="contact">
+				<span class="tell"><b></b>全国统一客服热线：<em>${fuwutel!}</em></span>
+				<span class="time"><b></b>关注我们：<em>9:00 - 22:00</em></span>
+			</div>
+			<div class="login">
+				<#if logged>
+					<span class="username">欢迎您，<a href="${WZ_URL}/member/index.html">${session.username}</a>　|　<a href="${WZ_URL}/user/logout.html" title="安全退出">退出</a>
+					<#if session?exists && session.isAdmin()>
+					<em class="qui_sep"></em>
+						<a target="_blank" href="${JForumContext.encodeURL("/admBase/login")}" title="${I18n.getMessage("ForumBase.admin")}">${I18n.getMessage("ForumBase.admin")}</a>
+					</#if>
+					<#else>
+					<span><a href="${WZ_URL}/user/login.html" title="立即登录">账号登录</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="${WZ_URL}/user/register.html" title="免费注册">免费注册</a></span>
+				</#if>
+			</div>
+		</div>
+</section>
+
+<header class="header">
+	<div class="mid clearfix">
+		<h2 class="logo">
+			<a class="no_txt" href="${WZ_URL}/index.html" title="${webname!}">${webname!}</a>
+		</h2>
+		<nav class="nav">
+			<h3 class="no_txt">导航条</h3>
+			<#if !nid??><#assign nid="bbs"></#if> 
+			<#macro showSiteUrl site>${WZ_URL}${site.url!}</#macro> 
+			<#if tree??&&tree.hasChild()>
+			<#list tree.child as item> 
+				<#if (item.model.status)??&&item.model.status==1>
+					<span><a class="<#if ((item.model.nid)??&&(item.model.nid)==nid)>on<#else></#if>"href="<@showSiteUrl site=item.model/>">${item.model.name!}</a></span>
+				</#if> 
+			</#list>
+			</#if>
+		</nav>
+	</div>
+</header>

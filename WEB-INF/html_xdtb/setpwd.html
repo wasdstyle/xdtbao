@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<#assign webname='重置密码 - ${webname!}'>
+<#include "include/style.html">
+<#if !nid??><#assign nid=""></#if>
+<body>
+    <div id="header-simple">
+        <div class="wrap cf">
+            <a href="/" class="logo"></a>
+            <h1>重置密码</h1>
+            <#if tree??&&tree.hasChild()>
+                <ul class="cf fr login-nav">
+                    <#list tree.child as item>
+                    <#if (item.model.status)??&&item.model.status==1>
+                        <li <#if ((item.model.nid)??&&(item.model.nid)==nid)> class="current" <#else> class="" </#if>>
+                            <a href="<@showSiteUrl site=item.model />">${item.model.name!}</a>
+                        </li>
+                    </#if>
+                    </#list>
+                </ul>
+            </#if>
+        </div>
+    </div>
+    <div id="container-simple" class="container-setpwd">
+        <div class="wrap">
+            <form action="" method="post" id="form-setpwd" class="form-setpwd">
+                <h1>信达通宝·您的财富管家！</h1>
+                <ul>
+                    <li class="username cf">
+                        <label>用户名：</label>
+                        <span><#if u?exists>${u.username?default("")}</#if></span>
+                    </li>
+                    <li class="cf">
+                        <label for="password">新密码：</label>
+                        <input type="password" name="password" id="password" maxlength="16" onpaste="return false" onKeyUp="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')">
+                    </li>
+                    <div id="bg-password-strength" class="strength"></div>
+                    <li class="cf">
+                        <label for="con-pwd">确认新密码：</label>
+                        <input type="password" name="confirm_password" id="con-pwd" maxlength="16" onpaste="return false" onKeyUp="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')">
+                    </li>
+                    <li style="height: auto;">
+                        <a href="###" class="btn-setpwd">重置登录密码</a>
+                        <input type="hidden" name="type" value="setpwd" />
+                        <input type="hidden" name="username" value="<#if u?exists>${u.username?default("")}</#if>" />
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div id="footer-simple">
+           <div class="wrap">
+               <div class="clearfix footer-contact">
+                   <ul class="fl">
+                        <li><a href="/">网站首页</a></li>
+                        <li><a href="/article/list.html?nid=about">关于我们</a></li>
+                        <li><a href="/guide.html">新手指引</a></li>
+                        <li><a href="/article/list.html?nid=cjwt">常见问题</a></li>
+                        <li style="border-right: none"><a href="/article/list.html?nid=lxwm">联系我们</a></li>
+                   </ul>
+                   <ul class="fr">
+                      <li>
+                           <a href="http://weibo.com/u/5664131629" title='新浪微博' class="login-sina" target="_blank"></a>
+                       </li>
+                       <li>
+                           <a href="/guide.html" title='腾讯微博' class="login-tencent"></a>
+                       </li>
+                       <li>
+                           <a href="javascript:void(0)" title='微信' class="login-weix">
+                                <img src="/themes/soonmes_xdtb/image/ewm-top.jpg" width="103" height='103' style="display:none">
+                           </a>
+                       </li>
+                       <li>
+                           <a href="###" title='QQ群' class="login-group"></a>
+                       </li>
+                   </ul>
+               </div>
+               <div class="footer-link clearfix">
+                   <span class="link-tel"><b></b>${fuwutel}</span>
+                   <span class="link-email"><b></b>****@****.com</span>
+                   <span class="link-addr"><b></b>${address}</span>
+               </div>
+               <p>${copyright}&nbsp;${beian}</p>
+            </div>
+        </div>
+    </div>
+   
+     
+    <#include "include/script.html">
+    <#macro showSiteUrl site>
+    <#if site.style??&&site.style=="2">
+        ${site.url!}
+    <#elseif site.style??&&site.style=="3">
+        ${site.url!}
+    <#else>
+        <#if site.nid??>
+            /article/list.html?nid=${site.nid}
+        <#else>
+            /article/list.html?catalog=${(site.site_id!0)?c}
+        </#if>
+    </#if>
+    </#macro>
+
+</body>
+<script type="text/javascript" src="${theme_dir}/js/setpwd.js"></script>
+</html>

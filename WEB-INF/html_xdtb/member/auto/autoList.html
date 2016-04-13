@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_invest">
+<#assign iid="i_auto">
+<#assign webname='自动投标 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<script type="text/javascript">
+	// 判断页面中是否有iframe，如果有则是修改了投标规则之后跳转过来的，需要刷新父窗口
+	if(!(window.parent.document === window.document)) {
+		document.write('<style>#header, #container-account, #footer, .online-service{display: none;}</style>');
+		window.parent.location.reload();
+	}
+</script>
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "../invest/invest-list-tab.html"></div>
+			<div class="account-content">
+				<#if autoList?exists&&autoList?size==0>
+					<a href="addAuto.html" class="btn-add-rule">添加自动投标规则</a>
+				<#else>
+					<ul class="prompt">
+						<li>只能添加一个自动投标规则；</li>
+						<li>新发布的借款标只有满足下面您设置的条件时，系统才会为您自动投资该借款标；</li>
+						<li>自动投标排序采用轮回制，投标成功，自动排尾。</li>
+					</ul>
+					<!-- 规则列表:begin -->
+					<#if autoList??>
+						<#list autoList as item>
+							<ul class="list-auto-rule cf <#if item.status?exists&&item.status==1>enabled<#else>disabled</#if>">
+								<!-- 状态 -->
+								<li>
+									<#if item.status?exists&&item.status==1>
+										<label class="status enabled">已启用</label>
+									<#else>
+										<label class="status disabled">未启用</label>
+									</#if>
+								</li>
+								<!-- 投标额度 -->
+								<li>
+									<label>每次投标金额：</label>
+									<span>￥${(item.tender_account!0)?c}</span>
+								</li>
+								<!-- 利率范围 -->
+								<li>
+									<label>年利率范围：</label>
+									<span>
+										<#if item.apr_status?exists&&item.apr_status==1>
+											${item.apr_start!}% ~ ${item.apr_end!}%
+										<#else>
+											不限
+										</#if>
+									</span>
+								</li>
+								<!-- 借款期限 -->
+								<li>
+									<label>借款期限：</label>
+									<span>
+										<#if item.timelimit_status?exists&&item.timelimit_status==1>
+											<#if item.timelimit_month_start!=0>
+												${item.timelimit_month_start!}个月 ~ ${item.timelimit_month_end!}个月
+											</#if>
+											<#if item.timelimit_month_start!=0&&item.timelimit_day_end!=0>
+												/
+											</#if>
+											<#if item.timelimit_day_start!=0>
+												${item.timelimit_day_start!}天 ~ ${item.timelimit_day_end!}天
+											</#if>
+										<#else>
+											不限
+										</#if>
+									</span>
+								</li>
+								<!-- 还款方式 -->
+								<li>
+									<label>还款方式：</label>
+									<span>
+										<#if item.borrow_style_status?exists&&item.borrow_style_status==1>
+											<#if item.borrow_style==1>
+												按月分期还款
+											<#elseif item.borrow_style==2>
+												一次性还款
+											<#elseif item.borrow_style==3>
+												每月还息到期还本
+											<#else>
+												提前付息到期一次性还本
+											</#if>
+										<#else>
+											不限
+										</#if>
+									</span>
+								</li>
+								<!-- 奖励 -->
+								<li>
+									<label>奖励范围：</label>
+									<span>
+										<#if item.award_status?exists&&item.award_status==1>
+											>= ${item.award}
+										<#else>
+											不限
+										</#if>若标奖励为固定金额，则转化为比例计算
+									</span>
+								</li>
+								<!-- 投资类型 -->
+								<li>
+									<label>投资类型：</label>
+									<dl class="cf">
+										<dd class="<#if item.fast_status==1>enabled<#else>disabled</#if>">抵押标</dd>
+										<dd class="<#if item.xin_status==1>enabled<#else>disabled</#if>">信用标</dd>
+										<dd class="<#if item.jin_status==1>enabled<#else>disabled</#if>">净值标</dd> 
+										<dd class="<#if item.vouch_status==1>enabled<#else>disabled</#if>">担保标</dd>
+										<dd class="<#if item.flow_status==1>enabled<#else>disabled</#if>">流转标</dd>
+									</dl>
+								</li>
+								<span class="sort">
+									<#if (autoList?exists)&&(autoList?size>0)&&autoList[0].status==1>
+										有效排名：${item.valid_rank} &nbsp;&nbsp;&nbsp;无效排名:&nbsp;&nbsp;&nbsp;${item.invalid_rank} 总排名：${item.total_rank}
+									<#else>
+											您还未启用自动投标
+									</#if>								
+								</span>
+								<a href="javascript:" itemid="${(item.id!0)?c}" id="edit"><i></i>编辑</a>
+								<a href="javascript:" id="delete"><i></i>删除</a>
+							</ul>
+						</#list>
+					</#if>
+					<!-- 规则列表:end -->
+				</#if>
+				<#if tenderList?exists && (tenderList?size gt 0) >
+					<div class="autoDetail">
+						<table>
+							<tr>
+							<th>ID</th>
+							<th>用户名</th>
+							<th>借款标题</th>
+							<th>年利率</th>
+							<th>借款期限</th>
+							<th>还款方式</th>
+							<th>实际投标金额</th>
+							<th>自动投标时间</th>
+							<th>结果</th>
+							<th>操作</th>
+							</tr>
+							<#list tenderList as item>
+							<tr>
+								<td>${item_index+1}</td>
+								<td>${item.username}</td>
+								<td><a href="${webroot}/invest/detail.html?borrowid=${item.borrow_id?c}" target="_blank">${item.borrow_name}</a></td>
+								<td>${item.apr} %</td>
+								<td><#if item.is_day == 1>
+										${item.time_limit} 天
+									<#else>
+										${item.time_limit} 月
+									</#if>
+								</td>
+								<td><@linkage plantext=true default=item.style nid="borrow_style"/></td>
+								<td>${item.money}</td>
+								<td title="${dateformat(item.addtime?c)}">${dateformat(item.addtime?c,"yyyy-MM-dd")}</td>
+								<td title="${item.remark!}"><#if item.status=1>成功<#else>失败</#if></td>
+								<td><a href="javascript:void(0)" onclick="showAuto(${item.borrow_id?c});">查看</a></td>
+							</tr>
+							</#list>
+						</table>
+						<div class="account-page">
+							<#import "../../common/page.html" as pager>  
+							<@pager.pagination page=p url="/member/auto/autoList.html" map=map style="style-new"/>
+						</div>
+				</div>
+			</#if>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript">
+	$('.list-auto-rule #delete').click(function() {
+		art.dialog.confirm('确定要删除这个自动投标的规则吗？', function() {
+			location.href = 'delAuto.html';
+		}, function() {});
+	});
+
+	$('.list-auto-rule #edit').click(function() {
+		art.dialog.open('viewAuto.html?id=' + $(this).attr('itemid'), {
+			width     : 700,
+			height    : 400,
+			top		  : 155,
+			fixed     : true,
+			resize    : false,
+			lock      : true,
+			opacity	  : .1
+		});
+	});
+	
+	function showAuto(borrowid){
+		art.dialog.open('viewBorrowAutoList.html?borrowId=' + borrowid, {
+			width     : 700,
+			height    : 400,
+			top		  : 155,
+			fixed     : true,
+			resize    : false,
+			lock      : true,
+			opacity	  : .1
+		});
+	}
+</script>
+</html>

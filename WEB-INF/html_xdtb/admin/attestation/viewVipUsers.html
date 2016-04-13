@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="vip审核">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                                                                                                       终身vip审核查看
+                                        </div>
+                                        <div class="fp clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">用户名：</div>
+                                                    <div class="v">
+                                                    <#if vipinfo??>
+                                                             ${vipinfo.username!}                                             
+                                                    </#if>
+                                                    </div>
+                                                </li>
+                                                
+                                                <li></li>
+                                                <li></li>
+                                            </ul>
+                                        </div>
+                                        </div>
+
+                                    <form onsubmit="return check_form();" action="verifyVipUsers.html" method="post" name="form1" enctype="multipart/form-data">
+						
+                                        <div id="audit">
+						                    <div class="top">
+						                        <strong>审核</strong>
+						                    </div>
+						                    <div class="v">
+						                     <!-- v1.6.7.1  RDPROJECT-384 wcw 2013-11-05 start -->
+						                      
+						                       <!--  <div class="c">
+						                            <div class="choose">
+						                                <label class="mr15">
+						                                	<input name="vip_give_status" type="radio" value="1" class="radio">审核通过
+						                                </label>
+						                                <label>
+						                                	<input name="vip_give_status" type="radio" class="radio" value="3" checked="checked">审核不通过
+						                                </label>
+						                            </div>
+						                        </div> -->
+						                        <div class="user_right_border" style="padding-top:20px;">
+													<div class="l" style="font-weight:bold; float:left;">vip增加年数：</div>
+													<div class="c" >
+														<input name="vip_year" type="text" size="3" maxlength="5" tabindex="3" value="20" readonly="readonly"/>年
+													</div>
+												</div>
+						                        <div class="user_right_border" style="padding-top:20px;">
+													<div class="l" style="font-weight:bold; float:left;">验证码：</div>
+													<div class="c" >
+														<input name="validcode" type="text" size="11" maxlength="5" tabindex="3"  style="float:left;"/>&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" />
+													</div>
+												</div>
+						                        <div class="other clearfix">
+						                        	<!--  v1.6.7.2 RDPROJECT-462 lx 2014-02-18 start -->
+     												<input type="hidden" name="viewVipUsers_token" value="${viewVipUsers_token}" />
+    												<!--  v1.6.7.2 RDPROJECT-462 lx 2014-02-18 end -->
+													<input type="hidden" value="${(vipinfo.user_id!)?c}" name="user_id"> 
+													
+													<input type="submit" value="确定审核" class="input-button confirm"> 
+													<input type="reset" value="重置表单" name="reset" class="input-button confirm">
+						                        </div>
+						                    </div>
+						                </div>
+                                    
+
+                                </form>
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

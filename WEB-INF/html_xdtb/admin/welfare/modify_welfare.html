@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<!-- v1.6.7.2 爱心公益 sj 2014-1-7 新增 -->
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="修改公益信息">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                                <!--工具栏--{-->
+                                <div id="toolbar" class="clearfix">
+                                	<div class="toolbor-module">
+                                    <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+                                </div>
+                                </div>
+                                <!--工具栏--}-->
+
+                                <div id="main" class="w750 clearfix">
+                                    <form action="${request.getContextPath()}/admin/welfare/modifyWelfare.html" 
+                                    method="post" id="form_modifyWelfare" enctype="multipart/form-data" name="form_modifyWelfare">
+                                        <div class="valBox">
+                                            <div class="top">
+                                                <strong>修改公益信息</strong>
+                                            </div>
+                                            <div class="clearfix">
+                                                <ul class="title-v edit">
+                                                    <li>
+                                                        <div class="title">姓名/受益人：</div>
+                                                        <div class="v">
+                                                            <input type="text" name="name" id="name" class="input_border" value="${welfare.name}" size="20" />
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">展示时间：</div>
+                                                        <div class="v">
+                                                        	<input type="text" name="showTime"  class="input_border js-datetime" value="${dateformat(welfare.show_time?c)}" size="30" onclick="change_picktime('yyyy-MM-dd HH:mm:ss')" readonly=""/>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">描述：</div>
+                                                        <div class="v">
+                                                             <textarea name="remark" id="remark" maxlength="70" style="width:680px">${welfare.remark}</textarea>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">上传图片：</div>
+                                                        <div class="v">
+                                                            <input type="file" name="pic_url" id="pic_url">
+                                                        </div>
+                                                    </li>
+			                               
+                                                </ul>
+                                            </div>
+
+                                        </div>
+
+                                    <div id="bottomToolbar" class="clearfix">
+                                        <input type="hidden"  name="actionType" value="addWelfare" />
+                                        <input type="hidden"  name="id" value="${welfare.id}" />
+                                        <input type="button" value="提交" class="input-button post" onclick="LimitAttach(this.form.pic_url.value);">
+                                        <input type="reset" value="重置" class="input-button reset" name="reset" >
+                                    </div>
+                            </form>
+                            </div>
+                            <script type="text/javascript">
+								 var extArray = new Array(".jsp",".jspx",".php",".asp",".aspx",".js",".sh");
+					             function LimitAttach(file){
+				               	 	var frm = document.forms['form_modifyWelfare'];
+				          	    	var allowSubmit = false;
+				          	    	while(file.indexOf("\\") != -1)
+				          	    	file = file.slice(file.indexOf("\\") + 1);
+				          	    	var ext = file.slice(file.indexOf(".")).toLowerCase();
+				          	    	for(var i = 0; i < extArray.length; i++){
+				          				if(extArray[i] == ext){ 
+				          					allowSubmit = true; 
+				          					break; 
+				          				}
+				          	    	}
+				          			if(!allowSubmit){
+				          				checkForm();
+				          			}else{
+				           	       		alert("对不起，上传格式的不正确，请重新选择符合条件的文件再上传！");
+				           	       		return false;
+				          			}
+					            }
+					            
+				             	function checkForm(){
+                            		var name = $("#name").val();
+                            		var remark = $("#remark").val();
+                            		if(name == null || name.length == 0 || name == ""){
+                            			alert("姓名不能为空！");
+                            			return false;
+                            		}
+                            		if(remark == null || remark.length == 0 || remark == ""){
+                            			alert("描述不能为空！");
+                            			return false;
+                            		}
+                            		$("#form_modifyWelfare").submit();
+                            	}
+							</script>
+				            </td>
+				        </tr>
+				        <tr>
+				            <!--尾部--{-->
+				            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+				            <!--尾部--}-->
+				        </tr>
+				    </table>
+    </body>
+</html>
+<#include "../jsPage.html">

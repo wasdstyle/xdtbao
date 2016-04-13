@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<#assign aid="shop_index">
+<body>
+	<div>
+ 		<#include "shop_header.html"> 
+		<div class="wrap shop">
+			<div class="tab-title cf">
+				<li <#if aid??&&aid=="shop_index">class="active"</#if>><a href="${webroot}/credit/shopIndex.html">积分兑换</a></li>
+				<li <#if aid??&&aid=="convert_log">class="active"</#if>><a href="${webroot}/credit/convertLog.html">我的兑换记录</a></li>
+			</div>
+			<!-- 积分兑换：begin -->
+			<div class="tab-cont">
+				<div class="wrap cf">
+					<div class="goods-search clearfix">
+						<ul>
+							<label>商品类别：</label>
+							<li class="current"><a href="${webroot}/credit/shopIndex.html">全部</a></li>
+							<#list cateList as item>
+							<#if item.childList?exists>
+							<#list item.childList as child>
+		                        <li ><a href="${webroot}/credit/shopIndex.html?category_id=${child.id}">${child.name}</a></li>
+		                    </#list>
+		                    </#if>
+		                    </#list>
+						</ul>
+						<ul>
+							<label>积分范围：</label>
+							<li class="current"><a href="${webroot}/credit/shopIndex.html" style="color: fff;">全部</a></li>
+						</ul>
+						<ul>
+							<label style="text-align: right;">范围:</label>
+							<li style="width: 300px; color: #555;">
+							<input type="text" class="from" name="startCredit" id="startCredit" value="${startCredit}"> - 
+							<input type="text" class="to" name="endCredit" id="endCredit" value="${endCredit}"> 
+							<input type="button" value="搜索" class="search-btn" id="search-btn"></li>
+						</ul>
+					</div>
+					<div class="goods-list clearfix">
+						<ul>
+							<#list list as item>
+							<li class="goods-l-detail cf">
+								<img src="${item.compress_pic_url!}"/>
+								<ul class="goods-info" style="height: auto;">
+									<!-- <li class="goods-title">${item.name}</li> -->
+									<li class="goods-title">
+									<#if item.name.length() gt 11>
+									   ${item.name.substring(0,11)}
+									<#else>
+									   ${item.name}
+									</#if>
+									</li>
+									<li>所需积分 <span class="red">${item.credit_value}</span></li>
+									<li>剩余数量 <span class="red">${item.store}个</span></li>
+									<li><a href="${webroot}/credit/showGoods.html?goodsId=${item.id?c}" class="dh-btn" style="bottom: 0px;">立即兑换</a></li>
+								</ul>
+							</li>
+							</#list>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- 积分兑换：end -->
+		</div>
+	</div>
+	<!--	by yangxing end	-->
+	<#include "../include/footer.html">
+</body>
+<script type="text/javascript">
+$(function() {
+	$('.search-btn').click(function() {
+		var url = 'shopIndex.html?search=true';
+		if($('#startCredit').val()) {
+			url += '&startCredit=' + $('#startCredit').val();
+		}
+		if($('#endCredit').val()) {
+			url += '&endCredit=' + $('#endCredit').val();
+		}
+		location.href = url;
+	});
+	
+	// 对比当前元素路径与当前页面路径是否一致
+	$(".goods-search li a").click(function(){
+		var currentUrl = $(this).attr("href");
+		//console.log(currentUrl);
+		//window.open(currentUrl);
+		//$(this).parent().addClass("current");
+		//console.log(currentUrl);
+	//	$(".goods-search li").removeClass("current");  
+		//$(this).parent().addClass("current");    
+		//return false;//防止页面跳转
+		
+		 if($(this).href==String(window.location)){  
+            $(this).addClass("current");  
+        }
+		
+		
+	});
+	
+
+});
+</script>
+</html>

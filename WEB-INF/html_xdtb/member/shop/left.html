@@ -1,0 +1,17 @@
+<div class="shop-left">
+    <span>可用积分：${(userCredit.valid_value)!0}</span>
+    <div class="goods-category">
+        <span>商品分类</span>
+        <#list cateList as item>
+            <h1>${item.name}</h1>
+            <#if item.childList?exists>
+                <ul class="cf">
+                    <#list item.childList as child>
+                        <li><a href="/credit/shopIndex.html?category_id=${child.id}">${child.name}</a></li>
+                    </#list>
+                </ul>
+            </#if>
+        </#list>
+    </div>
+</div>
+

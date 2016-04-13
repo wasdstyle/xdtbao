@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<!-- v1.9.u2 BIAOZHUN-235 zza 2015-03-28 modify -->
+<html>
+<#assign nid="assignment"> 
+<#assign webname="${borrow.name} - 债权购买 - ${webname!}"> 
+<#include "../../include/style.html">
+<link rel="stylesheet" type="text/css" href="${theme_dir}/css/style.css">
+<body>
+	<#include "../../include/header.html">
+	<div id="container">
+		<div class="wrap">
+			<div id="container">
+				<div class="wrap cf">
+					<!-- 左侧借款详情:begin -->
+					<div class="zaiquan-info cf">
+						<div class="top">
+							<div class="title cf">
+								<h1>
+									<a href="/invest/detail.html?borrowid=${borrow.id?c}" target="_blank">
+			                		<#if borrow.name?length lt 30>
+			                			${borrow.name}<font class="red"> ...[债权转让项目]</font>
+			                		<#else>
+			                			${borrow.name[0..25]}<font class="red"> ...[债权转让项目]</font>
+			                		</#if>
+			                		</a>
+								</h1>
+								<span>债权编号：${ca.id?c}</span> 
+							</div>
+
+							<!-- 项目基本信息：begin -->
+							<div class="top-title cf">
+								<span class="text">项目基本信息</span> <span class="line"></span>
+							</div>
+
+							<ul class="fund cf">
+								<li>
+									<span class="s-block">借款金额</span> <b>￥${borrow.account?c}<sub>元</sub></b>
+								</li>
+								<li>
+									<span class="s-block">年化收益率</span> <b>${borrow.apr}<sub>%</sub></b>
+								</li>
+								<li>
+									<span class="s-block">借款期限</span> 
+									<#if borrow.isday??&&borrow.isday==1>
+                                		<b>${borrow.time_limit_day!0}<sub>天</sub></b>
+                            		<#elseif borrow.type==101>
+                                		<b>满标即还</b>
+                            		<#else>
+                                		<b>${(borrow.time_limit)!0}<sub>个月</sub></b>
+                           			</#if>
+								</li>
+							</ul>
+							<!-- 项目基本信息：begin -->
+
+							<!-- 债权转让信息:begin -->
+							<div class="top-title cf">
+								<span class="text">债权转让信息</span> <span class="line"></span>
+							</div>
+							<ul class="fund cf">
+								<li><span class="s-block">预估收益率</span> <b>${(ca.credit_value - ca.credit_price) * 100 / ca.credit_price}<sub>%</sub></b>
+								</li>
+								<li><span class="s-block">债权价值</span> <b>${ca.credit_value}<sub>元</sub></b>
+								</li>
+								<li><span class="s-block">转让价格</span> <b>${ca.credit_price}<sub>元</sub></b>
+								</li>
+							</ul>
+							<ul class="detail-info">
+								<li>转让人：${caUser.username!"-"}</li>
+								<li>转让类型：<#if caValue?? && ca.credit_value?? && caValue == ca.credit_value>全部转让<#else>部分转让</#if></li>
+								<li>债权等级：<#if ca.level == 1>优质<#elseif ca.level == 2>普通</#if></li>
+								<li>预估收益：${(ca.credit_value - ca.credit_price)}元</li>
+							</ul>
+							<!-- 债权转让信息:end -->
+						</div>
+						<!-- 右侧购买表单:start -->
+						<div class="zaiquan-detail">
+							<h1>购买</h1>
+							<div class="d">
+								<ul>
+									<li>
+									<#if sessionAct??>
+						               	<span>账户可用余额：</span><b class="account-remain">${sessionAct.use_money}</b><sub>元</sub>
+						                <input type="hidden" value="${sessionAct.use_money?c}" id="use_money">
+						            <#else>
+						                <a href="/user/login.html">请登录</a>
+						            </#if>
+						            </li>
+									<li>
+						                <span>剩余购买金额：</span><b class="can-invest">${ca.credit_price - ca.sold_account}</b><sub>元</sub>
+						                <input type="hidden" value="${(ca.credit_price - ca.sold_account)?c}" id="remain_cas_account">
+						                <input type="hidden" value="${ca.pwd!}" id="isPwd">
+							        </li>
+								</ul>
+			               		<div class="disable-purchase">
+			               			<#if ca.status == 0>
+			               				<span class="btn-purchase">债权待初审</span>
+			               			<#elseif ca.sold_account?? && ca.status == 1 && ca.sold_account lt ca.credit_price>
+			               				<span class="btn-purchase">债权转让中</span>
+			               			<#elseif ca.sold_account?? && ca.status == 1 && ca.sold_account == ca.credit_price>
+			               				<span class="btn-purchase">等待复审</span>
+				                    <#elseif ca.status == 2>
+				                    	<span class="btn-purchase">初审未通过</span>
+				                    <#elseif ca.status == 3>
+				                    	<span class="btn-purchase">转让成功</span>
+				                    <#elseif ca.status == 4>
+				                    	<span class="btn-purchase">复审未通过</span>
+				                    <#elseif ca.status == 5>
+				                    	<span class="btn-purchase">债权撤回</span>
+				                    </#if>
+				                </div>
+								<input type="hidden" name="caId" value="${ca.id?c}"/>
+							</div>
+						</div>
+					</div>
+					<!-- 右侧购买表单:end -->
+
+					<!-- 底部债权列表:begin -->
+					<div class="zaiquan-bottom cf">
+						<div class="zaiquan">
+							<div class="list-record">
+								<span class="l-r-title">待收列表</span>
+								<dl class="cf">
+									<dd>序号</dd>
+									<dd>待收期数</dd>
+									<dd>待收本金</dd>
+									<dd>待收利息</dd>
+									<dd>待收奖励</dd>
+									<dd>待收日期</dd>
+									<dd>合计</dd>
+								</dl>
+								<#import "../../common/function.html" as func>
+							    <#if (collectionList?exists)&&(collectionList?size>0)>
+							        <#list collectionList as item>
+							            <ul class="item cf">
+							                <li>${item_index+1}</li>
+							                <li>${item.order+1}</li>
+							                <li style="color: #f25e54">${func.format2(item.capital)}元 </li>
+							                <li style="color: #f25e54"><#if borrow??&&borrow.style=='4'><b>已还</b><#else>${func.format2(item.interest)}元</#if> </li>
+							                <li><#if item.repay_award_status==1><b>已还</b><#else>${func.format2(item.repay_award?c)}元</#if></li>
+							                <li><#if caNowTime gt (item.repay_time?number)><b title="逾期待收，请慎重转让！">${dateformat(item.repay_time, "yyyy-MM-dd")}(逾期)</b><#else>${dateformat(item.repay_time)}</#if></li>
+							                <li>
+							                    <#if borrow??&&borrow.style=='4'&&item.repay_award_status==1>
+							                        ${func.format2(item.capital?number)}元
+							                    <#elseif borrow??&&borrow.style!='4'&&item.repay_award_status==1>
+							                        ${func.format2(item.capital?number + item.interest?number)}元
+							                    <#elseif borrow??&&borrow.style=='4'&&item.repay_award_status!=1>
+							                        ${func.format2(item.capital?number + item.repay_award)}元
+							                    <#else>
+							                        ${func.format2(item.capital + item.interest + item.repay_award)}元
+							                    </#if>
+							                </li>
+							            </ul>
+							        </#list>
+							    <#else>
+							        <div class="no-data">无符合条件信息！</div>
+							    </#if>
+							</div>
+							<!-- <div class="list-record-page">
+								<ul class="cf">
+									<li><a href="javascript:" class="current">1</a></li>
+								</ul>
+							</div> -->
+							<!-- 选项卡内容:end -->
+						</div>
+					</div>
+					<!-- 底部债权列表:end -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+</html>

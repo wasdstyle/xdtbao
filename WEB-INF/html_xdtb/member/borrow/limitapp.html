@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_borrow">
+<#assign bid="b_limitapp">
+<#assign webname='申请信用额度 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html"> 
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "borrow-list-tab.html"></div>
+			<div class="account-content">
+				<#if !session_user.real_status?exists||session_user.real_status=='0'||session_user.real_status=='2'>
+					<script type="text/javascript">
+						$(function() {
+							art.dialog({
+								icon   : 'info',
+								content: '请先进行实名认证',
+								okVal  : '确  定',
+								ok     : function() {location.href = '/member/identify/realname.html?hand=1'},
+								close  : function() {location.href = '/member/identify/realname.html?hand=1'}
+							});
+						});
+					</script>
+		        <#elseif !cache??||!cache.vip_status?exists||cache.vip_status==0||cache.vip_status==2||cache.vip_status==-1>
+	                <script type="text/javascript">
+	                	$(function() {
+	                		art.dialog({
+	                			icon   : 'info',
+	                			content: '请先开通VIP会员',
+	                			okVal  : '确  定',
+	                			ok     : function() {location.href = '/member/index.html?apply-vip'},
+	                			close  : function() {location.href = '/member/index.html?apply-vip'}
+	                		});
+	                	});
+	                </script>
+				<#elseif amountlist?exists&&amountlist.size() lt 1>
+					<ul class="prompt">
+						<li>提交信用额度的申请后，在审核期间不可以再次申请；</li>
+						<li>原则上每次申请的额度不超过1万。</li>
+					</ul>
+					<form action="" method="post" id="form-apply-limit">
+						<ul>
+							<li class="cf">
+								<label>申请额度：</label>
+								<input type="text" name="account" onlynumber="true" maxlength="8" autocomplete="off" />
+								<span>当前可用信用额度：${(amount.credit_use)!0}元</span>
+							</li>
+							<li class="cf">
+								<label>备注：</label>
+								<textarea name="remark"  maxlength="160"></textarea>
+							</li>
+							<input type="hidden" name="type" value="借款信用额度">
+							<input type="hidden" name="content" value="">
+							<input type="hidden" name="action_type"  value="add"/> 
+							<a href="javascript:" class="btn-apply-limit">提  交</a>
+						</ul>
+					</form>
+				</#if>
+				<!-- 申请记录:begin -->
+				<div class="wp-apply-record">
+					<h1>信用额度申请记录</h1>
+					<ul class="name cf">
+						<li>申请额度</li>
+						<!-- v1.9.u2 BIAOZHUN-146 zza 2015-03-24 start -->
+						<li>申请前额度</li>
+						<li>申请后额度</li>
+						<!-- v1.9.u2 BIAOZHUN-146 zza 2015-03-24 end -->
+						<li>状态</li>
+						<li>申请时间</li>
+						<li>审核时间</li>
+						<li>备注</li>
+					</ul>
+					<#list list as item>
+						<ul class="item cf">
+							<li>${item.account}</li>
+							<!-- v1.9.u2 BIAOZHUN-146 zza 2015-03-24 start -->
+							<li>${item.account_old}</li>
+							<!-- v1.9.u2 BIAOZHUN-146 zza 2015-03-24 end -->
+							<li>${item.account_new}</li>
+							<#if item.status==-1>
+								<li style="color: #f20c00;">审核未通过</li>
+							<#elseif item.status==1>
+								<li style="color: #05bd33;">审核通过</li>
+							<#else>
+								<li style="color: #FF8000">正在审核</li>
+							</#if>
+
+							<li title="${dateformat(item.addtime)}" class="apply-time">${dateformat(item.addtime, "yyyy-MM-dd")}</li>
+							<li class="verify-time" <#if item.status!=0&&item.status!=2>title="${dateformat(item.verify_time)}"</#if>><#if item.status!=0&&item.status!=2>${dateformat(item.verify_time, "yyyy-MM-dd")}<#else>--</#if></li>
+							<#if item.remark!="">
+								<#if item.remark?length lt 20>
+									<li>${item.remark}</li>
+								<#else>
+									<li title="${item.remark}">${item.remark[0..18]}...</li>
+								</#if>
+							<#else>
+								<li>--</li>
+							</#if>
+						</ul>
+					</#list>
+				</div>
+				<!-- 申请记录:end -->
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html"> 
+</body>
+<script>
+	$(function() {
+		$('.apply-time, .verify-time').each(function() {
+			$(this).attr('title') ? $(this).dateTimeConvert() : '';
+		});
+
+		$('.btn-apply-limit').click(function() {
+			if(!$('[name="account"]').val()) {
+				infoDialog('请输入要申请的信用额度');
+				return false;
+			}else {
+				$.ajax({
+					type: "post",
+					url: "/member/borrow/limitapp.html",
+					data: $("#form-apply-limit").serialize(),
+					success: function(data) {
+						location.reload();
+	                }
+				})
+/* 				$('#form-apply-limit').submit(); */
+			}
+		});
+	});
+</script>
+</html>

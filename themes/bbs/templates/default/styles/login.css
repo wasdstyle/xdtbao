@@ -1,0 +1,218 @@
+/**
+ * 钱庄网Qian360
+ * @affect 登录注册忘记密码
+ * @date 2013-11-26
+ * @version $V1.0$
+ */
+/* ---------------------general begin-------------------------- */
+/*initialize*/
+body,div,h1,h2,h3,h4,h5,h6,p,td,tr,form,ul,ol,li,dl,dt,dd,input,button,textarea,figure{margin:0;padding:0}
+table,caption,tr,td,th{border-collapse:collapse;border-spacing:0;margin:0;padding:0}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+fieldset,img{border:none}
+ul,ol,li{list-style:none;vertical-align:bottom}
+a,a:link,a:visited,a:hover,a:active{text-decoration:none}
+/*general*/
+body{ font: 12px/1.7 Arial,simsun,sans-serif; color: #555; background-color:#f5f5f5}
+a{color:#555}
+a:hover{color:#dd4040}
+/*oocss*/
+.full .mid{width:1190px}
+.full .mids{position: absolute;top:0;left:50%;margin-left:-595px;width: 1190px;}
+.mid{width:980px;margin:0 auto}
+.mids{position: absolute;top:0;left:50%;margin-left:-490px;width: 980px;}
+.no_txt{text-indent:-9999px;font-size:0;line-height:0;overflow:hidden}
+.clear{clear:both}
+.clearfix:after{display:block;content:"";clear:both;height:0}
+.clearfix{*zoom:1}
+.f_l{float:left !important;}
+.f_r{float:right !important;}
+.js_hide{display: none !important;}
+.m_t_10{margin-top:10px !important}
+.m_t_20{margin-top:20px !important}
+.m_t_30{margin-top:30px !important}
+.m_t_40{margin-top:40px !important}
+.m_t_50{margin-top:50px !important}
+.m_t_60{margin-top:60px !important}
+.m_b_10{margin-bottom:10px !important}
+.m_b_20{margin-bottom:20px !important}
+.m_b_30{margin-bottom:30px !important}
+.m_b_40{margin-bottom:40px !important}
+.m_b_50{margin-bottom:50px !important}
+.t_a_c{text-align: center !important;}
+/* ---------------------general end-------------------------- */
+
+/* ---------------------全局 begin-------------------------- */
+.header{background-color:#484848}
+.header .mid{height:60px;line-height:60px;color:#6e6e6e;}
+.header .logo{float:left;}
+.header .logo a{display: block;padding-left:165px;height: 65px;background:url(../image/icon/login_base.png) no-repeat -144px 0;color:#fff;font:bold 12px/65px "Microsoft YaHei",simsun,sans-serif;}
+.header .tool{float:right;}
+.header .tool figure{display: inline-block;width: 40px;height: 40px;background:url(../image/icon/login_base.png) no-repeat -28px -100px;vertical-align:middle;margin-right:5px;}
+.header .tool span{padding-left:10px;font-size:24px;color:#9c9c9c;vertical-align:middle;}
+.footer_cut{border-top:1px solid #eaeaea;padding:40px 0;}
+.footer_cut .mid{text-align: center;}
+.footer_cut .ft_nav,.footer_cut .main{text-align:center;}
+.footer_cut .ft_nav a{line-height:14px;display: inline-block;padding:0 10px;border-right:1px solid #999;}
+.footer_cut .ft_nav .last{border-right:0 none;}
+.footer_cut .main{margin-top:10px;color:#666;padding: 0;}
+.main{padding:100px 0 70px;}
+.main .tab{text-align: right;border-bottom:1px solid #efefef;margin-bottom:15px;padding-bottom:10px;}
+.main .tab span{float:left;font:bold 24px/55px Arial,"Microsoft YaHei",simsun,sans-serif;color:#484848;}
+.main .tab a{display: inline-block;width: 48px;height: 48px;margin-left:10px;background:url(../image/icon/login_base.png) no-repeat;}
+.main .tab .tab_phone{background-position:-26px -48px}
+.main .tab .tab_phone_on{background-position:-72px -48px}
+.main .tab .tab_mail{background-position:-26px 0}
+.main .tab .tab_mail_on{background-position:-72px 0}
+/*弹出窗-标准*/
+.qui_pop{position: fixed;left:50%;top:50%;z-index: 1000;margin:-175px 0 0 -255px;width:510px;height:350px;border:5px solid #e7e7e7;background-color:#fff;}
+.qui_pop iframe{width: 100%;height: 100px;}
+.qui_shade{position: fixed;left: 0;top: 0;z-index: 999;width: 100%;height: 100%;background-color:#000;}
+.qui_pop .tit{height: 40px;padding:0 10px;border-bottom:1px solid #e7e7e7;}
+.qui_pop .tit h4{float: left;color:#717171;font:bold 16px/40px Arial,"Microsoft YaHei",simsun,sans-serif;}
+.qui_pop .tit a{float: right;margin-top: 12px;width: 16px;height: 16px;background:url(../image/pop_close.png) no-repeat left top;}
+.qui_pop .tit a:hover{background-color:#e7e7e7;}
+/*弹出窗-状态*/
+.pop_stats{margin:100px auto 0;padding:0 15px;}
+.pop_stats .main{display: inline-block;*display:inline;*zoom:1;font-size:14px;vertical-align:top;max-width:88%;}
+.pop_stats .info{text-align:left;font-weight: bold;}
+.pop_stats .main_btn{display:inline-block;position: relative;margin-right: 5px;padding-left: 5px;min-width:80px;height: 36px;background:url(../image/loan_profile_btn.png) no-repeat left top;line-height: 36px;color:#fff;text-align: center;}
+.pop_stats .main_btn em{position: absolute;right:-5px;top: 0;width: 5px;height: 36px;background:url(../image/loan_profile_btn.png) no-repeat right top;overflow: hidden;}
+.pop_stats .secondary_btn{ position: relative; display: inline-block;min-width:90px; height: 36px; line-height: 36px; font-size: 14px; font-weight: bold; background-color: #fff; border: 1px solid #ccc; border-radius: 5px; color: #717171;text-align: center;}
+.pop_stats .smile{margin-right: 10px;display: inline-block;*display:inline;*zoom:1;width:56px; height:56px; background: url(../image/smile_ico.png) no-repeat left top;}
+.pop_stats .cry{margin-right: 10px;display: inline-block; width:56px; height:56px; background: url(../image/cry_ico.png) no-repeat left top;}
+.pop_stats_operation{position: absolute;left:0;bottom:0;width: 100%;height: 57px;text-align: right;}
+.pop_stats_operation a{color:#0075d0;}
+.pop_stats_operation a:hover{color:#d84141;}
+.alert_info{padding:20px 15px;font-size:14px}
+.alert_btn{float: right;margin-right:10px;display: inline-block;width:90px;height:30px;background:no-repeat left top;line-height: 30px;font-size:14px;font-weight: bold;background-color:#fff;border:1px solid #ccc;border-radius:5px;color:#717171;text-align: center;}
+/* ---------------------全局 end-------------------------- */
+
+/* ---------------------注册登录 begin-------------------------- */
+.login_img{width:510px;padding-top: 20px;}
+.login_img img{width:510px;height: 380px;margin-top:0px;vertical-align:middle;}
+.login_con{ padding:20px 20px 0; width:388px; border:1px solid #cbcbcb; background-color:#f2efea; -moz-box-shadow:0px 3px 5px rgba(0,0,0,.2); -webkit-box-shadow:0px 3px 5px rgba(0,0,0,.2); box-shadow:0px 3px 5px rgba(0,0,0,.2); }
+.main_cont .login_con{position: relative;padding:50px 20px 20px;width: 307px}
+.login_con .row{position: relative;margin-bottom:22px;line-height: 30px}
+.login_con label{display: inline-block;width: 60px;}
+.login_con .text,.login_con .authcode{padding:7px 27px 7px 10px;border:1px solid #ccc;outline:none}
+.login_con .text{width:203px;}
+.login_con .text{background:#fff url(../image/icon/login_base.png) no-repeat}
+.login_con .authcode{width:90px;}
+.login_con .readme input{margin-right: 5px;}
+.login_con .readme label,.login_con .remember label{width:auto}
+.login_con .readme a{color:#005ea7;}
+.login_con .readme a:hover{color:#dd4040;text-decoration:underline;}
+.login_con .btn a{line-height: 36px}
+.login_con .register_btn{display: inline-block;width: 140px;height: 36px;text-align: center;font-size:16px;color:#fff;font-weight: bold;background:url(../image/icon/login_base.png) no-repeat -144px -72px}
+.login_con .register_btn:hover{background-position:-144px -116px}
+.login_con .login_btn{display:block;width:304px;margin:0 auto;height: 36px;text-align: center;font-size:16px;color:#fff;font-weight: bold;background:url(../image/icon/login_base.png) no-repeat -26px -159px;}
+.login_con .login_btn:hover{background-position:-26px -201px}
+.login_con .wait_d{background-position:-26px -244px;text-indent:-9999px;overflow: hidden;}
+.login_con .wait_c{background-position:-144px -285px;text-indent:-9999px;overflow: hidden;}
+.login_con .info{display: none;position: absolute;top:0;left:310px;border:1px solid #ccc;width:280px;background-color: #f5f5f5;padding:0 10px;}
+.login_con .error .text,.login_con .error .authcode,.login_con .error .info{border:1px solid red;}
+.login_con .error .info{border:1px solid #ffbdbe;background-color:#FFEBEB}
+.login_con .correct .text{border:1px solid #7abd54;background-position:214px 3px}
+.login_con .correct .authcode{border:1px solid #7abd54;background:#fff url(../image/icon/login_base.png) no-repeat 101px 5px}
+.login_con .ico_phone{background-position:214px -57px}
+.login_con .ico_mail{background-position:214px -105px}
+.login_con .ico_user{background-position:214px -153px}
+.login_con .ico_pass{background-position:214px -201px}
+.intensity{position: absolute;left:113px;bottom:-26px;}
+.intensity i{display: inline-block;width: 42px;height: 14px;font-size:12px;line-height:14px;font-style:normal;text-align: center;margin-left: 2px;color:#fff;background-color:#b9b9b9}
+.intensity .s1{background-color: #ffc6a0;}
+.verify_btn{display: inline-block;margin-left:5px;padding: 7px 0;border:1px solid #ccc;background-color:#e6e6e6;width: 103px;text-align: center;color:#4f4f4f;font-size:12px;cursor: pointer}
+.register_link{float: right;color:#1a66b3;}
+.register_link:hover{color:#dd4040;}
+.login_error{position: absolute;top:12px;padding-left:13px;width:290px;height: 25px;border:1px solid #f14624;line-height:25px;background-color:#fffeee;}
+.login_error figure{display: inline-block;width:16px;height:16px;background:#fff url(../image/icon/login_base.png) no-repeat -5px -28px;vertical-align:middle;}
+.login_error a{color:#1A66B3}
+.login_error a:hover{color:#DD4040}
+.verify_img{margin-left: 5px;width: 65px; height: 30px; vertical-align: middle; }
+/* ---------------------注册登录 end-------------------------- */
+
+/* ---------------------提示 begin-------------------------- */
+.remind{width: 500px;margin:250px auto 0;font:16px/25px "Microsoft YaHei",simsun,sans-serif;}
+.remind .mail{float: left;margin-right: 15px;display:block; width: 48px; height: 48px; background: url(../image/icon/login_base.png) no-repeat -72px 0;}
+.remind p a{color:#005ea7;}
+.remind .operate{margin-top: 30px;}
+.remind .operate .btn{display: inline-block;text-align: center;width: 120px;height: 40px;line-height: 40px;background-color:#d84141;color:#fff;border-radius:3px;}
+.remind .operate .btn:hover{background-color:#dd3333;}
+.error_con{margin:280px 0 250px;text-align: center;}
+.error_con .info{display: inline-block;font:16px/56px "Microsoft YaHei",simsun,sans-serif;color:#212121;text-align:left;line-height:56px;vertical-align:top;max-width: 75%;}
+.error_con .info b{font-size:14px;}
+.error_con .info a{color:#0075d0;}
+.error_con .info a:hover{color:#d84141;}
+.error_con .smile{margin-right: 10px;display: inline-block;*display:inline;*zoom:1;width:56px; height:56px; background: url(../image/smile_ico.png) no-repeat left top;}
+.error_con .cry{margin-right: 10px;display: inline-block; width:56px; height:56px; background: url(../image/cry_ico.png) no-repeat left top;}
+.error_con .operation{margin-top: 15px;}
+.error_con .operation .return_btn,.error_con .operation .home_btn{position: relative;display: inline-block;padding-left: 25px;width: 115px;height: 36px;background:no-repeat left top;line-height: 36px;font-size:14px;font-weight: bold;}
+.error_con .operation .return_btn{background-image:url(../image/loan_operate_btn.png);color:#fff;}
+.error_con .operation .return_btn figure,.error_con .operation .home_btn figure{position: absolute;left:4px;top:2px;width: 32px;height: 32px;background:no-repeat left top}
+.error_con .operation .return_btn figure{background-image:url(../image/returnbtn_ico.png);}
+.error_con .operation .home_btn{background-color:#fff;border:1px solid #ccc;border-radius:5px;color:#717171;}
+.error_con .operation .home_btn figure{background-image:url(../image/homebtn_ico.png);}
+/* ---------------------提示 end-------------------------- */
+
+/* ---------------------找回密码 begin-------------------------- */
+.find_pass{margin-top:100px;min-height:400px}
+.find_pass label{display: inline-block;margin-right:10px;width:80px;text-align: right;}
+.find_pass input[type="text"],.find_pass input[type="password"]{margin-right:10px;border:1px solid #c8c8c8;width:200px;padding:10px;color:#666;outline:none;}
+.find_pass input[type="submit"],.find_pass .sub_btn{display:inline-block;margin-left:90px;width: 140px;height: 36px;line-height: 36px;text-align: center;background:url(../image/loan_operate_btn.png) no-repeat left top;border:0 none;cursor: pointer;color:#fff;font-size:14px;font-weight: bold;}
+.find_pass input.verify_txt{width:82px;}
+.find_pass .verify_btn{height: 36px;padding: 0;vertical-align: top;line-height: 36px;margin-left:0;}
+.find_pass select{width:222px; margin-right: 80px; padding:4px; border: 1px solid #cacaca; margin-top: 0; margin-bottom: 0; outline: none;}
+.find_pass input[type="submit"],.find_pass .sub_btn{display:inline-block;margin-left:90px;width: 140px;height: 36px;line-height: 36px;text-align: center;background:url(../image/loan_operate_btn.png) no-repeat left top;border:0 none;cursor: pointer;color:#fff;font-size:14px;font-weight: bold;}
+.find_pass input.authcode { width: 90px;margin-right: 0;}
+.find_pass .step_con{position: relative;}
+.find_pass .step_con ol{position: relative;height:60px;}
+.find_pass .step_con li{position:absolute;top:0;width:100px;height:60px;text-align: center;}
+.find_pass .step_con li figure{display: inline-block;margin-top: 5px;height: 32px;width: 32px;background:url(../image/find_step.png) no-repeat left top;text-align: center;line-height: 32px;color:#fff;}
+.find_pass .step_con .current figure{background-image:url(../image/find_step_on.png);}
+.find_pass .step_con li span{display: block;margin-top: 5px;font-size: 14px;}
+.find_pass .step_con .step1{left:0;}
+.find_pass .step_con .step2{left:35%;margin-left:-50px;}
+.find_pass .step_con .step3{right:35%;margin-right:-50px;}
+.find_pass .step_con .step4{right:0;}
+.find_pass .step_con .line{position: absolute;top:20px;height:2px;width:23%;background-color:#b9b9b9}
+.find_pass .step_con .line1{left:80px;}
+.find_pass .step_con .line2{left:42%;margin-left:-35px;}
+.find_pass .step_con .line3{right:80px;}
+.find_pass .find_conts{margin:120px 0 0 30%;}
+.find_pass .find_conts .tit{font-size:14px;line-height:25px;color:#333645;padding-bottom:7px;border-bottom:1px solid #dedede;}
+.find_pass .find_conts .tit span{color:#d11111;}
+.find_pass .find_conts .success_con{margin-left:100px;height: 60px;}
+.find_pass .find_conts .success_con p b{font-size:14px;}
+.find_pass .find_conts .success_con p a{color:#005ea7;}
+.find_pass .find_conts .success_con .ger{float: left;margin:0 10px 0 0;display: inline-block; width:48px; height:48px; background: url(../image/find_ger.png) no-repeat left top; }
+.find_pass .find_conts .tit span{color:#d11111;}
+.find_pass .find_conts .conts{margin:30px 0 0 0;}
+.find_pass .find_conts .row{margin-bottom: 15px;font-size:14px;line-height:30px;color:#333645;}
+.find_pass .find_conts .row a{font-size:12px;}
+.find_pass .find_conts .row small{color:#999;}
+.find_pass .find_conts .error{border: 1px solid red !important;}
+.find_pass .find_conts .form_error{display: inline-block;*display: inline;*zoom:1;padding: 0 10px; height:36px; line-height:36px; background-color: #ffffe0; border: 1px solid #fae5ba;vertical-align:top;font-size:12px;}
+.find_pass .find_conts .return_info{ margin-bottom: 15px; display:block; padding: 0 10px; line-height: 25px; background-color: #ffffe0; border: 1px solid #fae5ba;width: 202px;margin-left: 91px;font-size:12px;}
+.find_pass .find_conts .return_info a{padding: 0 3px;color: #005ea7;}
+.find_pass .choose_con{margin-top:50px;padding-bottom:10px;border-bottom:1px solid #dedede}
+.find_pass .choose_con label{font-size:14px;color:#333645;width: 115px;margin-right: 0;}
+.find_pass .choose_con select{width: 150px;}
+/* ---------------------找回密码 end-------------------------- */
+/* ---------------------邮箱地址补全 begin-------------------------- */
+#mailBox{background:#fff;position:absolute;padding:0 5px;width:230px !important;margin:8px 0 0 1px;-webkit-box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.35);-moz-box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.35);}
+#mailBox p{width:100%;margin:0;padding:0;height:20px;line-height:20px;clear:both;font-size:12px;color:#ccc;cursor:default;}
+#mailBox ul{padding:0;margin:0;}
+#mailBox li{font-size:12px;height:30px;line-height: 30px;color:#939393;font-family:'Tahoma';list-style:none;cursor:pointer;overflow:hidden;}
+#mailBox .cmail{color:#000;background:#e8f4fc;}
+/* ---------------------邮箱地址补全 end-------------------------- */
+/* ---------------------注册成功页面 begin-------------------------- */
+.register_ok{margin:200px auto;width:350px;padding-left:60px;background:url(../image/find_ger.png) no-repeat left top;}
+.register_ok .result{color:#212121;font-size:22px;font-family:"Microsoft YaHei",simsun,sans-serif;line-height: 48px;}
+.register_ok .operation{margin-top:20px;}
+.register_ok .operation a{color:#005ea7;}
+.register_ok .operation a:hover{color:#dd4040;}
+.register_ok .operation .btn{display: inline-block;margin-right:20px;width: 120px;height: 40px;background-color:#d84141;border-radius:5px;line-height:40px;text-align: center;font-size:14px;font-weight: bold;color:#fff !important;}
+.register_ok .info{margin-top:20px;color:#888;}
+.register_ok .info figure{display: inline-block;margin-right:5px;width: 16px;height: 16px;background:url(../image/ger.png) no-repeat 0 0;vertical-align:middle;}
+/* ---------------------注册成功页面 end-------------------------- */

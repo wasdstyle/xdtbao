@@ -1,0 +1,220 @@
+<#include "header/base_top.html">
+<#include "../common/function.html"> 
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">产品详情</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+<style>
+	#main .top_menu{
+		height:160px;
+		margin-bottom:20px;
+		margin-top:-10px;
+	}
+	#main .top_menu li{
+		height:auto;
+		float:left;
+		width:100%;
+	}
+	#main .top_menu li a{
+		color:#232323;
+	}
+	#main .top_menu li span{
+		margin-top:0px;
+		color:#A3A3A3;
+		font-size:12px;
+		margin-top:5px;
+		width:33%;
+		text-align:center;
+	}
+	#main .form-style-reg ul li{	
+		padding-left:8px;
+	}		
+	#main .current li{
+		height:auto;
+		float:left;		
+		color:#2F2F2F;	
+		padding-top:15px;
+		padding-bottom:15px;
+		background:#FFFFFF;
+	}
+	#main .current li span{
+		margin-top:0px;
+		color:#2F2F2F;
+	}
+</style>
+	<div id="main">
+		<div class="form-style-reg">
+			<ul class="top_menu">
+				<#assign borrow_process=(borrow.account_yes/borrow.account*100)> 
+				<li>
+					<div style="position:relative;width:60px;height:60px;margin:20px auto;margin-bottom:20px;">
+						<div class="process">
+							<div class="process-hold hold1">
+								<#if borrow_process lt 50>									
+									<div class="process-bar bar1" style="-o-transform:rotate(${(borrow_process/100*360)}deg);-webkit-transform:rotate(${(borrow_process/100*360)}deg);-moz-transform:rotate(${(borrow_process/100*360)}deg); "></div>
+								<#else>
+									<div class="process-bar bar1" style="-o-transform:rotate(180deg);-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg); "></div>
+								</#if>	
+							</div>
+							<div class="process-hold hold2">
+								<#if borrow_process gt 50>
+									<#if borrow_process == 100>
+										<div class="process-bar bar2" style="-o-transform:rotate(180deg);-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg); "></div>
+									<#else>
+										<div class="process-bar bar2" style="-o-transform:rotate(${(borrow_process/100*180)}deg);-webkit-transform:rotate(${(borrow_process/100*180)}deg);-moz-transform:rotate(${(borrow_process/100*180)}deg); "></div>
+									</#if>	
+								<#else>
+									<div class="process-bar bar2"></div>
+								</#if>
+							</div>
+							<div class="bg"></div>
+							<div class="time">
+								<i>
+		                           ${borrow_process?string('##.##')}%
+								</i>
+							</div>	
+						</div>
+					</div>
+				</li>
+				<li style="padding-left:5px;">
+					<span>
+						年化收益率
+					</span>
+					<span>
+						借款期限
+					</span>
+					<span>借款总额</span>
+				</li>				
+				<li style="padding-left:5px;">
+					<span style="color:#CA1119;font-size:18px;height:20px;">
+						${borrow.apr}
+						<i style="margin-left:0px;font-style:normal;font-size:12px;">%</i>
+					</span>
+					<span style="color:#222222;font-size:14px;line-height:25px;height:20px;">
+                        <#if borrow.isday??&&borrow.isday==1>
+                            ${borrow.time_limit_day!0}天
+                        <#elseif borrow.type==101>
+                            满标即还
+                        <#else>
+                            ${(borrow.time_limit)!0}个月
+                        </#if>
+					</span>
+					<span style="color:#222222;font-size:14px;line-height:25px;height:20px;">${borrow.account}元</span>
+				</li>								
+			</ul>
+			<ul class="current">	
+				<li style="width:25%;">项目名称</li>
+				<li style="width:75%;"><#if borrow.name?length lt 20>${borrow.name}<#else>${borrow.name[0..18]}...</#if></li>
+				<li style="width:25%;">借款编号</li>
+				<li style="width:75%;">#${borrow.id?c}</li>
+				<li style="width:25%;">还款方式</li>
+				<li style="width:75%;">
+					<@linkage plantext=true default=borrow.style nid="borrow_style"/>
+				</li>
+			</ul>
+			<ul class="current">	
+				<#if borrow.type!=110>
+					<li style="width:25%;">最小投标</li>
+                    <li style="width:75%;">
+                        <!-- v1.9.u2 BIAOZHUN-387 zza 2015-03-18 start -->
+	                	<#if borrow.lowest_account??&&borrow.lowest_account?c?number gt 0>${borrow.lowest_account?c}元<#else>无限制</#if>
+	                	<!-- v1.9.u2 BIAOZHUN-387 zza 2015-03-18 end -->
+                	</li>
+                	<li style="width:25%;">最大投标</li>
+                    <li style="width:75%;">
+                        <!-- v1.9.u2 BIAOZHUN-387 zza 2015-03-18 start -->
+                        <#if borrow.most_account??&&borrow.most_account?c?number gt 0>${borrow.most_account?c}元<#else>无限制</#if>
+                        <!-- v1.9.u2 BIAOZHUN-387 zza 2015-03-18 end -->
+                    </li>
+                <#else>
+                	<li style="width:25%;">可投份额</li>
+                    <li style="width:75%;">
+                     	${((borrow.account?c!0)?number-(borrow.account_yes?c!0)?number)/borrow.flow_money}份
+                     </li>
+                </#if>
+				
+				<li style="width:25%;">投标奖励</li>
+				<li style="width:75%;">
+                    <#if borrow.award??&&borrow.award==0>没有奖励
+                    <#elseif borrow.award??&&borrow.award==1>${(borrow.part_account)!0}%奖励
+                    <#elseif borrow.award??&&borrow.award==2> ${(borrow.funds)!0}元分摊奖励
+                    <input id="borrowFunds" type="hidden" value="${(borrow.funds?c)!0}"/>
+                    </#if>
+                </li>
+				
+				<li style="width:25%;">当前状态</li>
+                <li style="width:75%;">
+                	<!-- v1.9.u2 BIAOZHUN-387 zza 2015-03-18 start -->
+	                <@statusTypeName status=borrow.status item=borrow/>
+	                <!-- v1.9.u2 BIAOZHUN-387 zza 2015-03-18 end -->
+	            </li>
+				
+				<li style="width:25%;">发布时间</li>
+				<li style="width:75%;">${dateformat(borrow.verify_time!0,"yyyy-MM-dd")}</li>
+
+				<li style="width:25%;">剩余可投</li>
+				<li style="width:75%;">
+					<#assign borrow_remain=borrow.account > 
+                    <#if borrow.account_yes?exists> 
+                        <#assign borrow_remain=(borrow.account-borrow.account_yes) >
+                     </#if>
+                    <#if borrow.type==110>
+                    ${((borrow.account?c!0)?number-(borrow.account_yes?c!0)?number)/borrow.flow_money}<font>份</font>
+                        <input type="hidden" value="${(borrow.flow_money)?string("0.##")}" id="single-flow-money">
+                        <input type="hidden" value="${((borrow.account?c!0)?number-(borrow.account_yes?c!0)?number)/borrow.flow_money}" id="remain-invest-amount">
+                    <#else>
+                        ${(borrow_remain!0)?string("###,###")}<font>元</font>
+                        <input type="hidden" value="${(borrow_remain)?string("0.##")}" id="remain-invest-amount">
+                    </#if>
+				</li>
+			</ul>			
+        </div>	
+
+
+
+        <div id="operator">
+			<@showInvestButton/>
+		</div>
+
+
+
+		<#macro showInvestButton>
+		    <#if borrow.status==0>
+		       <span  class="btn">等待初审</span>
+		    <#elseif (borrow.status==1&&((borrow.account_yes?c)?number lt (borrow.account?c)?number)&&borrow.type!=110&&(getRemainTime(borrow.verify_time,borrow.valid_time)?number gt 0))||(borrow.status==1&&((borrow.account_yes?c)?number lt (borrow.account?c)?number)&&borrow.type==110)>
+		        <#if session_user?exists>
+		            <a href="${webroot}/wx/invest.html?borrowid=${borrow.id?c}" class="btn" id="btn-invest">确认投资</a>
+		        <#else>
+		            <a href="/wx/login.html" class="btn disable">请先登录</a>
+		        </#if>
+		    <#elseif borrow.status==1&&((borrow.account_yes?c)?number lt (borrow.account?c)?number)&&borrow.type!=110&&(getRemainTime(borrow.verify_time,borrow.valid_time)?number lt 0)>
+		        <span  class="btn">已经结束</span>
+		    <#elseif borrow.type!=110&&borrow.status==1&&((borrow.account_yes?c)?number gt (borrow.account?c)?number || (borrow.account_yes?c)?number==(borrow.account?c)?number) > 
+		        <span  class="btn">等待复审</span>
+		    <#elseif borrow.type==110&&borrow.status==1&&((borrow.account_yes?c)?number gt (borrow.account?c)?number || (borrow.account_yes?c)?number==(borrow.account?c)?number) > 
+		        <span  class="btn">流转中</span>
+		    <#elseif borrow.status==2> 
+		        <span  class="btn">初审失败</span>
+		    <#elseif borrow.status==3> 
+		        <span  class="btn">复审通过</span>
+		    <#elseif borrow.status==5||borrow.status==-1> 
+		        <span  class="btn">用户取消</span>
+		    <#elseif borrow.status==4> 
+		        <span  class="btn">复审失败</span>
+		    <#elseif borrow.status==6> 
+		        <span  class="btn">还款中</span>
+		    <#elseif borrow.status==7> 
+		        <span  class="btn">还款中</span>
+		    <#elseif borrow.type==110&&borrow.status==8> 
+		        <span  class="btn">停止流转</span>
+		    <#elseif borrow.status==8> 
+		        <span  class="btn">已还款</span>
+		    <#else> 
+		        <span  class="btn">用户取消</span>
+		    </#if>
+		</#macro>
+	
+<#include "header/footer.html">
+	

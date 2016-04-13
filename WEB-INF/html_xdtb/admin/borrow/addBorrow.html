@@ -1,0 +1,491 @@
+<#--v1.8.0.4_u2 TGPROJECT-324 lx add-->
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="新增借款标">
+                              
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                                <div class="toolbor-module">
+                                                
+                                    <input type="button" class="input-button return" value="返回" onClick="javascript:location.href='showTrialBorrow.html'">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post"  action="" onSubmit="return check_form_borrow();"  enctype="multipart/form-data" id="form1" >
+
+                                    <div class="valBox mb15">
+                                        <div class="top">
+                                            <strong>新增借款标</strong>
+                                        </div>
+                                        <div class="fp w349 clearfix">
+                                            <ul>
+                                                <li>
+                                                <!-- 2015-05-06 11:16 by xudc 根据客户要求修改 -->
+                                                    <!-- <div class="title">借款人：</div> -->
+                                                    <div class="title">借款人：</div>
+                                                    <div class="v">
+                                                    <input type="text" name="username" id="username"   /> 
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                <!-- 2015-05-06 11:16 by xudc 根据客户要求修改 -->
+                                                    <!-- <div class="title">借款总金额：</div> -->
+                                                    <div class="title">借款金额：</div>
+                                                    <div class="v">
+                                                        <span id="infojdmoney" data-content="借款金额应在500元—50万元之间，利息管理费按借款期限收取,标准为每个月按借款本金收取0.3%,管理费用不计息，不退还，借款成功时在借款金额中直接一次性扣除，不成功不收费。更多详尽收费信息请参阅网站资费栏目公告。">
+                                                                <input type="text" name="account"  id="account"  onkeyup="value=value.replace(/[^0-9]/g,'')" onblur= "value=value.replace(/[^0-9]/g,'')" /> 
+                                                            </span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                <!-- 2015-05-06 11:16 by xudc 根据客户要求修改 -->
+                                                    <!-- <div class="title">借款标类型：</div> -->
+                                                    <div class="title">标类型 ：</div>
+                                                    <div class="v">
+                                                    <select name="type" id="type" onChange="checkType(this.value);">
+	                                                        <option value="103">抵押标</option>     
+	                                                        <option value="102">信用标</option>
+	                                                        <option value="104">净值标</option>
+	                                                        <option value="112">担保标</option>
+	                                                        <option value="101">秒还标</option>
+	                                                        <option value="110">流转标</option>
+                                                    </select>
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">年利率：</div>
+                                                    <div class="v">
+                                                      <input type="text" name="apr" id="infonlv" onKeyUp="value=value.replace(/[^0-9.]/g,'')" /> %
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                <div class="flow_money" style="display:none;">
+                                                    <div class="title">每份金额：</div>
+                                                    <div class="v">
+                                                        <span id="infojdmoney" data-content="流转标的每一份的金额">
+                                                            <input type="text" name="flow_money"  id="flow_money" onBlur="ckeckFlow();" onKeyUp="value=value.replace(/[^0-9]/g,'')" /> 
+                                                        </span>
+                                                    </div>
+                                                    </div>
+                                                <div id="validTime">
+                                                    <div class="title">有效时间：</div>
+                                                    <div class="v">
+                                			<@linkage name="valid_time" id="valid_time" nid="borrow_valid_time" type="value" />
+                                                    </div>
+                                                    </div>
+                                                </li>                                                  
+                                                <li class="color">
+                                                    <div class="title">借款期限：</div>
+                                                    <div class="v">
+                                                    <span id="infotl" data-content="请选择借款期限">
+						<span id="time_limit" style="float:left" >
+						<@linkage name="time_limit" id="time_limit"  type="value" nid="borrow_time_limit"/>
+						</span></span>
+						<span id="time_limit_day" style="float:left; display: none" >
+						<#if borrow??>
+							<@linkage name="time_limit_day" id="time_limit_day" default="${borrow.time_limit_day!0}" type="value" nid="borrow_time_limit_day"/>
+						<#else>
+							<@linkage name="time_limit_day" id="time_limit_day" type="value" nid="borrow_time_limit_day"/>
+						</#if>
+						</span>
+						 <span class="changetoDay"><a href="#">按天</a>
+						 <input type="checkbox" name="changetoDay"   value="1"  id="changetoDay" onClick="">
+						 </span>   
+                                                    </div>
+                                                </li>
+                                                 <li class="color" id="borrow_day" style="display:none;">
+                                                <div>
+                                                    <div class="title">是否天标：</div>
+                                                    <div class="v">
+                                                      <input type="hidden" name="isday" id="isday" value="0" />是
+                                                    </div>
+                                                    <div  style="color:#FF0000" >借款成功后，系统将按照每月30天来计算借款利息。<a href="/gonggao/a244.html" target="_blank">天标系统说明</a></div>
+                                                    </div>
+                                                </li>
+                                                 <li class="color">
+                                                    <div class="title">是否定向标：</div>
+                                                    <div class="v">
+<span id="infoisDXB" data-content="定向标可邀请特定的用户或朋友来投标，设置好密码后，告诉对方此标的密码即可." >
+                            <input type="checkbox" name="isDXB" id="isDXB" value="1" <#if b?exists && b.pwd?exists && b.pwd !="">checked="checked"</#if> onclick="checkDXB()">  </span>
+			
+                                                    </div>
+                                                </li>
+                                                 <li class="color">
+                                                    <div class="title">定向标密码：</div>
+                                                    <div class="v">
+													<span id="infopwd" data-content='定向标密码可以是数字或文字。如"恭喜发财","生日快乐"等等 ' >
+                            <input <#if !b?exists || !b.pwd?exists>disabled="disabled"</#if> type="text" name="pwd" id="pwd" value="<#if b?exists&&b.pwd??>${b.pwd}</#if>"></span>
+						
+                                                    </div>
+                                                </li>
+                                                 <li class="color">
+                                                    <div class="title">还款方式：</div>
+                                                    <div class="v">
+				<span id="infohk" data-content="等额本息还款指借款申请人成功借款后，每月按相等的金额偿还贷款本息；先息后本还款指借款申请人成功借款后，先每月偿还利息，到期月偿还当月利息和全部本金；一次性还本付息，指借款申请人成功借款后，在到期日直接归还全部本金和利息。">
+					<@linkage name="style" id="style" nid="borrow_style" type="value" />
+				</span>
+				
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">借款用途：</div>
+                                                    <div class="v">
+                                                     <@linkage name="use" id="use" class="test"  nid="borrow_use" />
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">最低投标金额：</div>
+                                                    <div class="v"> 
+                               			<@linkage name="lowest_account" id="lowest_account" nid="borrow_lowest_account" type="value" />
+                                                </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">最高投标金额：</div>
+                                                    <div class="v"> 
+                               			<@linkage name="most_account" id="most_account" nid="borrow_most_account" type="value" />
+                                                </div>
+                                                </li>
+                                                <li>
+                                                        <div class="title">上传图片：</div>
+                                                        <div class="v">
+                                                            <input type='file' name='imgurl' value='' size='20' id='imgurl'>
+                                                        </div>
+                                                </li>
+                                                <li>
+                                                        <div class="title">是否推荐：</div>
+                                                        <div class="v">
+                                                            <input type="checkbox"  name='recommend' value='1' id='recommend'>
+                                                        </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                        <div class="valBox mb15">
+                                            <div class="top">
+                                                <strong>设置奖励</strong>
+                                            </div>
+                                            <div class="ri clearfix">
+                                                <ul>
+                                                    <li>
+                                                            <div class="title"  style="float:left"><label><input name="award" value="0" type="radio" class="radio" checked="checked" id="noAward" >不设置奖励：</label></div>
+                                                            <div class="v" >如果您设置了奖励金额，将会冻结您账户中相应的账户余额。如果要设置奖励，请确保您的账户有足够 的账户余额。</div>
+                                                        </li>
+                                                        <li class="color">
+                                                            <div class="title"><label><input name="award" value="2" type="radio" class="radio" id="award-radio">按固定金额分摊奖励：</label></div>
+                                                            <div class="v"><input type="text" name="funds" disabled>元  不能低于5元,不能高于总标的金额的2%，且请保留到“元”为单位。这里设置本次标的要奖励给所有投标用户的总金额。</div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="title"><label><input name="award" value="1" type="radio" class="radio"  id="award-radio1"  >按投标金额比例奖励：</label></div>
+                                                            <div class="v"><input type="text" name="part_account" disabled>% 范围：0.1%~2% ，这里设置本次标的要奖励给所有投标用户的奖励比例。</div>
+                                                        </li>
+                                                </ul>
+                                            </div>
+                                        </div>  
+                                        
+                                        
+                                        <!--账户信息公开设置 开始-->
+<div class="wrap950 list_1 tab-pane" id="zhxx">
+	<div class="content">
+		<div class="module_border">
+         <div class="valBox mb15 clearfix" style="padding-bottom:10px;">
+                   <div class="top" style="margin-bottom:10px;">
+                        <strong>账户信息公开</strong>
+                    </div>
+			<div class="w" style="float:left ;margin-left:15px;"><input type="checkbox" name="open_account" value="1"/><span id="infoss1" data-content="如果您勾上此选项，将会实时公开您账户的：账户总额、可用余额、冻结总额、充值总额、提现总额。">公开我的账户资金情况</span> </div>
+
+			<div class="w" style="float:left; margin-left:15px;"><input type="checkbox"  name="open_borrow" value="1"/><span id="infoss1" data-content="如果您勾上此选项，将会实时公开您账户的：借款总额、已还款总额、待还款总额、迟还总额、逾期总额。">公开我的借款资金情况</span></div>
+
+                                        <div class="w" style="float:left ;margin-left:15px;"><input type="checkbox" name="open_tender" autocomplete="off" value="1"/><span id="infoss1" data-content="如果您勾上此选项，将会实时公开您账户的：投标总额、待收回总额。">
+                                        公开我的投资资金情况</span></div>
+                                        </div>
+			
+		</div>	
+	</div>
+	<div class="foot"></div>
+</div>                         
+                 <div class="wrap950 list_1 tab-pane in active" id="tbxx">
+	<div class="content">
+		<div class="module_border">
+			<div class="w"  style="float:left">标题：</div>
+			<div style="padding-top:6px; float:left">
+				<input type="text" name="name" value="<#if b?exists>${b.name}</#if>" size="50" id="infotitle" data-content="15个字符以内，请简洁鲜明填写能概括出借款用途和个人优势等的借款标题"  maxlength="15" /> 
+			</div>
+			<div class="sco" ></div>
+		</div>
+		
+		<div class="module_border" style="display: none;" id="dc">
+			<div class="w"  style="float:left">担保标情况调查：</div>
+			<div style="padding-top:6px; float:left">
+				<input type="text" name="vouch_user" value="<#if b?exists>${b.vouch_user}</#if>" size="50" id="vouch_user" data-content="80个字符以内，请简洁鲜明填写担保标情况调查"  maxlength="80" /> 
+			</div>
+			<div class="sco" ></div>
+		</div>
+		<div class="module_border" style="padding:20px 0;">
+			<div class="w" style="float:left">信息：</div>
+			<div style="float: left;">
+			<script type="text/javascript" src="${theme_dir}/plugin/umeditor/third-party/jquery.min.js"></script>
+			  <#include "../../common/umeditor.html"> 
+                <#if borrow?? && borrow.content??>
+                    <@showUeditor width=680 heigth=100 id="content" name="content" content="${borrow.content}" />
+                <#else>
+                    <@showUeditor width=680 heigth=100 id="content" name="content" content="" />
+                </#if>
+			</div>
+		</div>
+		
+		 <div class="other clearfix">
+			<label for="">验证码：</label><input type="text" name="validCode" id="valiCode" class="yzm"> <img src="${request.getContextPath()}/validimg.html" alt="点击刷新" 
+	   onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" style="position:relative;top:13px;"   />
+						                        </div>
+	</div>
+	<br/>
+	<div class="content" style="text-align:center; padding-bottom:10px;">
+		<input type="hidden" name="addtype" value="addborrow" class="btn-action" />
+		<input type="submit" value="确认提交" class="btn btn-primary" style="height:28px;" />
+	</div>
+	<div class="foot"></div>
+	</div>                                       
+	</form>
+	</div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+     ${rsmsg!""}
+</div>
+<script type="text/javascript">
+$(function(){
+// 	$("#changetoDay").attr("checked",false);
+// 	$("#type").val("103");
+	
+	//点击担保标
+	$("#type").change(function(){
+		var val=$("select option:selected").val();
+		if(val==112){
+			$('#dc').show();
+		}else{
+			$("#vouch_user").val("");
+			$('#dc').hide();
+		}
+	});
+	
+	
+});
+$("#award-radio").attr("checked",false);
+$("#award-radio").click(function(){
+    $("#award-radio").attr("checked",true);
+    $("input[name=funds]").removeAttr('disabled');
+    $("input[name=part_account]").attr('disabled',true); 
+})
+
+$("#award-radio1").click(function(){
+    $("#award-radio1").attr("checked",true);
+    $("input[name=part_account]").removeAttr('disabled');
+    $("input[name=funds]").attr('disabled',true); 
+})
+$("#noAward").click(function(){
+  $("input[name=part_account]").attr('disabled',true); 
+  $("input[name=funds]").attr('disabled',true); 
+})
+var starderval=$("#infohk").html()
+jQuery('#changetoDay').click(function(){
+    var type = $("#type").children('option:selected').val();
+	if($(this).attr("checked")){
+		$("#infohk").html('<select name="style" autocomplete="off" id="style"><option id="tbspecial" value="2">一次性还款</option></select>')
+		jQuery('#isday').val('1');
+		jQuery('#time_limit_day').show();
+		jQuery('#time_limit').hide();
+		jQuery('#borrow_day').show();
+	}else{
+		$("#infohk").html(starderval)
+		jQuery('#isday').val('0');
+		jQuery('#time_limit_day').hide();
+		jQuery('#time_limit').show();
+		jQuery('#borrow_day').hide();
+	}
+});
+
+var starderval=$("#infohk").html()
+jQuery('#changetoDay').click(function(){
+	if($(this).is(":checked")){
+		$("#infohk").html('<select name="style" autocomplete="off" id="style"><option id="tbspecial" value="2">一次性还款</option></select>')
+		jQuery('#isday').val('1');
+		jQuery('#time_limit_day').css('display','block');
+		jQuery('#time_limit').hide();
+		jQuery('#borrow_day').show();
+	}else{
+		$("#infohk").html(starderval)
+		jQuery('#isday').val('0');
+		jQuery('#time_limit_day').hide();
+		jQuery('#time_limit').show();
+		jQuery('#borrow_day').hide();
+	}
+});
+
+var timelimitval = $("#infotl").html();
+$("#type").change(function(){
+    var type = $(this).children('option:selected').val();
+    if(type==110){
+            $("#infohk").html('<select name="style" autocomplete="off" id="style"><option id="tbspecial" value="2">一次性还款</option></select>')
+            $("#infotl").html(timelimitval)
+            jQuery('.flow_money').show();
+            jQuery('#validTime').hide();
+            jQuery(".changetoDay").show();
+            jQuery('#isday').val('0');
+            jQuery('#time_limit_day').hide();
+            jQuery('#borrow_day').hide();
+    }else if(type==101){
+            $("#infohk").html('<select name="style" autocomplete="off" id="style"><option id="tbspecial" value="2">一次性还款</option></select>')
+            $("#infotl").html('<select name="timeLimit" autocomplete="off" id="timeLimit"><option value="1">1个月</option></select>')
+            jQuery('.flow_money').hide();
+            jQuery('#validTime').show();
+            jQuery(".changetoDay").hide();
+            jQuery('#isday').val('0');
+            jQuery('#time_limit_day').hide();
+            jQuery('#borrow_day').hide();
+    }else{
+            $("#infohk").html(starderval)
+            $("#infotl").html(timelimitval)
+            jQuery('.flow_money').hide();
+            jQuery('#validTime').show();
+            jQuery(".changetoDay").show();
+            jQuery('#isday').val('0');
+            jQuery('#time_limit_day').hide();
+            jQuery('#borrow_day').hide();
+    }
+});
+
+function checkDXB(){
+    var frm = document.forms['form1'];
+    if(frm.elements['isDXB'].checked){
+        frm.elements['pwd'].disabled=false;
+    }else{
+        frm.elements['pwd'].disabled=true;
+        frm.elements['pwd'].value="";
+    }
+}
+function check_form_borrow(){
+	 var frm = $("#form1");
+	 var account = $('#account').val();	 
+	 var title = $('#infotitle').val();
+	 var apr = $('#infonlv').val();
+	 var valicode = $('#valiCode').val();
+	 var time_limit=$("#timeLimit").val();
+	 var time_day = $("#timeLimiDay").val();
+	 var pwd=$("#pwd").val();
+	 var type=$("#type").val();
+    var partAccount=$("#part_account").val();
+	 var frm = $("#form1");
+             var flowMoney = $("#flow_money").val();
+             var style = $("#style").val();
+             var type =$("#type").val();
+	 var errorMsg = '';	 
+	  if(account.length==0) {
+		errorMsg += '借款金额不能为空' + '\n';
+	  }
+	  if(account<500){
+		 errorMsg += '借款金额不能低于500' + '\n';	 
+	  }
+	  if(style!=2 && type==110){
+	  	errorMsg+='流转标的还款方式必须是一次性还本付息'+'\n';
+	  }
+
+	   if(apr==0||apr.length == 0)
+	  {
+		 errorMsg += '利率不能为空或为0%' + '\n';
+		 	
+	  }
+	  if(time_limit>0&&time_limit<7)
+	  {
+		  	 if (apr>22.4) {
+		  	 	errorMsg += '1-6个月利率不能大于22.4%' + '\n';
+		  	}
+
+	  }
+	  if(time_limit>6&&time_limit<13)
+	  {
+		  	 if (apr>24) {
+		  	 	errorMsg += '7-12个月利率不能大于24%' + '\n';
+		  	}
+	  }
+	  if($("#isDXB").is(":checked")){
+		 if(pwd=="" || pwd.length<=0){
+			 errorMsg += '定向密码不能为空' + '\n';
+		 }
+	 }
+
+      if($("#award").is(":checked")){
+        if(partAccount==""){
+            errorMsg += '比例奖励不能为空' + '\n';
+        }else if(partAccount>0.02){
+            errorMsg += '比例奖励不能大于2%' + '\n';
+        }else if(partAccount<0.001){
+           errorMsg += '比例奖励不能小于0.1%' + '\n';
+        }
+    }
+	  if (title.length == 0 ) {
+		errorMsg += '标题不能为空' + '\n';
+	  }
+	  if (valicode.length == 0 ) {
+		errorMsg += '验证码不能为空' + '\n';
+	  }
+	  if(errorMsg.length>0){
+		alert(errorMsg); 
+		return false;
+	  }else{
+		return true;	
+	  }
+}
+function get_award_value()
+{
+    var form1 = document.forms['form1'];
+    
+    for (i=0; i<form1.award.length; i++)    {
+        if (form1.award[i].checked)
+        {
+           return form1.award[i].value;
+        }
+    }
+}
+</script>
+    </body>
+<#include "../jsPage.html">

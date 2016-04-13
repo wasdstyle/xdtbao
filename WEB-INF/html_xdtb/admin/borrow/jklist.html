@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="快速借款通道信息">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <#if list??>
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>称谓</td>
+                                            <td>联系方式</td>
+                                            <!-- v1.6.7.2 RDPROJECT-733 zza 2014-02-25 start -->
+                                            <td>是否受理</td>
+                                            <!-- v1.6.7.2 RDPROJECT-733 zza 2014-02-25 end -->
+                                            <td>操作</td>
+                                        </tr>
+                                        <#list list as obj>
+                                            <tr>
+                                                <td>${obj.id!"-"}</td>
+                                                <td>${obj.username!"-"}</td>
+                                                <td>${obj.tel}</td>
+                                                <!-- v1.6.7.2 RDPROJECT-733 zza 2014-02-25 start -->
+                                                <td><#if obj.type == 0><span style="color:red">未受理</span><#else>已受理</#if></td>
+                                                <td><a href = "${request.getContextPath()}/admin/borrow/viewJk.html?id=${obj.id?c}">查看详细</a>
+                                                <#if obj.type == 0>
+                                                    <a href="${request.getContextPath()}/admin/borrow/updateJk.html?id=${obj.id?c}">| <span style="color:red">审理</span></a>
+                                                <#else>
+
+                                                </#if>
+                                                </td>
+                                                <!-- v1.6.7.2 RDPROJECT-733 zza 2014-02-25 end -->
+                                            </tr>
+                                        </#list><#else> 暂无 </#if>
+
+                                    </table>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/borrow/showAllRunBorrow.html" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

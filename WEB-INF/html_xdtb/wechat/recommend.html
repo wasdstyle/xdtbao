@@ -1,0 +1,48 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<style type="text/css">
+		#main .form-style-reg input{width:100%; margin-left:0;}
+		.name{float:left; width:100%;}
+		.name li{height:auto!important; padding:5px 0;}
+		.title li{font-size:16px; font-weight:bold;}
+		.name h1{margin-top:0px;;margin-left:5px;font-size:18px;} 
+	</style>
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">好友推荐</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+<div id="main" style="background:#F0F0F0;">
+		<div class="form-style-reg" style="border:none;"> 
+			<ul class="prompt">
+				<li style="height:auto; padding:10px 5px 0 5px; line-height:24px;">
+					<strong>温馨提示：</strong><br/>
+					请不要发送邀请链接给不熟悉的人,避免给别人带来不必要的困扰
+				</li>
+			</ul>
+			
+			<ul style="padding-top:15px;">
+				<strong style="margin-left:5px;">邀请链接：</strong><br/>
+				<li style="padding-left:2px;">
+					<input style="float:left;" type="text" id="invite-url" value="${weburl}/wx/regInvite.html?u=${userid}" />
+				</li>
+			</ul>							
+			<ul class="name title">
+				<h1>邀请记录</h1>
+				<li>用户名</li>
+				<li>注册时间</li>
+				<li>实际提成</li>
+			</ul>	
+
+			
+			<#list friendList as item>
+				<ul class="name">
+					<li>${item.username}</li>
+					<li>${dateformat(item.addtime, "yyyy-MM-dd")}</li>
+					<li><#if item?exists&&item.vip_status?exists&&item.vip_status== 1>${item.invite_money}<#else>0</#if>元</li>
+				</ul>
+			</#list>
+			
+				
+		</div>	
+<#include "header/footer.html">	

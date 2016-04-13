@@ -1,0 +1,22 @@
+<!-- v1.6.6.2 RDPROJECT-283 lhm 2013-10-21 start -->
+<!-- 新增页面 //v1.6.7.2  RDPROJECT-754 wcw 2014-1-13 start -->
+<!-- v1.6.6.2 RDPROJECT-283 lhm 2013-10-21 end -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+    <title>网银在线订单查询接口.....</title>
+  </head>
+  <body>
+    <form action="${chinaBankOrder.orderInquireUrl}" method="post" id="orderForm">
+		<input type=hidden name="v_oid" value="${chinaBankOrder.v_oid}">
+		<input type=hidden name="v_mid" value="${chinaBankOrder.v_mid}">
+		<input type=hidden name="key" value="${chinaBankOrder.key}">
+		<input type=hidden name="v_url" value="${chinaBankOrder.v_url}">
+		<input type=hidden name="billNo_md5" value="${chinaBankOrder.billNo_md5}">
+    </form>
+    <script language="javascript">
+        document.getElementById("orderForm").submit();  
+    </script>
+  </body>
+</html>

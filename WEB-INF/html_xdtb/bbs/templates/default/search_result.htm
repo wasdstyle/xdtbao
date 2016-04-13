@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${webname!}</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<#include "head.htm"/>
+</head>
+
+<script type="text/javascript" src="${contextPath}/themes/bbs/templates/${templateName}/js/pagination.js?${startupTime}"></script>
+
+<#import "../macros/pagination.ftl" as topicPagination>
+<#import "../macros/search_pagination.ftl" as pagination>
+<#import "../macros/presentation.ftl" as presentation/>
+
+<body class="full">
+	<!--S 快速导航开始-->
+	<!--S 快速导航开始-->
+	<#include "quickNav.htm"/>
+	<!--E 快速导航结束-->
+	
+	 <!--S 主体部分开始-->
+	<section class="bd bbs_search mid m_t_10 m_b_10">
+		<div class="quick_nav">
+			<ul class="clearfix">
+				<li><a class="on" href="${JForumContext.encodeURL("/search/filters")}" title="搜索"><figure class="ico1"></figure>搜索</a></li>
+				<li><a href="${JForumContext.encodeURL("/forums/list")}" title="论坛首页"><figure class="ico4"></figure>论坛首页</a></li>
+				<li><a href="${JForumContext.encodeURL("/recentTopics/list")}" title="最新主题"><figure class="ico2"></figure>最新主题</a></li>
+				<li><a href="${JForumContext.encodeURL("/hottestTopics/list")}" title="热门主题"><figure class="ico3"></figure>热门主题</a></li>
+			</ul>
+		</div>
+		<div class="result_info">
+							${I18n.getMessage("Search.searchResults")}:${totalRecords}
+							<#if (totalRecords == 1)>
+                            ${I18n.getMessage("Search.recordFound")}
+							<#else>
+								${I18n.getMessage("Search.recordsFound")}
+							</#if>
+		</div>
+		<div class="search_tit">文章搜索</div>
+		<#if results.size() == 0>
+			<ul class="search_list">
+				<li>
+					<div class="user_info"></div>
+					<div class="main">${I18n.getMessage("Search.noResults")} <a class="highlight" href="	${JForumContext.encodeURL("/search/filters")}">${I18n.getMessage("Search.clickHere")}</a> ${I18n.getMessage("Search.newSearch")}</div>
+					<div class="operation"></div>
+				</li>
+				
+			</ul>
+			
+		<#else>
+			<ul class="search_list">
+			<#list results as post>
+				<li>
+					<#assign postUrl = JForumContext.encodeURL("/posts/preList/${post.topicId}/${post.id}")/>
+					<div class="user_info"><strong><a href="${postUrl}">${post.subject?html}</a></strong>，发表于 <a href="${JForumContext.encodeURL("/forums/show/${post.forum.id}")}">${post.forum.name}</a>，时间 ${post.time?datetime},作者 <a href="${JForumContext.encodeURL("/user/profile/${post.userId}")}">${post.postUsername}</a></div>
+					<div class="main">${post.text}</div>
+					<div class="operation"><a class="more_btn" href="${postUrl}" title="查看文章">查看文章</a></div>
+				</li>
+			</#list>
+			</ul>
+		</#if>
+		
+		<div class="skip_con clearfix">
+			<form  class="f_l" action="" accept-charset="${encoding}" name="f">
+										<span class="gensmall">${I18n.getMessage("ForumIndex.goTo")}:&nbsp;
+											<select onchange="if(this.options[this.selectedIndex].value != -1){ document.location = '${contextPath}/forums/show/'+ this.options[this.selectedIndex].value +'${extension}'; }" name="select">
+												<option value="-1" selected="selected">${I18n.getMessage("ForumIndex.goToSelectAForum")}</option>
+
+												<#list categories as category>
+													<optgroup label="${category.name}">
+														<#list category.getForums() as forum>
+														<option value="${forum.id}">${forum.name}</option>
+														</#list>
+													</optgroup>
+												</#list>
+											</select>				  
+											&nbsp;
+											<input class="liteoption" type="button" value="${I18n.getMessage("ForumIndex.goToGo")}" onclick="if(document.f.select.options[document.f.select.selectedIndex].value != -1){ document.location = '${contextPath}/forums/show/'+ document.f.select.options[document.f.select.selectedIndex].value +'${extension}'; }" />
+										</span>
+									</form>
+			<#assign paginationLinks>
+							<@pagination.searchPagination/>
+						</#assign>
+			<div class="paging f_r" id="paging">${paginationLinks}</div>
+		</div>
+	</section>
+	<!--E 主体部分结束-->
+	<!--S 页脚-->
+	<!--S 页脚-->
+	<#include "foot.htm"/>
+	<!--E 页脚-->
+	<#include "resource.htm"/>
+</body>
+</html>

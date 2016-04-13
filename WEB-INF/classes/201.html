@@ -1,0 +1,109 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+</head>
+
+<body>
+<style>
+  table td{ padding:2px 3px; text-align:center;}
+  *{ margin:0; padding:0;}
+  body{ line-height:30px;}
+</style>
+  <p class="p0" style="text-align:center; "><span style="mso-spacerun:'yes'; font-weight:bold; font-size:22pt; font-family:'宋体'; ">债权转让协议</span><span style="mso-spacerun:'yes'; font-size:14pt; font-family:'宋体'; ">
+    
+    </span></p>
+  <p class="p0" style="text-align:center; "><span style="mso-spacerun:'yes'; font-size:14pt; font-family:'宋体'; ">&nbsp;</span></p>
+  <p class="p0" style=" "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">甲方（转让人）：用户名&nbsp;${sellUser.username}&nbsp;&nbsp;&nbsp;姓名&nbsp;${sellUser.realname}&nbsp;身份证&nbsp;${sellUser.card_id[0..14]}****</span><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+  <p class="p0" style=""><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">乙方（受让人）：用户名&nbsp;<#if buyUser??>${buyUser.username!}</#if>&nbsp;&nbsp;&nbsp;姓名&nbsp;<#if buyUser??>${buyUser.realname!}</#if>&nbsp;身份证&nbsp;<#if buyUser??>${buyUser.card_id[0..14]}****</#if></span><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+  <p class="p0" style=" "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">丙方（中介人）：</span>
+  <span style="mso-spacerun:'yes'; text-decoration:underline ;font-size:12pt; font-family:'宋体'; ">鼎寅（上海）资产管理有限公司</span>
+  <span style="mso-spacerun:'yes'; text-decoration:underline ;font-size:12pt; font-family:'宋体'; "></span></p>
+  <p class="p0" style=" "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;甲方因</span><span style="mso-spacerun:'yes'; text-decoration:underline ;font-size:12pt; font-family:'宋体'; ">&nbsp; 资金需要或担保人代偿　</span>
+  <span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">将本人持有、本人名下未实现的债权（已实现终结的债权剔除），转让____${cas.credit_value }____&nbsp;元给乙方，&nbsp;&nbsp;成交金额为__${caTs.buy_account}__元；</span>
+  <span style="mso-spacerun:'yes'; text-decoration:underline ;font-size:12pt; font-family:'宋体'; ">全部交易通过鼎寅（上海）资产管理有限公司</span>
+  <span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">进行。双方按约定支付对价后系统自动撮合交易完成，即时清结。并生成交割单如下：&nbsp;</span>
+  <span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+  <p class="p0" style=" "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">附：债权转让明细（代交割单）</span><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+  <p>
+  <#if collList??>
+  <table border="1" cellpadding="0" cellspacing="0">
+  	<tr>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">序号</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">代码</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">债权名称</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">期限</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">投资人</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">还款方式</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">待还本金</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">待还利息</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">待还奖励</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">利率</td>
+        <td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">转让预计价值</td>
+        <td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">利息管理费</td>
+        <td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">投资时间</td>
+        <td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">到期时间</td>
+        <td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">预期收益率</td>
+    </tr>
+     <#list collList as sell>
+	 
+    <tr>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${sell_index+1}</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${sell.id?c}</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${cas.name}</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${sell.order+1}/<#if (borrow.borrow_style)??&&borrow.borrow_style=="0"><#if borrow.time_limit?exists>${borrow.time_limit}<#else>1</#if><#else>1</#if></td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${buyUser.username}</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">
+		<#if borrow.isday??&&borrow.isday==1>到期全额还款
+         <#elseif borrow.type==101>系统自动还款
+		 <#elseif borrow.style??&&borrow.style=="2">一次性还款
+		 <#elseif borrow.style??&&borrow.style=="3">每月还息到期还本
+		 <#else>按月分期还款</#if></td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${sell.capital}</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${sell.interest}</td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; "><#if sell.repay_award_status??&&sell.repay_award_status==0>${sell.repay_award}<#else>0</#if></td>
+    	<td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${borrow.apr}%</td>
+        <td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; "><#if sell.repay_award_status??&&sell.repay_award_status==0>${sell.repay_account + sell.repay_award}<#else>${sell.repay_account}</#if></td>
+        <td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${sell.manage_fee}</td>
+        <td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${dateformat(sell.addtime,"yyyy-MM-dd")}</td>
+        <td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${dateformat(sell.repay_time,"yyyy-MM-dd")}</td>
+        <td style="mso-spacerun:'yes'; font-size:6pt; font-family:'宋体'; ">${(cas.credit_value - cas.credit_price) * 100 / cas.credit_price }%</td>
+    </tr>
+    </#list>
+  </table>
+   </#if>
+  </p>
+  <p class="p0" style="text-indent:24pt;  "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">此协议可作为债权转让后变更债权主体的债务履约通知，乙方凭此协议及交割单，即可向债务人主张权利，而无须再办理其它任何手续。&nbsp;&nbsp;</span><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+  <p class="p0" style="text-indent:24pt;  "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">甲方和乙方应向丙方支付居间服务费，具体支付方式和标准见丙方网站公布的相关内容。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+  <p class="p0" style="text-indent:24pt;  "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+  <p class="p0" style="text-indent:30pt;  "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">甲&nbsp;&nbsp;方&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;乙&nbsp;&nbsp;方&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;丙&nbsp;&nbsp;方</span><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+
+ <p class="p0" style="text-indent:30pt;  "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">&nbsp;<#if sellUser??>${sellUser.username!}<#else>&nbsp;&nbsp;&nbsp;</#if>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<#if buyUser??>${buyUser.username!}<#else>&nbsp;&nbsp;&nbsp;</#if>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;鼎寅（上海）资产管理有限公司</span><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+  <p class="p0" style="text-indent:30pt;  "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">&nbsp;转让人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;受让人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平台管理顾问有限公司</span><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+  <p class="p0" style="text-indent:18pt;  "><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">&nbsp;${dateformat(cas.addtime?c!"","yyyy-MM-dd")}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${dateformat(caTs.addtime?c!"","yyyy-MM-dd")}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${dateformat(caTs.addtime?c!"","yyyy-MM-dd")}</span><span style="mso-spacerun:'yes'; font-size:12pt; font-family:'宋体'; ">
+    
+    </span></p>
+
+  <p class="p0" style="margin-left:15.7500pt; text-indent:-24pt;  "><span style="mso-spacerun:'yes'; color:rgb(255,0,0); font-size:12pt; font-family:'宋体'; ">&nbsp;</span></p>
+</body>
+</html>

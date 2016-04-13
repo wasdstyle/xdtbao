@@ -1,0 +1,11 @@
+.ext-icon-add {
+    background: url("images/note_add.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.ext-icon-zoom{
+	 background: url("images/zoom.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.ext-icon-save{
+	 background: url("images/save.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}

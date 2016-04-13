@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_account">
+<#assign webname='首页 - 账户中心 - ${webname!}' >
+<#include "../include/style.html"> 
+<body>
+<#include "../include/header.html">
+<#include "../common/function.html">
+<div id="container-account">
+	<div class="contanier-user">
+		<div class="wrap">
+			<div class="wrap-content">
+				<div class="avatar fl">
+					<a href="/member/identify/avatar.html" >
+						<img src="/imgurl.html?userid=${session_user.user_id?c}&size=middle">
+					</a>
+				</div>
+				<div class="fl session-content">
+					<p class="session-line"><span>${session_user.username}</span>，欢迎您来到信达通宝投资理财！</p>
+					<p class="clearfix vip-line" style="line-height: 32px;">
+						<span class="fl vip-left" style="width:292px;">
+							VIP状态：
+							<#if userCache??>
+								<#if userCache.vip_status==1>
+									<#assign new_vip_expire_time=((userCache.vip_end_time?number)?c)>
+									<#assign nowtime=dateformat("now") >
+									<#if nowtime?number lt new_vip_expire_time?number>
+										<span>已开通</span>
+										<span>${dateformat(vip_expire_time,"yyyy-MM-dd")}到期</span>
+									</#if>
+								<#elseif userCache.vip_status==2>
+									<span>VIP申请审核中</span>
+								<#else>
+									<span>不是VIP</span>
+									<span>【<a href="javascript:" class="apply-vip1">申请</a>】</span>
+								</#if>
+							<#else>
+								<#if detailuser.vip_status==1>
+									<#assign vip_expire_time = detailuser.vip_end_time>
+									<span>已开通</span>
+									<span>${dateformat(vip_expire_time,"yyyy-MM-dd")}到期</span>
+								<#elseif detailuser.vip_status==2>
+									<span>审核中</span>
+								<#else>
+									<span>不是VIP</span>
+									<span>【<a href="javascript:" class="apply-vip1">申请</a>】</span>
+								</#if>
+							</#if>
+						</span>
+						<span class="fl">
+							<b></b><a href="/member/message/box.html"><font>${unreadmsg?default(0)}</font> 封未读站内信</a>
+						</span>
+					</p>
+				</div>
+				<div class="fl indentity-content">
+					<h2>认证情况</h2>
+					<div class="identify fl"><@identifyShow detailuser=detailuser/></div>
+<!-- 					<#if session_user.real_status=='0'>
+					<div class="identify-tip fl">为确保账户安全，请尽快完成 <a href="/member/identify/realname.html?hand=1#realname-identify">实名认证</a> <i id="close"></i></div>
+					</#if> -->
+				</div>
+			</div>	
+		</div>
+	</div>
+
+
+	<div class="wrap cf menu-main">
+		<#include "menu.html">
+		<div class="account-content-main" >
+			<div class="account-detail">
+				<h1 class="account-tit">账户详情</h1>
+				<div class="account-money clearfix">
+					<div class="fl fund-content">
+						<span>
+							<h2>账户总额</h2>
+							<p><#if summary??>￥${ceil(summary.accountTotal!0)}</#if></p>
+						</span>
+						<span class="clearfix">
+							<h3>资金记录查询</h3>
+							<a href="javascript:void(0)" class="recharge-a">充值查询</a><a href="javascript:void(0)" class="cash-a">提现查询</a>
+						</span>
+					</div>
+					<div class="fl asset-content">
+						<ul class="clearfix top-asset">
+							<li style="width: 184px;">
+								<h2>可用余额</h2>
+								<p><#if summary??>￥${ceil(summary.accountUseMoney!0)}</#if></p>
+							</li>
+							<li style="width: 200px;">
+								<h2>冻结余额</h2>
+								<p><#if summary??>￥${ceil(summary.accountNoUseMoney!0)}</#if></p>
+							</li>
+							<li style="width: 165px;">
+								<h2>积分</h2>
+								<p><#if userCredit??>￥${ceil(userCredit.value!0)}</#if><font style="font-weight: 100">分</font></p>
+							</li>
+							<a href="/member/account/newrecharge.html" class="btn-recharge">充值</a>
+						</ul>
+						<ul class="clearfix">
+							<li style="width: 184px;">
+								<h2>净资产</h2>
+								<p><#if summary??>${ceil(summary.accountOwnMoney!0)}</#if></p>
+							</li>
+							<li style="width: 200px;">
+								<h2>信用额度</h2>
+								<p><#if amount??>${ceil(amount.credit!0)}</#if></p>
+							</li>
+							<li style="width: 165px;">
+								<h2>可用信用额度</h2>
+								<p><#if amount??>${ceil(amount.credit_use!0)}</#if></p>
+							</li>
+							<a href="/member/account/newcash.html" class="btn-cash">提现</a>
+						</ul>
+					</div>
+				</div>
+				<!--待收待还详情-->
+				<h1 class="account-tit">待收待还详情</h1>
+				<div class="account-money clearfix">
+					<div class="fl fund-content">
+						<span>
+							<h2>待收总额</h2>
+							<p><#if summary??>￥${((summary.collectTotal)!0)?string("##.##")}</#if></p>
+						</span>
+						<span class="clearfix wait-content">
+							<p><font style="color: #666; font-weight: 100">待收利息</font> <#if summary??>￥${(summary.collectInterest!0)?string("##.##")}</#if></p>
+							<p><font style="color: #666; font-weight: 100">待还总额</font> <#if summary??>￥${ceil(summary.repayTotal!0)}</#if></p>
+						</span>
+					</div>
+					<div class="fl asset-content">
+						<ul class="clearfix top-asset">
+							<li style="width: 184px;">
+								<h2>最近待收金额</h2>
+								<p><#if summary??>￥${ceil(summary.newestCollectMoney!0)}</#if></p>
+							</li>
+							<li style="width: 200px;">
+								<h2>最近待收时间</h2>
+								<p style="font-size: 14px;"><#if summary??&&summary.newestCollectDate??><font style="font-weight: 100">${dateformat(summary.newestCollectDate,"yyyy-MM-dd")}</font><#else>暂无收款</#if></p>
+							</li>
+							<li style="width: 165px;">
+								<h2>已赚利息</h2>
+								<p><#if summary??>￥${ceil(summary.yes_interest!0)}</#if></p>
+							</li>
+							<li >
+								<h2>已赚奖励</h2>
+								<p><#if summary??>￥${ceil(summary.awardTotal!0)}</#if></p>
+							</li>
+						</ul>
+						<ul class="clearfix">
+							<li style="width: 184px;">
+								<h2>最近待还金额</h2>
+								<p><#if summary??>￥${ceil(summary.newestRepayMoney!0)}</#if></p>
+							</li>
+							<li style="width: 200px;">
+								<h2>最近待还时间</h2>
+								<p style="font-size: 14px;"><#if summary??&&summary.newestRepayDate??><font style="font-weight: 100">${dateformat(summary.newestRepayDate,"yyyy-MM-dd")}</font><#else>暂无还款</#if></p>
+							</li>
+							<li style="width: 165px;">
+								<h2>已还利息</h2>
+								<p>￥${ceil(interest!0)}</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!--资金记录-->
+				<h1 class="account-tit">资金记录</h1>
+				<div class="log-content">
+					<ul class="log-table-tit clearfix">
+						<li class="order">序号</li>
+<!-- 						<li class="item-name">项目名称</li> -->
+						<li class="item-name">交易类型</li>
+						<li class="borrow-amount">交易金额</li>
+						<li class="borrow-amount">可用金额</li>
+<!-- 						<li class="trading">待收金额</li> -->
+						<li class="state">交易时间</li>
+					</ul>
+					<#list logList as item>
+					<ul class="log-table-tit clearfix">
+						<li class="order">${item_index+1}</li>
+<!-- 						<li class="item-name"><a href="###">aaa</a></li> -->
+						<li class="item-name">${(item.typename)!"错误类型!"}</li>
+						<li class="borrow-amount">${ceil(item.money!0)}元</li>
+						<li class="borrow-amount">${ceil(item.use_money!0)}元</li>
+<!-- 						<li class="trading">${ceil(item.collection!0)}元</li> -->
+						<li class="state">${dateformat(item.addtime,"yyyy-MM-dd")}</li>
+					</ul>
+					</#list>
+					
+				</div>
+				<div><a href="/member/account/log.html"><center>查看更多</center></a></div>
+			</div>
+		</div>
+	</div>
+</div>
+<#include "../include/footer.html"> 
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-index.js"></script>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="invest" namespace="/invest" extends="wzd-default">
+
+		<action name="investJson"  class="investAction" method="investJson">
+        </action>
+
+        <action name="index"  class="investAction" method="index">
+            <result name="success" type="ftl">/invest/index.html</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        
+         <action name="detail"  class="investAction" method="detail">
+            <result name="success" type="ftl">/invest/detail.html</result>
+            <result name="error">/error.jsp</result>
+            <interceptor-ref name="mydefault" />
+        </action>
+        
+        <action name="detailForJson"  class="investAction" method="detailForJson"> 
+        	<interceptor-ref name="mydefault" />
+        </action>
+        
+        <action name="newTender"  class="investAction" method="newTender" />
+        
+        <action name="detailTenderForJson"  class="investAction" method="detailTenderForJson">
+        	<interceptor-ref name="mydefault" />
+        </action>
+        
+         <action name="pagenotfound">  
+             <result type="ftl">/404.html</result>
+ 		</action>
+ 		<action name="cash"  class="investAction" method="cash">
+            <result name="success" type="ftl">/invest/cash.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+ 		
+ 		<!-- v1.9.u2 BIAOZHUN-235 zza 2015-02-28 start -->
+ 		<action name="view" class="memberCaAction" method="view">
+			<result name="success" type="ftl">/invest/view.html</result>
+			<result name="error" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="listCas" class="memberCaAction" method="listCas">
+			<result name="success" type="ftl">/invest/listCas.html</result>
+		</action>
+		<!-- v1.9.u2 BIAOZHUN-235 zza 2015-02-28 end -->
+    </package>
+</struts>

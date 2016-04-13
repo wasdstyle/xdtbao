@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="borrow">
+<#assign webname='发布借款 - ${webname!}'>
+<#include "../include/style.html">
+<body>
+    <#include "../include/header.html">
+    <div id="container">
+        <div class="wrap">
+            <form action="<#if borrow?exists>update.html?id=${borrow.id?c}<#else>add.html</#if>" enctype="multipart/form-data" method="post" id="form-borrow">
+                <!-- 借款参数:begin -->
+                <div class="borrow-param">
+                    <ul class="tab-title cf">
+                        <li class="active">借款参数</li>
+                        <li>投资奖励</li>
+                        <li>帐户公开选项</li>
+                    </ul>
+                    <!-- 基本参数:begin -->
+                    <div class="basic-param tab-cont" style="display: block;">
+                        <ul class="cf">
+                            <li class="title">
+                                <label for="title">借款标题：</label>
+                                <input type="text" name="name" id="title" value="<#if borrow?exists>${borrow.name}<#else><#if typeStr=='fast'>抵押标<#elseif typeStr=='month'>信用标<#elseif typeStr=='flow'>流转标<#elseif typeStr=='miaobiao'>秒还标<#elseif typeStr=='offvouch'>担保标</#if></#if>" autocomplete="off" maxlength="50"/>
+                            </li>
+                            <li>
+                                <label for="account">借款金额：</label>
+                                <input type="text" name="account" id="account" value="<#if borrow?exists>${borrow.account?c}</#if>" onlynumber="true" autocomplete="off"/>
+                            </li>
+                            <li>
+                                <label for="apr">年利率：</label>
+                                <input type="text" name="apr" id="apr" value="<#if borrow?exists>${borrow.apr}</#if>" maxlength="5" numberpoint="true" autocomplete="off"/>
+                                <b class="symbol-percent">%</b>
+                            </li>
+                            <!-- 最低/最高投标金额限制:begin -->
+                            <!-- 流转标没有投标的限制 -->
+                            <#if typeStr=='flow'>
+                                <li class="flow">
+                                    <label>单份流转金额：</label>
+                                    <input type="text" name="flow_money" id="flow_money" value="${(borrow.flow_money)!}" onlynumber="true" autocomplete="off"/>
+                                </li>
+                            <#else>
+                                <li>
+                                    <label>最低投标金额：</label>
+                                    <#if borrow?exists>
+                                        <@linkage name="lowest_account" id="lowest_account" default="${borrow.lowest_account?string('##.##')}" nid="borrow_lowest_account"  type="value"/>
+                                    <#else>
+                                        <@linkage name="lowest_account" id="lowest_account" nid="borrow_lowest_account" type="value" />
+                                    </#if>
+                                </li>
+                                <li>
+                                    <label>最高投标金额：</label>
+                                    <#if borrow?exists>
+                                        <@linkage name="most_account" id="most_account" default="${borrow.most_account?string('##.##')}" nid="borrow_most_account" type="value" />
+                                    <#else>
+                                        <@linkage name="most_account" id="most_account" nid="borrow_most_account" type="value" />
+                                    </#if>
+                                </li>
+                            </#if>
+                            <!-- 最低/最高投标金额限制:end -->
+
+                            <!-- 还款期限:begin -->
+                            <li>
+                                <label>还款期限：</label>
+                                <#if typeStr=='miaobiao'>
+                                    <select type="text" name="time_limit" disabled="disabled"/>
+                                        <option selected="selected" value="1">1个月</option>
+                                    </select>
+                                <#else>
+                                    <!-- 月标 -->
+                                    <#if borrow?exists>
+                                        <@linkage name="time_limit" id="time_limit" default="${borrow.time_limit}" type="value" nid="borrow_time_limit" />
+                                    <#else>
+                                        <@linkage name="time_limit" id="time_limit" type="value" nid="borrow_time_limit"/>
+                                    </#if>
+
+                                    <!-- 天标 -->
+                                    <#if borrow??>
+                                        <@linkage name="time_limit_day" id="time_limit_day" default="${borrow.time_limit_day}" type="value" nid="borrow_time_limit_day" />
+                                    <#else>
+                                        <@linkage name="time_limit_day" id="time_limit_day" type="value" nid="borrow_time_limit_day"/>
+                                    </#if>
+                                    <b class="limit-day">按天计算</b>
+                                    <input type="checkbox" name="changetoDay" id="changetoDay" autocomplete="off">
+                                    <input type="hidden" name="isday" id="isday" value="<#if borrow?exists>${borrow.isday}</#if>" day-bid="<#if borrow?exists && borrow.isday==1>true<#else>false</#if>" autocomplete="off"/>
+                                </#if>
+                            </li>
+                            <!-- 还款期限:end -->
+                            <li>
+                                <label>还款方式：</label>
+                                <select id="repay-style" name="style"></select>
+                                <input id="hiddenStyle" type="hidden" value="<#if borrow?exists>${borrow.style}</#if>"/>
+                            </li>
+                            <li style="display: block;">
+                                <label>借款用途：</label>
+                                <#if borrow?exists>
+                            		<@linkage name="use" id="use" default="${borrow.use}" type="value" nid="borrow_use" />
+                       			 <#else>
+                            		<@linkage name="use" id="use" type="value" nid="borrow_use" />
+                        		</#if> 
+                            </li>
+                            <#if typeStr!='flow'>
+                                <li>
+                                    <label>发布有效期：</label>
+                                    <#if borrow?exists>
+                                        <@linkage name="valid_time" id="valid_time" default="${borrow.valid_time}" nid="borrow_valid_time" type="value" />
+                                    <#else>
+                                        <@linkage name="valid_time" id="valid_time" nid="borrow_valid_time" type="value" />
+                                    </#if>
+                                </li>
+                            </#if>
+                            <div class="cf"></div>
+                            <li style="display: block;float: none;">
+                                <label>设置定向密码：</label>
+                                <input type="checkbox" name="isDXB" id="is-orientate" autocomplete="off" <#if borrow?exists && borrow.pwd?exists&&borrow.pwd!="">checked="checked"</#if>>
+                                <input type="text" name="pwd" id="pwd-orientate" maxlength="10" autocomplete="off" onpaste="return false;" <#if !borrow?exists || !borrow.pwd?exists>disabled="disabled"</#if> value="<#if borrow?exists&&borrow.pwd??&&borrow.pwd!="">${borrow.pwd}</#if>"  onKeyUp="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')">
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 基本参数:end -->
+
+                    <!-- 投资奖励:begin -->
+                    <div class="invest-award tab-cont">
+                        <ul>
+                            <li>
+                                <div class="type-name">
+                                    <input type="radio" name="award" id="noaward" value="0" {if $var.award==0 || $var.award==""} checked="checked"{/if}>
+                                    <label for="noaward">不设置奖励</label>
+                                </div>
+                                <div class="prompt">如果您设置了奖励金额，将会冻结您帐户中相应的账户余额。如果要设置奖励，请确保您的帐户有足够的账户余额。</div>
+                            </li>
+                            <li>
+                                <div class="type-name">
+                                    <input type="radio" name="award" id="part-award" value="1" <#if borrow?exists &&borrow.award?exists && borrow.award==1>checked="checked"</#if>/>
+                                    <label for="part-award">按投标金额比例奖励</label>
+                                    <div>
+                                        <input type="text" id="part_account" name="part_account" numberpoint="true" autocomplete="off" value="<#if borrow?exists && borrow.part_account?exists>${borrow.part_account}</#if>"/>
+                                        <b>%</b>
+                                    </div>
+                                </div>
+                                <div class="prompt">这里设置本次借款要奖励给所有投标用户的奖励比例。建议设置范围：0.1%~6% 。</div>
+                            </li>
+                            <li>
+                                <div class="type-name">
+                                    <input type="radio" name="award" id="funds-award" value="2" <#if borrow?exists &&borrow.award?exists && borrow.award==2>checked="checked"</#if>"/>
+                                    <label for="funds-award">按固定金额分摊奖励</label>
+                                    <div>
+                                        <input type="text" numberpoint="true" id="funds" name="funds" autocomplete="off" value="<#if borrow?exists && borrow.funds?exists>${borrow.funds}</#if>" />
+                                        <b>元</b>
+                                    </div>
+                                </div>
+                                <div class="prompt">这里设置本次借款要奖励给所有投标用户的总金额。建议设置范围：贷款总金额的2%以下。</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 投资奖励:end -->
+                        
+                    <!-- 帐户选项:begin -->
+                    <div class="account-option tab-cont">
+                        <ul>
+                            <li>
+                                <input type="checkbox" name="open_tender" id="open-tender" value="1" autocomplete="off" <#if borrow?exists &&borrow.open_tender?exists && borrow.open_tender=="1">checked="checked"</#if>/>
+                                <label for="open-tender">公开我的投标资金情况</label>
+                                <div></div>
+                                <div class="prompt">如果您勾上此选项，将会实时公开您帐户的：投标总额、已收回总额、待收回总额。</div>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="open_accounts" value="1" checked="checked" disabled="disabled" autocomplete="off" />
+                                <label>公开我的帐户资金情况</label>
+                                <div></div>
+                                <div class="prompt">此选项必须选择，它将会实时公开您帐户的：账户总额、可用余额、冻结总额。</div>
+                                <input type="hidden" name="open_account" value="1"/>
+                            </li>
+                             
+                            <li>
+                                <input type="checkbox" name="open_borrows" value="1" checked="checked" disabled="disabled" autocomplete="off" />
+                                <label>公开我的借款资金情况</label>
+                                <div></div>
+                                <div class="prompt">此选项必须选择，它将会实时公开您帐户的：借款总额、已还款总额、未还款总额。</div>
+                                <input type="hidden" name="open_borrow" value="1"/>
+                            </li>
+                            <input type="checkbox" name="open_credits" value="1" checked="checked" disabled="disabled" autocomplete="off" style="display: none;"/></span>
+                            <input type="hidden" name="open_credit" value="1"/>
+                        </ul>
+                    </div>
+                    <!-- 帐户选项:end -->
+                </div>
+                <!-- 借款参数:end -->
+                
+                <!-- 借款详细说明:begin -->
+                <div class="borrow-detail">
+                        <#include "../common/umeditor.html">
+                        <#if borrow??>
+                            <@showUeditor width=1100 heigth=400 id="borrow-content" name="content" content="${borrow.content!''}"/>
+                        <#else>
+                            <@showUeditor width=1100 heigth=400 id="borrow-content" name="content" content=""/>
+                        </#if>
+                </div>
+                <!-- 借款详细说明:end -->
+
+                <div class="borrow-submit clearfix">
+                    <a href="javascript:" id="btn-publish">确认提交</a>
+                    <div class="validcode">
+                        <label for="validcode">输入验证码</label>
+                        <input type="text" name="valicode" id="validcode" maxlength="5" autocomplete="off"/>
+                        <img id="validcode-img" src="/validimg.html" maxlength="5"/>
+                        <a href="javascript:" onclick="document.getElementById('validcode-img').src = '/validimg.html?t=' + Math.random()"><i></i></a>
+                    </div>
+                    <!-- 校验用户发布借款标认证数据 start -->
+                    <input type="hidden" value="${config!'000000'}" id="borrow_config">
+					<input type="hidden" value="${user.real_status!0}" id="real_status">
+					<input type="hidden" value="${user.phone_status!0}" id="phone_status">
+                    <input type="hidden" value="${user.email_status!0}" id="email_status">
+                    <input type="hidden" value="${user.video_status!0}" id="video_status">
+                    <input type="hidden" value="${user.scene_status!0}" id="scene_status">
+                    <input type="hidden" value="${user.video_status!0}" id="video_status">
+                    <input type="hidden" value="${user.vip_status!0}" id="vip_status">
+                    <!-- 校验用户发布借款标认证数据 end -->
+                    <input type="hidden" name="validCodeHidden" id="validCodeHidden">
+                    <input type="hidden" name="borrow_token" value="${borrow_token!}" />
+                    <input type="hidden" name="btype" id="btype" value="${btype}" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <#include "../include/footer.html"> 
+</body>
+<script src="${theme_dir}/js/borrow.js"></script>
+</html>

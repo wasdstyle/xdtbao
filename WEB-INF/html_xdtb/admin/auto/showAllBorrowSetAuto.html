@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<!-- v1.6.7.2 RDPROJECT-820[1] zza 2014-09-24 add -->
+<body>
+	<table class="mc">
+		<tr>
+			<td class="mc-l">
+				<!--左侧导航---{-->
+				<div id="navPanelContainer">
+					<div class="system-logo cd"></div>
+					<!--管理员信息---{-->
+					<#include "../adminInfo.html">
+					<!--管理员信息---}-->
+					<div class="nav-wrap"><#include "../userinfo/left.html"></div>
+				</div> 
+				<!--左侧导航---}-->
+			</td>
+			<td class="mc-m">
+				<div class="navToggle"></div>
+			</td>
+			<td class="mc-r">
+				<!--顶部导航---{--> 
+				<#include "../topNav.html"> 
+				<!--顶部导航---}--> 
+				<!--面包屑导航---{-->
+				<#assign moduleName="自动投标用户"> 
+				<#include "../setting/banner.html"> 
+				<!--面包屑导航---}-->
+				<div id="toolbar" class="clearfix">
+					<#if param?exists> 
+						<#if param.get("username")?exists><#assign username=param.get("username")></#if> 
+						<#if param.get("status")?exists><#assign status=param.get("status")><#else><#assign status="-1"></#if>
+					</#if>
+					<div class="toolbor-module search">
+						<input type="button" value="搜索" class="input-button" onclick="sousuo();">
+					</div>
+					<div class="toolbor-module search">
+						<div class="select-box" id="status">
+							<div class="tag-select">全部</div>
+							<ul class="tag-options">
+								<li data-value="-1"<#if status=="-1">data-selected="selected"</#if> class="open-selected">全部</li>
+								<li data-value="0"<#if status=="0">data-selected="selected"</#if>>未启用</li>
+								<li data-value="1"<#if status=="1">data-selected="selected"</#if>>启用</li>
+							</ul>
+						</div>
+					</div>
+					<div class="toolbor-module search">
+						<input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+					</div>
+				</div>
+				<div id="main" class="clearfix">
+					<form action="" method="post">
+						<table class="data-list">
+							<tr class="header">
+								<td>ID</td>
+								<td>用户名</td>
+								<td>是否启用</td>
+								<td>有效排名</td>
+								<td>无效排名</td>
+								<td>总排名</td>
+								<td>投标额度</td>
+								<td>利率范围</td>
+								<td>借款期限</td>
+								<td>标的奖励</td>
+								<td>抵押标</td>
+								<td>信用标</td>
+								<!-- <td>净值标</td> -->
+								<td>流转标</td>
+								<td>担保标</td>
+<!-- 								<td>操作</td> -->
+							</tr>
+							<#list list as item>
+							<tr class="s">
+								<td>${item.id}</td>
+								<td>${item.username}</td>
+								<td><#if item.status==1>启用<#else>不启用</#if></td>
+								<td><#if item.status==1>${item.valid_rank}<#else>-</#if></td>
+								<td><#if item.status==1>${item.invalid_rank}<#else>-</#if></td>
+								<td><#if item.status==1>${item.total_rank}<#else>-</#if></td>
+								<td>￥${(item.tender_account!0)?c}</td>
+								<td>
+									<#if item.apr_status?exists&&item.apr_status==1>
+										${item.apr_start!}~${item.apr_end!} % 
+									<#else> 
+										不启用 
+									</#if>
+								</td>
+								<td>
+									<#if item.timelimit_status?exists&&item.timelimit_status==1> 
+										<#if item.timelimit_month_start!=0>
+											${item.timelimit_month_start!}~${item.timelimit_month_end!} 月
+										</#if> 
+										<#if item.timelimit_month_start!=0&&item.timelimit_day_end!=0> 
+											/
+										</#if> 
+										<#if item.timelimit_day_start!=0>
+											${item.timelimit_day_start!}~${item.timelimit_day_end!} 天
+										</#if> 
+									<#else> 
+										不启用 
+									</#if>
+								</td>
+								<td>
+									<#if item.award_status?exists&&item.award_status==1>
+										大于等于${item.award} % 
+									<#else> 
+										不启用 
+									</#if>
+								</td>
+								<td><#if item.fast_status==1>启用<#else>不启用</#if></td>
+								<td><#if item.xin_status==1>启用<#else>不启用</#if></td>
+								<!-- <td><#if item.jin_status==1>启用<#else>不启用</#if></td> -->
+								<td><#if item.flow_status==1>启用<#else>不启用</#if></td>
+								<td><#if item.vouch_status==1>启用<#else>不启用</#if></td>
+<!-- 								<td><a class="un" href="viewBorrowSetAuto.html?id=${item.id!0}">查看</a></td> -->
+							</tr>
+							</#list>
+						</table>
+					</form>
+
+					<!--底部工具栏--{-->
+					<div id="bottomToolbar" class="clearfix">
+						<div class="other-tool">
+							<dl class="refresh-data">
+								<dt class="refresh-data-icon"></dt>
+								<dd>
+									<a href="javascript:void(0);" class="refresh-page">刷新数据</a>
+								</dd>
+							</dl>
+						</div>
+						<div class="container">
+				            <#import "../../common/page.html" as pager>  
+							<@pager.pagination page=page url="/admin/auto/showAllBorrowSetAuto.html" map=param style="style1"  /> 
+				        </div>
+					</div>
+					<!--底部工具栏--}-->
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<!--尾部--{-->
+			<td colspan="3" class="mc-b"><#include "../foot.html"></td>
+			<!--尾部--}-->
+		</tr>
+	</table>
+<script>
+	var url = 'showAllBorrowSetAuto.html?search=true';
+	function sousuo(){
+		var sou = "";
+		var username = $("#username").val();
+		if (username != "" && username != "请输入用户名") {
+			sou += "&username=" + username;
+		}
+		var status =$("#status").find(".open-selected").attr("data-value");
+		if (status!="" && status!=null){
+			sou += "&status="+status;
+		}
+		if (sou!=""){
+			location.href=url+sou;
+		}
+	}
+</script>
+</body>
+</html>
+<#include "../jsPage.html">

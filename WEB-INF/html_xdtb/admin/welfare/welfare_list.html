@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<!-- v1.6.7.2 爱心公益 sj 2014-1-7  新增 -->
+    <body>
+	    <table class="mc">
+	        <tr>
+	            <td class="mc-l">
+	                <!--左侧导航---{-->
+	                <div id="navPanelContainer">
+	                    <div class="system-logo cd"></div>
+	                    <!--管理员信息---{-->
+	                    <#include "../adminInfo.html">
+	                        <!--管理员信息---}-->
+	                        <div class="nav-wrap">
+	                            <#include "left.html">
+	                        </div>
+	                </div>
+	                <!--左侧导航---}-->
+	            </td>
+	            <td class="mc-m">
+	                <div class="navToggle"></div>
+	            </td>
+	            <td class="mc-r">
+	                <!--顶部导航---{-->
+	                <#include "../topNav.html">
+	                    <!--顶部导航---}-->
+	
+	                    <!--面包屑导航---{-->
+	                    <#assign moduleName="爱心公益列表">
+	                        <#include "banner.html">
+	                            <!--面包屑导航---}-->
+	
+	                            <!--工具栏--{-->
+	                            <div id="toolbar" class="clearfix">
+	                                <div class="toolbor-module">
+	                                    <a href="addWelfare.html" class="input-button" style="line-height:24px;">+新增爱心公益信息</a>
+	                                </div>
+	                                <div class="toolbor-module">   
+	                                    <input type="button" value="搜索"  class="input-button" onClick="sousuo();">
+	                                </div>
+	                                 <div class="toolbor-module search">
+	                                    <input type="text" name="name" id="name" value="请输入姓名"  data-value="请输入姓名" class="search-value">
+	                                 </div>
+	                            </div>
+	                             
+	                            <!--工具栏--}-->
+	
+	                            <div id="main" class="clearfix">
+	                                <form action="" method="post" id="welfareForm">
+	                                <input type="hidden" name="type" value="" id="type"/>
+	                                    <table class="data-list">
+	                                        <tr class="header">
+	                                            <td>ID</td>
+	                                            <td>捐款次数</td>
+	                                            <td>姓名/受益人</td>
+	                                            <td>描述</td>
+	                                            <td>添加时间</td>
+	                                            <td>图片路径</td>
+	                                            <td>修改时间</td>
+	                                            <td>展示时间</td>
+	                                            <td>已募积分</td>
+	                                            <td>已募捐款</td>
+	                                            <td>操作</td>
+	                                        </tr>
+	                                        <#list list as item>
+                                                <tr class="s">
+                                                    <td>${item.id!0}</td>
+                                                    <td>${item.count!0}</td>
+                                                    <td>${item.name!""}</td>
+                                                    <td>${item.remark!""}</td>
+                                                    <td><#if item.addtime != 0>${dateformat(item.addtime?c)}<#else>-</#if></td>
+                                                    <td><a target="_blank" href="${webroot}${item.pic!}">图片</a></td>
+                                                    <td><#if item.modify_time != 0>${dateformat(item.modify_time?c)}<#else>-</#if></td>
+                                                    <td><#if item.show_time != 0>${dateformat(item.show_time?c)}<#else>-</#if></td>
+                                                    <td>${item.integral_yes!0}</td>
+                                                    <td>${item.account_yes!0}</td>
+                                                    <td><a class="un" href="modifyWelfare.html?id=${item.id!0}">修改</a></td>
+                                                </tr>
+                                        </#list>
+	                                    </table>
+	                                </form>
+	
+	                                <!--底部工具栏--{-->
+	                                <div id="bottomToolbar" class="clearfix">
+	                                    <div class="other-tool">
+	                                        <dl class="refresh-data">
+	                                            <dt class="refresh-data-icon"></dt>
+	                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+	                                        </dl>
+	                                    </div>
+	
+	                                    <!--翻页系统--{-->
+	                                    <div class="container">
+	                                        <#import "../../common/page.html" as pager>
+	                                            <@pager.pagination page=page url="/admin/welfare/welfareList.html" map=param style="style1" />
+	                                    </div>
+	                                    <!--翻页系统--}-->
+	                                </div>
+	                                <!--底部工具栏--}-->
+	                                
+	                                <script>
+                                    var urls = 'welfareList.html?ss=true';
+                                    function sousuo(){
+                                        var sou = "";
+                                        var name = $("#name").val();
+                                        if (name!=null&&name!=""&&name!="undefine"&&name!="请输入姓名"){
+                                            sou += "&name="+name;
+                                        }
+                                        var url=urls+sou
+                                        location.href=url;
+                                    }
+                                </script>
+                            </div>
+	                                
+	                   </div>
+	            </td>
+	        </tr>
+	        <tr>
+	            <!--尾部--{-->
+	            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+	            <!--尾部--}-->
+	        </tr>
+	    </table>
+	
+	  </body>
+</html>
+<#include "../jsPage.html">

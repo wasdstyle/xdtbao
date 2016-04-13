@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_credit">
+<#assign cid="c_shopIndex">
+<#assign webname='${goodsModel.name} - 积分商城 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<style>
+		.disCon{display: none;}
+		.smallImgStyle{border:1px solid #ccc;}
+	</style>	
+	<link rel="stylesheet" href="${theme_dir}/plugin/jqueryEtalage/jquery.etalage.css" type="text/css" />
+	<script type="text/javascript" src="${theme_dir}/plugin/jqueryEtalage/jquery.etalage.min.js"></script>
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "credit-list-tab.html"></div>
+			<div class="account-content cf">
+				<#include "./left.html">
+				<div class="shop_right">	
+					<div class="shop_details clearfix">
+					<div class="title">
+	            	    商品详情
+	                </div>	
+	                <div class="con">
+	                <div class="shop_details_img">
+	                 <ul class="big_img_wrap" id="etalage">
+		                 <#if gpList?exists>
+	                	  <#list gpList as bigItem>
+	                    	<li>
+		               		<img class="etalage_source_image" src="${bigItem.pic_url!}" />
+	                   		<img class="etalage_thumb_image"  src="${bigItem.compress_pic_url!}">
+		                </li>
+	                    </#list>
+	                	 </#if> 
+	                </ul>
+	                </div>
+	                <!--图片放大js调用-->
+	                <script type="text/javascript">
+						$(document).ready(function($){
+						$('#etalage').etalage({
+						thumb_image_width: 300,
+						thumb_image_height: 400,
+						source_image_width: 900,
+						source_image_height: 1200,
+						show_hint: true,
+						click_callback: function(image_anchor, instance_id){
+						alert('回调函数:\nYou clicked on an image with the anchor: "'+image_anchor+'"\n(in Etalage instance: "'+instance_id+'")');
+											}
+									});
+
+								});
+					</script>
+	 				<!--//图片放大js调用-->
+	                
+	                <dl class="shop_details_intro">
+	                <dt>${goodsModel.name}</dt>
+	                <dd><b>所属类别：</b> ${goodsModel.categoryName!}</dd>
+					<dd><b>所需积分：</b><span>${goodsModel.credit_value!}</span></dd>
+					<dd><b>市场价：</b><span></span>${goodsModel.market_price!}&nbsp;元</span></dd>
+					<dd><b>剩余数量：</b> ${goodsModel.store!}/个</dd>
+					<dd><b>上架日期：</b>${goodsModel.addtime!}</dd>
+					<dd><b>我要兑换：</b><!--  class="piece" -->
+					<#if goodsModel.is_virtual??&&goodsModel.is_virtual!=1>
+					<input  value="-" type="button" class="mui-amount mui-amount-decrease" onclick="javascript:subtractCount()" />
+					<input class="piece" type="text" id="convertTxt" class="tb-text mui-amount-input" size="2" value="1" onkeyup="value=value.replace(/[^0-9.]/g,'')" />
+					  <input  value="+" class="mui-amount mui-amount-increase" type="button" onclick="javascript:addCount();" />
+					 <#else><input class="piece" type="text" id="convertTxt" class="tb-text mui-amount-input" size="2" value="1"  readonly="readonly"/>
+					</#if>
+					  件
+					</dd>
+					<dd><font color="red">如果兑换的商品属于实物请填写完整的收货地址以及联系电话，以便给您发货！！！</font></dd>
+					<dd>
+					<textarea id="content" rows="3" cols="60"></textarea>
+					</dd>
+					<dd>
+					<div id="okDiv" style="float: left;display: none;">
+						<input type="button" value="兑换"  class="btn-action" onclick="javascript:okBtnFun(${goodsModel.id});"/>
+					</div>
+					<div id="noDiv" style="float: left;display: none;">
+						<input type="button" value="积分不够"  class="btn-grey" />
+					</div>	
+	                </dl>
+	                </div>
+					</div>
+	                <div class="shop_content showDetailList" >
+		                <ul  class="title clearfix">
+		              	  <li class="hover">商品详情</li>
+		                </ul>
+		                <div class="showDetailList_con">
+		                	${goodsModel.attribute}
+		                </div>
+	                </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript">
+	$(function(){
+		var yhCredit='${creditModel.valid_value!}';
+		var spCredit='${goodsModel.credit_value!}';
+		yhCredit=yhCredit.replace(",","");
+		spCredit=spCredit.replace(",","");
+		if(parseFloat(spCredit)>parseFloat(yhCredit)){
+			$('#okDiv').hide();
+			$('#noDiv').show();
+		}else{
+			$('#noDiv').hide();
+			$('#okDiv').show();
+		}
+		
+	});
+	function okBtnFun(goodsId){
+		if(parseInt($('#convertTxt').val())>parseInt('${goodsModel.store!}')){
+			alert("兑换数量不够！");
+			return false;
+		}
+		if($('#convertTxt').val()==''||$('#convertTxt').val()==null||$('#convertTxt').val()=='0'){
+			return false;
+		}
+		var valid_value='${creditModel.valid_value}';
+		valid_value=valid_value.replace(",","");
+		var credit_value='${goodsModel.credit_value!}';
+		credit_value=credit_value.replace(",","");
+		var count=$('#convertTxt').val();
+		if((parseFloat(credit_value)*parseFloat(count))>parseFloat(valid_value)){
+			alert("您的积分不够，请重新选择需要兑换的数量！");
+			return false;
+		}
+		window.location.href="convertGoods.html?goodsId="+goodsId+"&goodsNum="+$('#convertTxt').val()+"&address="+$('#content').val();
+	}
+	function addCount(){
+		$('#convertTxt').val(parseInt($('#convertTxt').val())+1);
+		var total='${goodsModel.store!}';
+		total=total.replace(",","");
+		if(parseInt($('#convertTxt').val())>(parseInt(total))){
+			$('#convertTxt').val(total);
+		}
+	}
+	function subtractCount(){
+		$('#convertTxt').val(parseInt($('#convertTxt').val())-1);
+		if(parseInt($('#convertTxt').val())<0){
+			$('#convertTxt').val(0);
+		}
+	}
+</script>
+</html>

@@ -1,0 +1,25 @@
+<head>
+<meta charset="utf-8">
+<title>${Application.webname}管理后台</title>
+<!--<link href="${request.getContextPath()}/themes/admin/admin.css" rel="stylesheet" type="text/css" />-->
+<!--<link href="${request.getContextPath()}/themes/admin/css/tipswindown.css" rel="stylesheet" type="text/css" />-->
+<link href="${request.getContextPath()}/themes/admin/css/adminBasis.css" rel="stylesheet" type="text/css" />
+<link href="${request.getContextPath()}/themes/admin/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="${request.getContextPath()}/themes/admin/js/jquery.js" type="text/javascript"></script>
+<script src="${request.getContextPath()}/themes/admin/js/area.js"></script>
+
+</head>
+<script type="text/javascript">
+		// v1.9.1 访问页面后提示版本太低 zza 2015-03-18 start
+		//var themeDir = '${theme_dir}';
+		// /(6.0|7.0)/.test($.browser.version) ? location.href = '/obsolete.html' : '';
+		var themeDir = '${theme_dir}';
+		if (navigator.appName == "Microsoft Internet Explorer"
+				&& navigator.appVersion.split(";")[1].replace(/[ ]/g, "") == "MSIE7.0") {
+			location.href = '/obsolete.html'
+		} else if (navigator.appName == "Microsoft Internet Explorer"
+				&& navigator.appVersion.split(";")[1].replace(/[ ]/g, "") == "MSIE6.0") {
+			location.href = '/obsolete.html'
+		}
+		// v1.9.1 访问页面后提示版本太低 zza 2015-03-18 end
+	</script>

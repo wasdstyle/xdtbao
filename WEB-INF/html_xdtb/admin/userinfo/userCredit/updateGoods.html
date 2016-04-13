@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-26 start -->
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="修改积分商品">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <input type="button" class="input-button return" value="返回" onclick="location.href='creditGoodsList.html'">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="${request.getContextPath()}/admin/credit/updateGoods.html"  enctype="multipart/form-data" >
+                                    <div class="valBox w750">
+                                        <div class="top">
+                                            <strong>修改积分商品</strong>
+                                        </div>
+                                        <div class="val clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">商品名称：</div>
+                                                    <div class="v">
+                                                        <input type="text" id="name" name="name" value="${goods.name!}"/>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                	<div class="title">所需积分：</div>
+                                                	<div class="v">
+                                                		<input type="text" id="credit_value" name="credit_value" value="${goods.credit_value?c}" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                                	</div>
+                                                </li>
+                                                 <li>
+                                                	<div class="title">商品数量：</div>
+                                                	<div class="v">
+                                                		<input type="text" id="store" name="store" value="${goods.store?c}" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                                	</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">商品类别：</div>
+                                                    <div class="v">
+                                                    	<select name="category_id" id="category_id">
+                                                    		<#list cateList as item>
+                                                    		<option value="${item.id}">${item.name}</option>
+                                                    		</#list>
+                                                    	</select>
+                                                       
+                                                    </div>
+                                                </li>
+                                                 <li>
+                                                	<div class="title">商城售价：</div>
+                                                	<div class="v">
+                                                		<input type="text" name="cost" value="${(goods.cost!0)?c}"  onkeyup="value=value.replace(/[^0-9.]/g,'')">
+                                                	</div>
+                                                </li>
+                                                 <li>
+                                                	<div class="title">市场价：</div>
+                                                	<div class="v">
+                                                		<input type="text" name="market_price" value="${(goods.market_price!0)?c}"  onkeyup="value=value.replace(/[^0-9.]/g,'')">
+                                                	</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">上架时间：</div>
+                                                    <div class="v">
+                                                    	<input class="_search-value js-datetime" name="shelves_time" value="${dateformat(goods.shelves_time?c)[0..9]}" id="datetime1" />
+                                                    </div>
+                                                </li>
+                                                 <li class="clearfix" style="height:auto; line-height: normal">
+                                                    <div class="title">上传图片：</div>
+                                                    <div id="uploader" class="wu-example" style="float:left">
+                                                        <!--用来存放文件信息-->
+                                                        <div id="thelist" class="uploader-list"></div>
+                                                        <div class="btns clearfix">
+                                                            <div id="picker" style="float:left; ">选择文件</div>
+                                                            <input id="ctlBtn11" type="button" class="btn11" style="float:left; margin:15px; margin-top: 0px;" value="开始上传" />
+                                                            <input id="oldctlBtn" name="oldctlBtn" type="hidden" value="${allFileName!}" />
+                                                            <input id="ctlBtn2" name="ctlBtn2" type="hidden" value="" />
+                                                        </div>
+                                                    </div>
+                                                    <div id="imgnewShow" style="float: left; margin-left: 10px;">
+                                                        <div id="imgOld" style="float:left">
+                                                            <#if gpList?exists>
+                                                            <#list gpList as item>
+                                                                <img src="${item.compress_pic_url!}" width="150px" height="150px">
+                                                            </#list>                                                        
+                                                            </#if>
+                                                        </div>
+                                                        <div id="imgShow" style="float: left; margin-left: 10px;">
+
+                                                        </div>
+                                                    </div>
+                                                    <a onclick="javascript:delAllPic();" style="float:left; margin-left: 10px;">删除图片</a>
+                                                </li>
+                                          <!--        <li>
+                                                    <div class="title">商品详情：</div>
+                                                    <div class="v">
+                                                    	<textarea rows="3" cols="100" name="description" >${goods.description}</textarea>
+                                                    </div>
+                                                </li>
+                                          -->      
+                                                <br/>
+                                                <li>
+                                                    <div class="title">商品属性信息：</div>
+                                                    <div class="v">
+                                                        <textarea rows="3" cols="100" name="attribute" >${goods.attribute}</textarea>
+                                                    </div>
+                                                </li>
+                                                <br/>
+                                                <li style="height:auto;">
+                                                    <div class="title">备注：</div>
+                                                    <div class="v">
+                                                    	<textarea rows="5" cols="100" name="remarks" >${goods.remarks}</textarea>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                              <div>
+                                             	<textarea rows="5" cols="100" id="fileValue" name="fileValue" style="display: none;">${allFileName!}</textarea>
+                                             </div>
+                                            <div class="other">
+                                                <input type="hidden"  name="actionType" value="updateGoods" />
+                                                <input type="hidden" name="id" value="${goods.id}" />
+                                                <input type="button"  name="reset" value="保存" onclick="updateGoods();" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+ <link rel="stylesheet" type="text/css" href="/themes/soonmes_xdtb/js/webuploade/webuploader.css">
+    <script type="text/javascript" src="/themes/soonmes_xdtb/js/webuploade/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/themes/soonmes_xdtb/js/webuploade/webuploader.js"></script>
+    <script src="/themes/soonmes_xdtb/js/laydate/laydate.js"></script>
+    <script>
+;!function(){
+
+//laydate.skin('molv');
+
+laydate({
+   elem: '#datetime1',
+   format: 'YYYY-MM-DD', 
+})
+
+}();
+</script>
+ <script type="text/javascript">
+/*定义函数*/
+ var $ = jQuery,
+     $list = $('#thelist'),
+     $btn = $('#ctlBtn11'),
+     state = 'pending',
+     // 优化retina, 在retina下这个值是2
+    ratio = window.devicePixelRatio || 1,
+    // 缩略图大小
+    thumbnailWidth = 150 * ratio,
+    thumbnailHeight = 150 * ratio,
+     uploader;
+     var uploader = WebUploader.create({
+        swf:'/themes/soonmes_xdtb/js/webuploade/Uploader.swf',
+        server: '${request.getContextPath()}/admin/credit/uploadImg.html',
+        pick: '#picker',
+        resize: false
+    });
+
+    uploader.on( 'fileQueued', function( file ) {
+        $list.append( '<div id="' + file.id + '" class="item">' +
+            '<h4 class="info">' + file.name + '</h4>' +
+            '<p class="state">等待上传...</p>' +
+        '</div>' );
+    });
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on( 'uploadProgress', function( file, percentage ) {
+        var $li = $( '#'+file.id ),
+            $percent = $li.find('.progress .progress-bar');
+
+        // 避免重复创建
+        if ( !$percent.length ) {
+            $percent = $('<div class="progress progress-striped active">' +
+              '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+              '</div>' +
+            '</div>').appendTo( $li ).find('.progress-bar');
+        }
+
+        $li.find('p.state').text('上传中');
+
+        $percent.css( 'width', percentage * 100 + '%' );
+    });
+
+    uploader.on( 'uploadSuccess', function( file,response) {  
+            console.log(response._raw);
+            $( '#'+file.id ).find('p.state').text('已上传');
+            var ctl = $('#ctlBtn2');
+            if('' == ctl.val()){
+                ctl.val(response._raw);
+            }
+            else{
+                ctl.val(ctl.val() + ',' + response._raw);
+            }
+            /*图片预览*/
+         var $li = $( '<div id="' + file.id + '" class="file-item thumbnail">' + '<img>' +
+                      '</div>'),
+            $img = $li.find('img');
+            $("#imgShow").append( $li );
+        // 创建缩略图
+        uploader.makeThumb( file, function( error, src) {
+            if ( error ) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+            $img.attr( 'src', src );
+            //console.log( $("#imgnewShow").find('img').attr( 'src',src));
+        }, thumbnailWidth, thumbnailHeight );
+            
+        });
+
+    uploader.on( 'uploadError', function( file ) {
+        $( '#'+file.id ).find('p.state').text('上传出错');
+    });
+
+    uploader.on( 'uploadComplete', function( file ) {
+     $( '#'+file.id ).find('.progress').fadeOut();
+    });
+
+     uploader.on( 'uploadComplete', function( file ) {
+    $( '#'+file.id ).find('.progress').fadeOut();
+});
+ uploader.on( 'all', function( type ) {
+
+    if ( type === 'startUpload' ) {
+        state = 'uploading';
+    } else if ( type === 'stopUpload' ) {
+        state = 'paused';
+    } else if ( type === 'uploadFinished' ) {
+        state = 'done';
+    }
+
+    if ( state === 'uploading' ) {
+        $btn.text('暂停上传');
+    } else {
+        $btn.text('开始上传');
+    }
+});
+
+/*点击上传*/
+$btn.on( 'click', function() {
+    if($('#imgOld')!=''){
+         $("#imgOld").html('');
+    }
+    if ( state === 'uploading' ) {
+        uploader.stop();
+    } else {
+        uploader.upload();
+    }
+ });
+    // 文件上传失败，现实上传出错。
+    uploader.on( 'uploadError', function( file ) {
+        var $li = $( '#'+file.id ),
+            $error = $li.find('div.error');
+
+        // 避免重复创建
+        if ( !$error.length ) {
+            $error = $('<div class="error"></div>').appendTo( $li );
+        }
+
+        $error.text('上传失败');
+    });
+
+
+
+function delAllPic(){
+    $('#ctlBtn2').val('');
+    $('#thelist').html('');
+    $("#imgOld").html('');
+    $("#imgShow").html('');
+   if('' == $('#ctlBtn2').val()){
+    $('#ctlBtn2').val()(response._raw);
+        }else{
+            ctl.val(ctl.val() + ',' + response._raw);
+        }
+    $('#ctlBtn2').val('');
+}
+</script>    
+
+   
+   <script type="text/javascript">
+   		$('#category_id').val('${goods.category_id}');
+   		function updateGoods(){
+   			if($('#name').val()==''){
+   				alert("请输入商品名称！");
+   				return false;
+   			}
+   			if($('#credit_value').val()==''){
+   				alert("请输入需要兑换的积分值！")
+   				return false;
+   			}
+   			if($('#store').val()==''){
+   				alert("请输入商品数量！");
+   				return false;
+   			}
+   			if($('#category_id').val()==''){
+   				alert("请输入商品类别！");
+   				return false;
+   			}
+   			if($('#description').val()==''){
+   				alert("请描述商品详情！");
+   				return false;
+   			}
+   			if($('#imgnewShow').find('img').length==''){
+   				alert("请选择上传的图片！");
+   				return false;
+   			}
+   			document.forms[0].submit();
+   		}
+   
+   </script> 
+<div class="msgClass"> ${rsmsg!""}</div>
+    </body>
+</html>
+<#include "../../jsPage.html">
+<!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-26 start -->

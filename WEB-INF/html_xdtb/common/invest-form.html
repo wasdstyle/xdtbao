@@ -1,0 +1,100 @@
+<form action="/borrow/tender.html" name="form-tender" id="form-tender" method="post" autocomplete="off">
+    <ul>
+        <li class="clearfix  remain-span">
+            <span class="fl">
+            账户余额：
+            <#if userAccount??>
+                <#assign use_money=(((ceil((userAccount.use_money)!0))?number)?c) >
+                <b>${use_money?number}元</b>
+                <input type="hidden" value="${use_money}" id="user-money">
+            <#else>
+                <a href="/user/login.html">请登录</a>
+            </#if>
+            </span>
+            <a href="/member/account/newrecharge.html" class="fr">充值</a>
+        </li>
+        <!-- 最小、最大投标隐藏域 -->
+        <#if borrow.type!=110>
+            <#if borrow.most_account?? && borrow.most_account?c?number gt 0>
+                <input type="hidden" value="${(borrow.most_account)?string("0.##")}" id="max-invest-amount">
+            </#if>
+            <input type="hidden" value="${(borrow.lowest_account)?string("0.##")}" id="min-invest-amount">
+        </#if>
+
+        <li class="input cf">
+            <#if borrow.type==110>
+                <label for="money">购买份数</label>
+            <#else>
+                <label for="money">投资金额</label>
+            </#if>
+            <#if borrow.type==110>
+                <input type="text" id="money" name="flow_count" onlynumber="true" tabindex="1">
+            <#else>
+                <input type="text" id="money" name="money" onlynumber="true" tabindex="1">
+            </#if>
+        </li>
+
+        <li class="input">
+            <#if !session_user?exists>
+                <input type="password" name="paypassword" id="paypassword" disabled="disabled"/> 
+            <#elseif session_user.paypassword?exists>
+	            <label for="paypassword">交易密码</label>
+	            <input type="password" style="display: none;">
+                <input type="password" name="paypassword" id="paypassword" tabindex="2"/> 
+            <#else>
+                <a href="/memberSecurity/paypwd.html" target="_blank">请先设置一个交易密码</font></a>
+            </#if>
+        </li>
+
+        <#if borrow.pwd??&&borrow.pwd!="">
+            <li class="input">
+                <label for="pwd-direct">定向密码</label>
+                <#if session_user?exists>
+                    <input type="password" name="pwd" id="pwd-direct" tabindex="3">
+                <#else>
+                    <input type="password" name="pwd" id="pwd-direct" disabled="disabled">
+                </#if>
+            </li>
+        </#if>
+    </ul> 
+    <@showInvestButton/>
+    <input type="hidden" name="id" value="${((borrow.id)?default(0))?c}" />
+    <input type="hidden" name="borrow_token"  value="${borrow_token}" />
+    <input type="checkbox" name="auto_repurchase" value="1" checked="checked" style="display: none;" />
+</form> 
+
+<#macro showInvestButton>
+    <#if borrow.status==0>
+       <a class="btn-invest disabled">等待初审</a>
+    <#elseif (borrow.status==1&&((borrow.account_yes?c)?number lt (borrow.account?c)?number)&&borrow.type!=110&&(getRemainTime(borrow.verify_time,borrow.valid_time)?number gt 0))||(borrow.status==1&&((borrow.account_yes?c)?number lt (borrow.account?c)?number)&&borrow.type==110)>
+        <#if session_user?exists>
+            <a href="javascript:" class="btn-invest" id="btn-invest">立即投标</a>
+        <#else>
+            <a href="/user/login.html" class="btn-invest disable">请先登录</a>
+        </#if>
+    <#elseif borrow.status==1&&((borrow.account_yes?c)?number lt (borrow.account?c)?number)&&borrow.type!=110&&(getRemainTime(borrow.verify_time,borrow.valid_time)?number lt 0)>
+        <a class="btn-invest disabled">已经结束</a>
+    <#elseif borrow.type!=110&&borrow.status==1&&((borrow.account_yes?c)?number gt (borrow.account?c)?number || (borrow.account_yes?c)?number==(borrow.account?c)?number) > 
+        <a class="btn-invest disabled">等待复审</a>
+    <#elseif borrow.type==110&&borrow.status==1&&((borrow.account_yes?c)?number gt (borrow.account?c)?number || (borrow.account_yes?c)?number==(borrow.account?c)?number) > 
+        <a class="btn-invest disabled">流转中</a>
+    <#elseif borrow.status==2> 
+        <a class="btn-invest disabled">初审失败</a>
+    <#elseif borrow.status==3> 
+        <a class="btn-invest disabled">复审通过</a>
+    <#elseif borrow.status==5||borrow.status==-1> 
+        <a class="btn-invest disabled">用户取消</a>
+    <#elseif borrow.status==4> 
+        <a class="btn-invest disabled">复审失败</a>
+    <#elseif borrow.status==6> 
+        <a class="btn-invest disabled">还款中</a>
+    <#elseif borrow.status==7> 
+        <a class="btn-invest disabled">还款中</a>
+    <#elseif borrow.type==110&&borrow.status==8> 
+        <a class="btn-invest disabled">停止流转</a>
+    <#elseif borrow.status==8> 
+        <a class="btn-invest disabled">已还款</a>
+    <#else> 
+        <a class="btn-invest disabled">用户取消</a>
+    </#if>
+</#macro>

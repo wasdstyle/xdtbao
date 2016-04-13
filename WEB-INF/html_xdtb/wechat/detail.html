@@ -1,0 +1,40 @@
+<style>
+    .content img{width:100%!important;}
+    .content p span{line-height:26px;}
+    .content p span{font-size:16px!important;}
+    #main .website-detail h4{text-align:center; margin-top:20px; font-size:20px;}
+
+</style>
+
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">${site.name}</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg">
+			<div style="padding-left:5px;padding-right:5px;overflow:hidden;">
+				<div class="crumb">信达通宝 > ${site.name} </div>
+			        <div class="website-detail">
+			            <h4>${article.name}</h4>
+			        
+			            <div class="content">
+			                ${article.content!}
+			            </div>
+			    	</div>
+				</div>								
+			</div>	
+<script>
+	$(".form-style-reg img").each(function(){
+		$(this).attr("style","width:100%;height:auto;");
+		$(this).parent("p").attr("style","");
+	});
+
+</script>
+
+
+
+
+<#include "header/footer.html">		

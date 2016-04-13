@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../borrow/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="债权初审列表">
+                        <#include "../borrow/banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                             <div id="toolbar" class="clearfix">
+                                <form action="" method="post">
+	                                <div class="toolbor-module search">
+	                                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+	                                </div>
+	                               <div class="toolbor-module search">
+                                    	<input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                                	</div>
+                                	<div class="toolbor-module search">
+                                    	<input type="text" name="name" id="name" value="请输入债权名" data-value="请输入债权名" class="search-value">
+                                	</div>
+                                </form>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>债权名</td>
+                                            <td>出售债权用户</td>
+                                            <td>债权相关的借款标</td>
+                                            <td>债权预期价值</td>
+                                            <td>债权发布价格</td>
+                                            <td>转让手续费</td>
+                                            <td>债权转让截止期限</td>
+                                            <td>债权状态</td>
+											<td>债权等级</td>
+											<td>发布时间</td>
+											<td>发布者IP</td>
+											<td>操作</td>
+                                        </tr>
+                                        <#if (itemList??)&&(itemList?size > 0)>
+                                        <#list itemList as item>
+                                            <tr class="s">
+                                                <td>${item.id}</td>
+                                                <td><#if item.name?length lt 10>${item.name}<#else>${item.name[0..7]}...</#if></td>
+                                                <td>${item.username}</td>
+                                                <td>${item.borrow_name}</td>
+                                                <td>${item.credit_value}元</td>
+                                                <td>${item.credit_price}元</td>
+                                                <td>${item.sell_fee}元</td>
+                                                <td>${dateformat(item.buy_end_time?c)}</td>
+                                                <td>
+												<#if item.status??&&item.status==0>
+													发布
+												<#elseif item.status==1>
+													审核通过
+												<#elseif item.status==2>
+													审核未通过
+												<#elseif item.status==3>
+													复审通过
+												<#elseif item.status==4>
+													复审未通过	
+												<#else>
+													撤回
+												</#if>
+												</td>
+												<td>
+												<#if item.level??&&item.level==1>
+													普通
+												<#elseif item.level??&&item.level==2>
+													优质
+												<#else>
+												-
+												</#if>	
+												</td>
+												<td>${dateformat(item.addtime?c)}</td>
+												<td>${item.addip!""}</td>
+                                                <#if item.status??&&item.status==0>
+                                                <td><a href="${request.getContextPath()}/admin/ca/casVerify.html?id=${item.id?c}">初审</a></td>	
+                                                <#else>
+                                                <td>错误债权，请核查</td>	
+                                                </#if>
+                                            </tr>
+                                        </#list>
+										<#else>
+											<tr align="center"><td colspan="12">暂无需要转让的债权</td></tr>
+									    </#if>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/ca/auditCasList.html" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                    var urls = '/admin/ca/auditCasList.html?search=true';
+                                    var xlsurl='/admin/ca/auditCasList.html?actionType=export';
+                                    function sousuo(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                        var name = $("#name").val();
+                                        if (name!=null&&name!=""&&name!="undefine"&&name!="请输入债权名"){
+                                            sou += "&name="+name;
+                                        }
+                                        var url=urls+sou
+                                        location.href=url;
+                                    }
+                                    function exportxls(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                        var name = $("#name").val();
+                                        if (name!=null&&name!=""&&name!="undefine"&&name!="请输入债权名"){
+                                            sou += "&name="+name;
+                                        }
+                                        var url=xlsurl+sou
+                                        location.href=url;
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

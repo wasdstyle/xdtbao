@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member"> 
+<#assign mid="m_borrow">
+<#if type??>
+	<#if type=="publish">
+		<#assign bid="b_publish">
+		<#assign webname='募集中项目 - 账户中心 - ${webname!}'>
+	<#elseif type=="unpublish">
+		<#assign bid="b_unpublish">
+		<#assign webname='待审核项目 - 账户中心 - ${webname!}'>
+	<#elseif type=="repayment">
+		<#assign bid="b_repayment">
+		<#assign webname='还款中项目 - 账户中心 - ${webname!}'>
+	<#elseif type=="repaymentyes">
+		<#assign bid="b_repaymentyes">
+		<#assign webname='已还款项目 - 账户中心 - ${webname!}'>
+	</#if>
+<#else>
+	<#assign type="repaymentdetail">
+	<#assign bid="b_repaymentdetail">
+	<#assign webname='还款明细 - 账户中心 - ${webname!}'>
+</#if>
+
+<#include "../../include/style.html">
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+		<#include "../menu.html">
+		<div class="title-list-tab"><#include "borrow-list-tab.html"></div>
+		<div class="account-content">
+			<div class="wp-borrow-${type} wp-borrow">
+				<#if param?exists>
+					<#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if>
+					<#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if>
+					<#if param.get("searchkeywords")?exists><#assign searchkeywords=param.get("searchkeywords")></#if>
+				</#if>
+				<div class="search cf">
+					<span>发布时间：</span>
+					<input type="text" name="dotime1" id="start-time" value="${dotime1?default("")}"/>
+					<span class="to">到</span>
+					<input type="text" name="dotime2" id="end-time" value="${dotime2?default("")}" />
+					<span class="keywords">关键字：</span>
+					<input type="text" name="keywords" id="keywords" value="${searchkeywords?default("")}" />
+					<a href="javascript:" class="btn-search">搜索</a>
+				</div>
+				<ul class="name cf">
+					<li>借款名称</li>
+					<li>发布时间</li>
+					<li>金额</li>
+					<li>年利率</li>
+					<li>借款期限</li>
+					<li>状态</li>
+					<#if type?exists&&type!="unpublish"&&type!="repaymentyes">
+						<li>进度</li>
+					</#if>
+					<#if type?exists&&type=="repayment">
+						<li>最近待还时间</li>
+					</#if>
+					<li>操作</li>
+					<#if type?exists&&(type=="repayment" || type=="repaymentyes")>
+						<li>借款协议</li>
+					</#if>
+				</ul>
+				<#import "../../common/function.html" as func>
+				<#list borrowList as item>
+					<ul class="item cf">
+						<li>
+							<#if type?exists&&type=="unpublish">
+								<#if item.name?length lt 20>${item.name}<#else>${item.name[0..17]}...</#if>
+							<#elseif type?exists&&type=="publish">
+								<a href="/invest/detail.html?borrowid=${item.id?c}" title="${item.name}" target="_blank">
+									<#if item.name?length lt 12>${item.name}<#else>${item.name[0..10]}...</#if>
+								</a>
+							<#elseif type?exists&&type=="repaymentyes">
+								<a href="/invest/detail.html?borrowid=${item.id?c}" title="${item.name}" target="_blank">
+									<#if item.name?length lt 15>${item.name}<#else>${item.name[0..13]}...</#if>
+								</a>	
+							<#else>
+								<a href="/invest/detail.html?borrowid=${item.id?c}" title="${item.name}" target="_blank">
+									<#if item.name?length lt 9>${item.name}<#else>${item.name[0..7]}...</#if>
+								</a>
+							</#if>
+						</li>
+						<li class="apply-time">${dateformat(item.addtime!0,"yyyy-MM-dd")}</li>
+						<li class="amount">${item.account}</li>
+						<li class="apr">${item.apr}%</li>
+						<li class="time-limit"><#if item.isday??&&item.isday==1>${item.time_limit_day!1}<b>天</b><#else>${(item.time_limit)?default("0")}<b>个月</b></#if></li>
+						<li class="status">
+							<#if item.status==0>
+								发布审核中
+							<#elseif item.status==1>
+								<#if item.account_yes?exists&&(item.account_yes?c)?number==(item.account?c)?number>
+									<#if item.type!=110>
+										满标审核中
+									<#else>
+										认购已满标
+									</#if>
+								<#else>
+									正在募集
+								</#if>
+							<#elseif item.status==2>
+								审核失败
+							<#elseif item.status==3>
+								已满标
+							<#elseif item.status==4>
+								满标审核失败
+							<#elseif item.status==5>
+								撤回
+							<#elseif item.status==6>
+								还款中
+							<#elseif item.status==7>
+								部分还款
+							<#elseif item.status==8>
+								<#if item.type==110>
+									停止流转
+								<#else>
+									还款成功
+								</#if>
+							</#if>
+						</li>
+						<#if type?exists&&type!="unpublish"&&type!="repaymentyes">
+						
+						
+<#--                     <canvas class="process-bar" percent="${(borrow_process*100)?string('##.##')}"></canvas> -->
+                    
+<#-- 							<#if item.scales?exists> -->
+<#-- 								<#assign scales=(item.scales)?number*100> -->
+<#-- 							<#else> -->
+<#-- 								<#assign scales=0> -->
+<#-- 							</#if> -->
+                               <#if type="publish">
+                                  <#assign scales=(item.account_yes/item.account)> 
+                                <#else>
+                                   <#if item.scales?exists>
+                                      <#assign scales=(item.scales)?number>
+                                   <#else>
+                                      <#assign scales=0>
+                                   </#if>
+                               </#if>
+							<li>
+								<div class="process"><div style="width: ${(scales*100)?string('##.##')}%"></div></div>
+								<span class="percent">${(scales*100)?string('##.##')}%</span>
+							</li>
+						</#if>
+						<#if type?exists&&type=="repayment">
+							<li class="repayment-time">${dateformat(item.min_repayment_time!0,"yyyy-MM-dd")}</li>
+						</#if>
+						<li>
+							<#if item.status==0 >
+								<a href="/borrow/loan.html?borrowId=${item.id?c}&typeStr=<#if item.type==110>flow<#elseif item.type==103>fast<#elseif item.type==102> month<#elseif item.type==112>offvouch<#elseif item.type==101>miaobiao<#elseif item.type==104>jin</#if>" class="edit"><i></i>修改</a>
+								<#if item.type!=110>
+									<a href="javascript:" class="revoke" url="/borrow/delete.html?id=${item.id?c}"><i></i>撤消</a>
+								</#if>
+							<#elseif item.status==1 && item.type!=110  >
+								<a href="javascript:" class="revoke" url="/borrow/delete.html?id=${item.id?c}"><i></i>撤消</a>
+							<#elseif item.status==3||item.status gt 5 >
+								<a href="/member/borrow/repaymentdetail.html?borrowId=${item.id?c}" class="detail"><i></i>查看</a>
+							<#else>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--
+							</#if>
+						</li>
+						<#if type?exists&&(type=="repayment" || type=="repaymentyes")>
+							<li>
+								<a href="javascript:" url="/borrow/protocol.html?typeStr=new&id=${item.id?c}" class="download"><i></i>下载</a>
+							</li>
+						</#if>
+					</ul>
+				</#list>
+				<div class="account-page">
+					<#import "../../common/page.html" as pager>  
+					<@pager.pagination page=p url="/member/borrow/borrow.html?type="+type!  map=param style="style-new"/>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/plugin/laydate/laydate.js"></script>
+<script>
+	// 搜索
+	var url = 'borrow.html?type=${type}';
+	$('.search .btn-search').click(function() {
+		if($('#start-time').val()) {
+			url += '&dotime1=' + $('#start-time').val();
+		}
+		if($('#end-time').val()) {
+			url += '&dotime2=' + $('#end-time').val();
+		}
+		if($('#keywords').val()) {
+			url += '&keywords=' + $('#keywords').val();
+		}
+		location.href = url;
+	});
+
+	// 撤消借款
+	$('.wp-borrow ul.item li .revoke').click(function() {
+		var self = this;
+		art.dialog.confirm('确定要撤消此借款吗？<br>此操作将无法恢复，请慎重！',function() {
+			location.href = $(self).attr('url');	
+		});
+	});
+
+	// 下载协议
+	$('.wp-borrow ul.item li .download').click(function() {
+		var self = this;
+		art.dialog.confirm('确定要下载此借款的借款协议吗？',function() {
+			location.href = $(self).attr('url');	
+		});
+	});
+</script>
+</html>

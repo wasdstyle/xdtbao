@@ -1,0 +1,81 @@
+	</div>
+	<style type="text/css">
+		.more-list a{display:block; color:#428bca;}
+	</style>
+	<div id="slideMenu">
+    	<div class="slide">
+	    	<div class="slideLeft"></div>
+	    	<div class="slideRight" id="sideMenu">
+			    <div id="header" style="background:#333;">
+					<span class="more">更多</span>
+				</div>
+				<div class="more-list">
+					<ul>
+						<a href="invite.html"><li>好友推荐<span>></span></li></a>
+						<a href="notice.html?nid=notice"><li>网站公告<span>></span></li></a>
+						<a href="notice.html?nid=about"><li>关于我们<span>></span></li></a>
+						<a href="notice.html?nid=lxwm"><li>联系我们<span>></span></li></a>
+						<a href="safe.html"><li>安全中心<span>></span></li></a>
+						<a href="logout.html"><li>退出账户<span>></span></li></a>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="slideFade"></div>
+	</div>
+    <div id="footer">
+    	<ul class="navbar-fixed-bottom">
+    		<li><a href="index.html?status=14" class="nav-trade"><img src="${theme_dir}/image/weixin/images/nav-trade.png" height="42px"></a></li>
+    		<li><a href="account.html" class="nav-center"><img src="${theme_dir}/image/weixin/images/nav-center.png" height="42px"></a></li>
+    		<li id="goSlideMenu"><a href="#" class="nav-more"><img src="${theme_dir}/image/weixin/images/nav-more.png" height="42px"></a></li>
+    	</ul>
+    </div>
+    <script>		
+		$(".close").click(function(){
+			var x1, x2, x3;
+			if($("#goSlideMenu").hasClass('open')){
+				x1 = 0;
+				x2 = '100%';
+				x3 = 0;
+				$("#goSlideMenu").removeClass('open');
+			} else {
+				x1 = 0;
+				x2 = '100%';
+				x3 = 0;
+				$("#goSlideMenu").addClass('open');
+			}
+			// $('#main,#operator').animate({marginLeft:x1}, 100);
+			$('#footer').animate({marginLeft:x3}, 100);
+			$('#slideMenu,.slideRight').animate({left:x2}, 100);
+		});
+		
+		$('#goSlideMenu').on("click",function goSm() {
+			var x1, x2, x3;
+			if($(this).hasClass('open')){
+				x1 = 0;
+				x2 = '100%';
+				x3 = 0;
+				$(this).removeClass('open');
+			} else {
+				x1 = '-35%';
+				x2 = '36%';
+				x3 = '-64%';
+				$(this).addClass('open');
+			}
+			// $('#main,#operator').animate({marginLeft:x1}, 100);
+			$('#footer').animate({marginLeft:x3}, 100);
+			$('#slideMenu,.slideRight').animate({left:x2}, 100);
+		});
+		var a = window.location.href;
+		var c = a.split("/wx");
+		var trade = $('.nav-trade');
+		var center = $('.nav-center');
+		if((c[1]=="/index.html?status=14")){
+			trade.html('<img src="${theme_dir}/image/weixin/images/nav-trade-on.png" height="42px">');
+		}
+		if((c[1]=="/account.html")||(c[1]=="/newrecharge.html")||(c[1]=="/newcash.html")||(c[1]=="/assets_statistics.html")||(c[1]=="/login.html?timeout=1&redirectURL=%2Fwx%2Faccount.html")||(c[1]=="/reg.html")){
+			center.html('<img src="${theme_dir}/image/weixin/images/nav-center-on.png" height="42px">');
+		}
+	</script>	
+</body>
+</html>

@@ -1,0 +1,146 @@
+<#macro indexListItem item>
+<#if item.type==110>
+        <div class="item clearfix"style="margin-top: 18px;">
+            <a href="/invest/detail.html?borrowid=${item.id}" class="item-img">
+				<#if item.img??>
+                  <img src="../${item.img}" width='175' height='120'>
+                  <#else>
+                  <img src="../data/upfiles/images/pic.png" width='175' height='120'>
+               </#if>
+			</a>
+            <ul>
+                <h1 class="clearfix">
+                    <a href="/invest/detail.html?borrowid=${item.id?c}" title="${item.name}" target="_blank">
+                        <#if item.name?length lt 10>${item.name}<#else>${item.name[0..7]}...</#if>
+                    </a>
+                    <@showBorrowIcon item=item/>
+                    <span class="fr">还款方式：<@linkage plantext=true default=item.style nid="borrow_style"/></span>
+                </h1>
+                <li class="borrow-amount">
+                    <span>${format2(item.account)?number}<font>元</font></span>
+                    <p>借款金额</p>
+                </li>
+                <li style="width:195px;">
+                    <span>${(item.account-item.account_yes)?string("0.##")}<font>元</font></span>
+                    <p>剩余可投</p>
+                </li>
+                <li class="borrow-apr">
+                    <span>${item.apr}<font>%</font></span>
+                    <p>年利率</p>
+                </li>
+                <li style="width:187px;">
+                    <span>
+                        <#if item.isday??&&item.isday==1>
+                            ${item.time_limit_day!0}<font>天</font>
+                        <#elseif item.type==101>
+                            <font>自动还款</font>
+                        <#else>
+                            ${(item.time_limit)?default("0")}<font>个月</font>
+                        </#if>
+                    </span>
+                    <p>借款期限</p>
+                </li>
+                <li class="borrow-last-li">
+                    <span class="progress-content clearfix">
+                        <span class="progress">
+                            <i style="width: ${(item.scales*100)?string('##.##')}%;"></i>
+                        </span>
+                        <span class="percent">${(item.scales*100)?string('##.##')}%</span>
+                    </span>
+                    <#if item.status==1&&((item.account_yes?c)?number lt (item.account?c)?number) >
+                        <a href="/invest/detail.html?borrowid=${item.id?c}" class="btn-invest">立即投标</a>
+                    <#elseif item.status==8> 
+                        <span class="btn-invest disabled">停止流转</span>
+                    <#else> 
+                        <span class="btn-invest disabled">流转中</span>
+                    </#if>
+                </li>
+            </ul>
+        </div>
+<#else>
+<div class="item clearfix" style="margin-top: 18px;">
+            <a href="/invest/detail.html?borrowid=${item.id}" class="item-img">
+				<#if item.img??>
+                  <img src="../${item.img}" width='175' height='120'>
+                  <#else>
+                  <img src="../data/upfiles/images/pic.png" width='175' height='120'>
+               </#if>
+			</a>
+            <ul>
+                <h1 class="clearfix">
+                    <a href="/invest/detail.html?borrowid=${item.id?c}" title="${item.name}" target="_blank">
+                        <#if item.name?length lt 10>${item.name}<#else>${item.name[0..7]}...</#if>
+                    </a>
+                    <@showBorrowIcon item=item/>
+                    <span class="fr">还款方式：<@linkage plantext=true default=item.style nid="borrow_style"/></span>
+                </h1>
+                <li class="borrow-amount">
+                    <span>${format2(item.account)?number}<font>元</font></span>
+                    <p>借款金额</p>
+                </li>
+                <li style="width:195px;">
+                    <span>${(item.account-item.account_yes)?string("0.##")}<font>元</font></span>
+                    <p>剩余可投</p>
+                </li>
+                <li class="borrow-apr">
+                    <span>${item.apr}<font>%</font></span>
+                    <p>年利率</p>
+                </li>
+                <li style="width:187px;">
+                    <span>
+                        <#if item.isday??&&item.isday==1>
+                            ${item.time_limit_day!0}<font>天</font>
+                        <#elseif item.type==101>
+                            <font>自动还款</font>
+                        <#else>
+                            ${(item.time_limit)?default("0")}<font>个月</font>
+                        </#if>
+                    </span>
+                    <p>借款期限</p>
+                </li>
+                <li class="borrow-last-li">
+                    <span class="progress-content clearfix">
+                        <span class="progress">
+                            <i style="width: ${(item.scales*100)?string('##.##')}%;"></i>
+                        </span>
+                        <span class="percent">${(item.scales*100)?string('##.##')}%</span>
+                    </span>
+                    <@showIndexTenderButton item />
+                </li>
+            </ul>
+        </div>
+</#if>
+</#macro>
+
+<#macro showIndexTenderButton borrow>
+    <#assign nowTime=dateformat("now") >
+    <#if borrow.status==0>
+        <span class="btn-invest disabled">等待初审</span>
+    <#-- <#elseif (getRemainTime(borrow.verify_time,borrow.valid_time)?number lt 0)&&borrow.type!=110&&borrow.status==1>
+        <span class="btn-invest disabled">已经结束</span> -->
+    <#elseif borrow.status==1&&((borrow.account_yes?c)?number lt (borrow.account?c)?number) > 
+        <a href="/invest/detail.html?borrowid=${borrow.id?c}" class="btn-invest" target="_blank">立即投标</a>
+    <#elseif borrow.type!=110&&borrow.status==1&&((borrow.account_yes?c)?number gt (borrow.account?c)?number || (borrow.account_yes?c)?number==(borrow.account?c)?number) > 
+        <span class="btn-invest disabled">等待复审</span>
+    <#elseif borrow.type==110&&borrow.status==1&&((borrow.account_yes?c)?number gt (borrow.account?c)?number || (borrow.account_yes?c)?number==(borrow.account?c)?number) > 
+        <span class="btn-invest disabled">流转中</span>
+    <#elseif borrow.status==2> 
+        <span class="btn-invest disabled">初审失败</span>
+    <#elseif borrow.status==3> 
+        <span class="btn-invest disabled">复审通过</span>
+    <#elseif borrow.status==5||borrow.status==-1> 
+        <span class="btn-invest disabled">用户取消</span>
+    <#elseif borrow.status==4> 
+        <span class="btn-invest disabled">复审失败</span>
+    <#elseif borrow.status==6> 
+        <span class="btn-invest disabled">还款中</span>
+    <#elseif borrow.status==7> 
+        <span class="btn-invest disabled">还款中</span>
+    <#elseif borrow.type==110&&borrow.status==8> 
+        <span class="btn-invest disabled">停止流转</span>
+    <#elseif borrow.status==8> 
+        <span class="btn-invest disabled">已还款</span>
+    <#else> 
+        <span class="btn-invest disabled">用户取消</span>
+    </#if> 
+</#macro>

@@ -1,0 +1,51 @@
+<#include "header/base_top.html">
+<style>
+	#main .form-style-reg input {
+      border: none;
+      font-size: 1em;
+      width: 93%;
+      margin-top:10px;
+      margin-left:3%;
+      height: 40px;
+      border: none!important;
+    }
+</style>
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">登录</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<!-- <form id="form-login" class="form-login" method="post" action="/user/doLogin.html"> -->
+		<form id="form-login" class="form-login" method="post" action="/wx/doLogin.html">
+			<div class="form-style-reg">
+	                <ul>
+	                    <li style="border-bottom:1px solid #E8E8E8;">
+							<input type="text" name="username" id="username" maxlength="15" tabindex="1" autocomplete="off"
+							placeholder="用户名/手机号码">
+	                    </li>
+	                    <li style="border-bottom:1px solid #E8E8E8;">
+							<input type="password" name="password" id="password" maxlength="16" tabindex="2" autocomplete="off" placeholder="密码">
+	                    </li>
+						<li style="border-bottom:1px solid #E8E8E8;">
+							<input type="text" name="valicode" id="validcode" class="validcode input-box yzm" maxlength="5" tabindex="3" autocomplete="off" placeholder="验证码" style="width:20%;"/>
+							<input type="hidden" name="validCodeHidden" id="validCodeHidden">
+	                        <img src="/validimg.html" title="点击刷新" class="validcode-img validCodeimg" onclick="this.src='/validimg.html?t=' + Math.random();" />
+	                    </li>
+	                </ul>
+
+                    <input type="hidden" name="actionType"  value="login" />
+                    <input type="hidden" name="redirectURL"  value="/wx/account.html" />
+	        </div>
+        </form>
+		<div id="operator">
+			<a class="btn btn-login">立即登录</a>
+			<a class="pull-left" href="reg.html">免费注册</a>
+			<a class="pull-right" href="getpwd.html">忘记密码</a>		
+		</div>
+<#include "header/footer.html">
+<script type="text/javascript" src="${theme_dir}/plugin/jquery.form.js"></script>
+<script type="text/javascript" src="${webroot}${theme_dir}/js/layer.min.js"></script>
+
+<script type="text/javascript" src="${theme_dir}/js/weixin/login.js"></script>

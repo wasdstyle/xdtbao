@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_ca">
+<#assign cid="ca_recordList">
+<#assign webname='认购债权记录- 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<#include "../../common/function.html"> 
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "log-list-tab.html"></div>
+			<div class="account-content">
+				<div class="wp-ca-record-list">
+					<div class="search cf">
+						<span>发布时间：</span>
+						<input type="text" name="dotime1" id="start-time" value="${param.get('dotime1')?default("")}"/>
+						<span class="to">到</span>
+						<input type="text" name="dotime2" id="end-time" value="${param.get('dotime2')?default("")}" />
+						<span class="keywords">关键字：</span>
+						<input type="hidden" name="ca_id" id="ca-id" value="${param.get('ca_id')?default(0)}"/>
+						<a href="javascript:" class="btn-search">搜索</a>
+					</div>
+					<ul class="name cf">
+	                    <li>债权名</li>
+						<li>购买者</li>
+	                    <li>购买时间</li>
+	                    <li>购买金额</li>
+	                    <li>状态</li>
+	                    <li>认购手续费</li>
+						<li>认购手续费状态</li>
+						<li>债权协议</li>
+					</ul>
+					<#list list as item>
+	             		<ul class="item cf">
+	                     	<li><#if item.name?length lt 20>${item.name}<#else>${item.name[0..17]}...</#if></li>
+	                     	<li>${item.username}</li>
+	                     	<li>${dateformat(item.buy_time?c, "yyyy-MM-dd")}</li>
+	                     	<li>${item.buy_account}</li>
+	                     	<li>
+								<#if item.status??&&item.status==0>未成交<#elseif item.status==1>已成交<#elseif item.status==2>撤回</#if>
+							</li>
+	                     	<li>${item.buy_fee}</li>
+							<li>
+								<#if item.buy_fee_status??&&item.buy_fee_status==0>冻结中<#elseif item.status==1>已收取<#else>已退回</#if>
+							</li>
+							<li>
+								<a href="javascript:" class="download" url="/member/ca/caProtocol.html?type=2&ca_id=${item.id?c}"><i></i>下载</a>
+							</li>
+	                    </ul>
+	              	</#list>
+					<div class="account-page">
+						<#import "../../common/page.html" as pager>  
+	         	 		<@pager.pagination page=page url="/member/ca/recordList.html" map=param style="style-new" />
+					</div>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/plugin/laydate/laydate.js"></script>
+<script type="text/javascript">
+	var url = 'recordList.html?search=true';
+	$('.search .btn-search').click(function() {
+		if($('#start-time').val()) {
+			url += '&dotime1=' + $('#start-time').val();
+		}
+		if($('#end-time').val()) {
+			url += '&dotime2=' + $('#end-time').val();
+		}
+		if($('#ca-id').val()) {
+			url += '&ca_id=' + $('#ca-id').val();
+		}
+		location.href = url;
+	});
+
+	$('.wp-ca-record-list ul.item li .download').click(function() {
+		var self = this;
+		art.dialog.confirm('确定要下载此债权协议吗？',function() {
+			location.href = $(self).attr('url');	
+		});
+	});
+</script>
+</html>		

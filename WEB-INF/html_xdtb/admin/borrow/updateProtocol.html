@@ -1,0 +1,94 @@
+<!-- v1.6.7.2 RDPROJECT-534 lx 2014-01-16 start -->
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+	<head>
+	<style type="text/css">
+	#content{
+		height: 380px;
+	}
+	</style>
+	</head>
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../setting/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="修改协议模板">
+                        <#include "../setting/banner.html">
+                            <!--面包屑导航---}-->
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox w750">
+                                        <div class="top">
+                                            <strong>修改协议模板</strong>
+                                        </div>
+                                        <div class="val clearfix">
+	                                           <ul>
+												<li>
+													<div class="title">上传公章：</div>
+													<div class="v">
+														<input type="file" name="zhang_pic" class="input_border" />
+														<span style="color: red;"> *请上传gif、jpeg、png、jpg格式的图片</span>
+													</div>
+												</li>
+												<li>
+                                                    <div class="title"><font style="color: red;">注意：</font></div>
+                                                    <div class="v">
+                                                        <font style="color: red;">内容模板里的"${r"${...}"}"不要修改，否则影响协议下载的正常使用！</font>
+                                                    </div>
+                                                </li>
+                                                <li style="height:500px">
+                                                    <div class="title">内容模板：</div>
+                                                    <div class="v" style="height: 500px">
+                                                    <script type="text/javascript" src="${theme_dir}/plugin/umeditor/third-party/jquery.min.js"></script>
+                                                        <#include "../../common/umeditor.html"> 
+														<@showUeditor width=850 heigth=100 id="content" name="content" content="${temple!}" />
+                                                    </div>
+                                                </li>
+                                               
+                                            </ul>
+                                            <div class="other">
+                                            	<input type="hidden" name="templateType" value="templateType"/>
+                                                <input type="submit"  name="reset" value="修改" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+                                                                </div>
+    </body>
+</html>
+<#include "../jsPage.html">
+<!-- v1.6.7.2 RDPROJECT-534 lx 2014-01-16 end -->

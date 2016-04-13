@@ -1,0 +1,62 @@
+.ui-content {
+	border:1px solid #ccc;
+	border-radius:12px;
+	box-shadow:2px 3px 8px #ccc;
+	line-height:26px;
+}
+.content_main td {
+	border-bottom:1px solid #ccc;
+	padding:4px 12px;
+}
+.content_main td:last-child {
+}
+.content_main td font {
+	font-weight:bold;
+}
+
+.ico2 { position: absolute; top: 15px; left: 210px; width: 70px; height: 9px; background: #fff; border: 1px solid #c2c2c2; }
+	.ico2 em { display: block; height: 9px; background: #d4a629; }
+.sp4 { position: absolute; top: 12px; left: 283px;font-size:12px; }
+.position_ab{ color:#f60;}
+.content_main_table{ border:none;}
+.content_main_table td{ border:none;}
+.show_account span{ display:block;}
+.show_account span b{ padding-right:15px; font-weight:400;}
+.show_account{ border:1px solid #ccc; background:#fff; padding:10px;}
+
+.invest_btn{}
+.ui-header{ background:url(../bg/header_ui.png) repeat-x;}
+
+.ui-btn-up-a{background-image:-webkit-gradient(linear,left top,left bottom,from(#da9f00),to(#d8710f));background-image:-webkit-linear-gradient(#da9f00,#d8710f);background-image:-moz-linear-gradient(#da9f00,#d8710f);background-image:-ms-linear-gradient(#da9f00,#d8710f);background-image:-o-linear-gradient(#da9f00,#d8710f);background-image:linear-gradient(#da9f00,#d8710f);color:#fff;}
+.ui-btn-hover-a,.ui-btn-active{background-image:-webkit-gradient(linear,left top,left bottom,from(#da9f00),to(#6a3a0c));background-image:-webkit-linear-gradient(#da9f00,#6a3a0c);background-image:-moz-linear-gradient(#da9f00,#6a3a0c);background-image:-ms-linear-gradient(#da9f00,#6a3a0c);background-image:-o-linear-gradient(#da9f00,#6a3a0c);background-image:linear-gradient(#da9f00,#6a3a0c);color:#fff;}
+
+.hover_ui_pagebtn{
+background: #d8710f;
+font-weight: 700;
+color: #fff;
+cursor: pointer;
+text-decoration: none;
+background-image: -webkit-gradient(linear,left top,left bottom,from(#da9f00),to(#6B3604));
+background-image: -webkit-linear-gradient(#da9f00,#6B3604);
+background-image: -moz-linear-gradient(#da9f00,#6B3604);
+background-image: -ms-linear-gradient(#da9f00,#6B3604);
+background-image: -o-linear-gradient(#da9f00,#6B3604);
+background-image: linear-gradient(#da9f00,#6B3604);
+font-family: Helvetica,Arial,sans-serif;
+}
+.valicodebox{ width:280px; position:relative;}
+.valicode{ width:150px;}
+.valicode_img{ position:absolute; top:0; left:160px;}
+#pageitem .ui-input-text{ width:70px; float:left;}
+#pageitem .ui-btn{ width:80px; height:36px; float:left;}
+#pageitem .page_num{ float:left; padding-top:15px;}
+#pageitem .page_txt{ float:left; width:25px; padding-top:12px; padding-left:10px;}
+.newcash_cl .ui-radio,.show_account .ui-radio{ top:10px;}
+.show_account .recharge_b{ margin-left:20px;}
+
+.firstpwdb span{display: inline;float: left; background:#fbb96c;height: 16px;width: 60px;font-size: 12px;text-align: center;line-height: 16px;color: #FFF;border-right: 1px solid #FFF; margin-top:8px; font-size:12px;}
+.firstpwdb span.hover{ background:#ff6600;}
+.boxshadow{ position:absolute; left:0; top:0; background:rgba(0,0,0,0.2)}
+.alertbox{ width:260px; height:100px; text-align:center; padding:20px; text-align:center; position:absolute; line-height:32px; color:#fff; border:1px solid #ccc; border-radius:10px; background:#da9f00;text-shadow:none;}
+.alertbox a{ color:#333;}
+.alertbox .closed{ width:16px; height:16px; background:url(images/ui-icons_222222_256x240.png) no-repeat -96px -128px; position:absolute; right:10px; top:10px; color:#000; font-weight:bold; font-size:12px; cursor:pointer;}

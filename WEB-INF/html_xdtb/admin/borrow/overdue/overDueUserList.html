@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!-- v1.6.7.2 RDPROJECT-21 cx 2013-12-30 start -->
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="逾期垫付管理">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <#if param?exists>
+                                    <#if param.get("username")?exists><#assign username=param.get("username")></#if> 
+                                    <#if param.get("borrowName")?exists><#assign borrowName=param.get("borrowName")></#if>
+                                </#if>
+                                <div class="toolbor-module export">
+			            		<input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+			            		</div>	
+                                <div class="toolbor-module search">
+                                    <input type="button" value="搜索"  class="input-button" onclick="search();">
+                                </div>
+                                <div class="toolbor-module search">
+                                    <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                                </div>
+                                <div class="toolbor-module search">
+                                    <input type="text" name="borrowName" id="borrowName" value="请输入借款标名称" data-value="请输入借款标名称" class="search-value">
+                                </div>
+                                <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">垫付时间：</div>
+                                    <input class="_search-value js-datetime" type="text" name="startDate" id="startDate"/>
+                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                                    <input class="_search-value js-datetime" type="text" name="endDate" id="endDate" />
+                                </div>
+			                    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                   
+                                    <table  class="data-list">
+					<tr class="header">
+					<tr>
+						<td width="" class="main_td">ID</td>
+						<td width="*" class="main_td" align="left">借款人</td>
+						<td width="*" class="main_td" align="left">电话</td>
+						<td width="*" class="main_td" align="left">真实姓名</td>
+						<td width="*" class="main_td" align="left">借款标名称</td>
+						<td width="*" class="main_td" align="left">应还时间</td>
+						<td width="*" class="main_td" align="left">逾期天数</td>
+						<td width="*" class="main_td" align="left">垫付金额</td>
+						<td width="" class="main_td" align="left">垫付时间</td>
+						<td width="" class="main_td" align="left">还款金额（元）</td>
+						<td width="" class="main_td" align="left">还款时间</td>
+					</tr>
+					</tr>
+					<#import "../../../common/function.html" as func>  
+					<#list list as item>
+					<tr>
+						<td>${item.id?c}</td>
+						<td class="main_td1"  align="left">
+						<a href="javascript:void(0)" 
+							onclick='tipsWindown("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text");'>
+								${item.username!}
+							</a>
+						</td>
+						<td>${item.phone!}</td>
+						<td>${item.realname!}</td>
+						<td title="${item.name!}" align="left">
+						<a href="${webroot}/invest/detail.html?borrowid=${(item.borrow_id!0)?c}" target="_blank"><#if item.name?length lt 10>${item.name}<#else>${item.name[0..7]}...</#if></a><@func.showBorrowIcon item=item/></td>
+						<td>${dateformat(item.repaytime!)}</td>
+						<td>${item.late_days!}</td>
+						<td>${item.overdue_account?c}</td>
+						<td>${dateformat(item.overdueTimeStr!)}</td>
+						<td>${item.repayment_account?c}</td>
+						<td>
+						<#if item.repayment_time??>
+						${dateformat(item.repaymentTimeStr)}<#else>-
+						</#if>
+						</td>
+					</tr>
+					</#list>
+				</table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/borrow/showoverDueUserList.html" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                    var urls = 'showoverDueUserList.html?search=true';
+                                    function search(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        if (username!=""&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                        var borrowName=$('#borrowName').val();
+                                        if(borrowName!=''&& borrowName!='请输入借款标名称'){
+                                        	sou+="&borrowName="+borrowName;
+                                        }
+                                        if($('#startDate').val()!=''){
+                                        	sou+="&startDate="+$('#startDate').val();
+                                        }if($('#endDate').val()!=''){
+                                        	sou+="&endDate="+$('#endDate').val();
+                                        }
+                                        location.href=urls+sou;
+                                    }
+                                    
+                                    function exportxls(){
+                                    	 var sou = "";
+                                         var username = $("#username").val();
+                                         if (username!=""&&username!="请输入用户名"){
+                                             sou += "&username="+username;
+                                         }
+                                         var borrowName=$('#borrowName').val();
+                                         if(borrowName!=''&& borrowName!='请输入借款标名称'){
+                                         	sou+="&borrowName="+borrowName;
+                                         }
+                                         if($('#startDate').val()!='' && $('#endDate').val()!=''){
+                                         	sou+="&startDate="+$('#startDate').val()+"&endDate="+$('#endDate').val();
+                                         }
+                                         location.href=urls+sou+"&exportType=export";
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../../jsPage.html">
+<!-- v1.6.7.2 RDPROJECT-21 cx 2013-12-30 end -->

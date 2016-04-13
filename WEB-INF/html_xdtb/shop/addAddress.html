@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="${theme_dir}/css/style.css">
+<body>
+	<div>
+		<script type="text/javascript" src="${theme_dir}/plugin/jquery-1.7.2.min.js"></script>
+		
+		<div class="wrap">
+			<!--	地址添加：begin	-->				
+			<div class="confirm-dh" style="margin-top: 25px; margin-bottom: 20px;">
+				<form id="form" action="addAddress.html" method="post" enctype="multipart/form-data" onsubmit="return checkAddress();">
+					<div class="adminUserForm">
+						<div id="city">
+							<span style="line-height:40px;">所在地区：</span>
+							<select class="prov" name="province"><option value="浙江">浙江</option></select>  
+						    <select class="city" name="city"><option value="杭州">杭州</option></select> 
+						    <select class="area" name="area"><option value="西湖区">西湖区</option></select> 
+						</div>
+						<div><span>详细地址：</span><textarea name="address" id="detail-address" autocomplete="off" data-options="required: true,validType:'maxLength[100]'" style="vertical-align: middle;"></textarea>*</div>
+						<div><span>邮政编码：</span><input type="text" id="postcode" name="postcode">*</div>
+					</div>
+					<button type="submit" class="btn-submit">添加地址</button>
+					<input type="hidden" name="actionType" value="addAddress">
+				</form>
+			</div>	
+			<!--	地址添加：end	-->
+		</div>
+		
+	</div>
+	<script type="text/javascript" src="${theme_dir}/plugin/jquery-citySelect/jquery.cityselect.js"></script>
+	<script type="text/javascript" src="${theme_dir}/plugin/jquery-citySelect/city.min.js"></script>
+	<script type="text/javascript" src="${theme_dir}/js/credit.js"></script>
+	<script type="text/javascript">
+		$("#city").citySelect({
+			url:"${theme_dir}/plugin/jquery-citySelect/city.json",
+			prov:"浙江", //省份 
+		    city:"杭州", //城市 
+		    area:"西湖区", //区县 
+		    required:true,
+		    nodata:"none" //当子集无数据时，隐藏select 
+		}); 
+	</script>
+</body>
+</html>
+

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<#include "include/style.html"> 
+<#if !nid??><#assign nid=""></#if>
+<body>
+    <div id="header-simple">
+        <div class="wrap cf">
+            <a href="/" class="logo"></a>
+            <h1>用户登录</h1>
+            <#if tree??&&tree.hasChild()>
+                <ul class="cf fr login-nav">
+                    <#list tree.child as item>
+                    <#if (item.model.status)??&&item.model.status==1>
+                        <li <#if ((item.model.nid)??&&(item.model.nid)==nid)> class="current" <#else> class="" </#if>>
+                            <a href="<@showSiteUrl site=item.model />">${item.model.name!}</a>
+                        </li>
+                    </#if>
+                    </#list>
+                </ul>
+            </#if>
+        </div>
+    </div>
+    <div id="container-simple" class="container-login">
+        <div class="wrap">
+            <div class="wp-form-login">
+                <form id="form-login" class="form-login" method="post" action="/user/doLogin.html">
+                    <h1>信达通宝·您的财富管家！</h1>
+                    <ul>
+                        <li class="cf">
+                            <label for="username">用户名/手机号/邮箱</label>
+                            <input type="text" name="username" id="username" maxlength="25" tabindex="1" autocomplete="off"></span>
+                        </li>
+                        
+                        <li class="cf">
+                            <input type="password" style="display: none;">
+                            <i class="password"></i>
+                            <label for="password">密码</label>
+                            <input type="password" name="password" id="password" maxlength="16" tabindex="2" autocomplete="off">
+                        </li>
+                        <li class="cf" style="margin-bottom: 0px;">
+                            <label for="validcode">验证码</label>
+                            <input type="text" name="valicode" id="validcode" class="validcode input-box" maxlength="5" tabindex="3" autocomplete="off" />
+                            <input type="hidden" name="validCodeHidden" id="validCodeHidden">
+                            <img src="/validimg.html" title="点击刷新" class="validcode-img" onclick="this.src='/validimg.html?t=' + Math.random();" />
+                            
+                        </li>
+                        <li class="clearfix login-link">
+                           <a href="/user/getpwd.html" class="fl">忘记密码？</a>
+                           <span class="fr">没有账号？<a href="/user/register.html">免费注册</a></span> 
+                        </li>
+                        
+                        <input type="button" value="立即登录" class="btn-login" tabindex="5"/>
+                        <input type="hidden" name="actionType"  value="login" />
+                        <input type="hidden" name="redirectURL"  value="${redirectURL!}" />
+                        <li class="cf error">
+                            
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+        <div id="footer-simple">
+            <div class="wrap">
+               <div class="clearfix footer-contact">
+                   <ul class="fl">
+                        <li><a href="/">网站首页</a></li>
+                        <li><a href="/article/list.html?nid=about">关于我们</a></li>
+                        <li><a href="/guide.html">新手指引</a></li>
+                        <li><a href="/article/list.html?nid=cjwt">常见问题</a></li>
+                        <li style="border-right: none"><a href="/article/list.html?nid=lxwm">联系我们</a></li>
+                   </ul>
+                   <ul class="fr">
+                      <li>
+                           <a href="http://weibo.com/u/5664131629" title='新浪微博' class="login-sina" target="_blank"></a>
+                       </li>
+                       <li>
+                           <a href="###" title='腾讯微博' class="login-tencent"></a>
+                       </li>
+                       <li>
+                           <a href="javascript:void(0)" title='微信' class="login-weix">
+                                <img src="/themes/soonmes_xdtb/image/ewm-top.jpg" width="103" height='103' style="display:none">
+                           </a>
+                       </li>
+                       <li>
+                           <a href="###" title='QQ群' class="login-group"></a>
+                       </li>
+                   </ul>
+               </div>
+               <div class="footer-link clearfix">
+                   <span class="link-tel"><b></b>${fuwutel}</span>
+                   <span class="link-email"><b></b>kefu@xdtbao.com</span>
+                   <span class="link-addr"><b></b>${address}</span>
+               </div>
+               <p>${copyright}&nbsp;${beian}</p>
+            </div>
+        </div>
+    </div>
+
+    <#include "include/script.html">
+<#macro showSiteUrl site>
+    <#if site.style??&&site.style=="2">
+        ${site.url!}
+    <#elseif site.style??&&site.style=="3">
+        ${site.url!}
+    <#else>
+        <#if site.nid??>
+            /article/list.html?nid=${site.nid}
+        <#else>
+            /article/list.html?catalog=${(site.site_id!0)?c}
+        </#if>
+    </#if>
+</#macro>
+</body>
+<script type="text/javascript">
+    $(".login-weix").mouseenter(function(){
+        $(".login-weix img").css('display','block')
+    }).mouseleave(function(){
+         $(".login-weix img").css('display','none')
+    })
+</script>
+<script type="text/javascript" src="${theme_dir}/js/login.js"></script>
+</html>

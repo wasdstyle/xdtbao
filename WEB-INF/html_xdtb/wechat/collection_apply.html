@@ -1,0 +1,77 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="/themes/soonmes_xiangmu/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">充值</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="/themes/soonmes_xiangmu/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg">
+			<ul style="background:#EEF3FA;">
+				<li style="height:auto; padding-left:4%;">					
+					<label style="width:97%; margin:0 auto;">
+						使用网上充值方式进行充值前必须开通个人网上银行；
+                    </label>
+				</li>
+			</ul>
+			<style>
+				#main .form-style-reg label{
+					color:#868686;
+					float:left;
+					width:32%;
+				}
+				#main .form-style-reg li span{
+					color:#868686;
+					margin-top:15px;
+					margin-left:10px;
+				}
+				button.aui_state_highlight{font-size:16px; outline:none;}
+				.aui_buttons{padding:10px;}
+				.aui_icon{border-bottom:1px solid #DCDCDC;}
+			</style>
+				<form action="collection_confirm.html" method="post" id="collection_confirm_form">
+					<ul>
+						<li>
+							<label>合作商流水：</label>
+							<span>${orderRequest.partner_serial_no!}</span>
+							<input type="hidden" value="${orderRequest.partner_serial_no!}" name="partner_serial_no" id="partner_serial_no"/>
+						</li>
+
+						<li>
+							<label>手机号：</label>
+							<span>${orderRequest.mobile_tel!}</span>
+						</li>
+
+						<li>
+							<label>短信验证码：</label>
+							<span style="margin-top:-5px; width:60%;">
+								<input type="text" class="txt validcode" name="verify_info" id ="verify_info" 
+								placeholder="短信验证码" style="width:50%;"/>
+								<!-- <input type="button" id="getVerify_info" value="点击获取" style="width:20%;"/> -->
+								<a href="javascript:;" id="getVerify_info">点击获取</a>
+							</span>
+						</li>
+
+						<li class='clearfix'>
+						    <label>客户姓名</label>
+							<span>${orderRequest.client_name!}</span>
+						</li>
+
+						<li class='clearfix'>
+							<label>银行卡号</label>
+							<span>${orderRequest.card_no!}</span>
+							<input type="hidden" value="${orderRequest.card_no!}" id ="card_no" name="card_no"/>
+							<input type="hidden" name="money" id="recharge-money" value="${orderRequest.occur_balance}"/>
+						</li>
+					</ul>
+
+					<div id="operator">
+					    <a href="javascript:" id="collection_confirm_submit" class="btn-confirm-recharge btn">确认支付</a>
+	            	</div>			
+			</form>	
+        </div>									
+<#include "header/footer.html">	
+<script type="text/javascript" src="${theme_dir}/js/account.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/layer.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/weixin/account-recharge.js"></script>
+	

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<div>
+		<#include "shop_header.html">
+		<div class="wrap shop">
+			<!--	积分兑换：begin	-->
+			<div class="tab-cont">
+				<div class="wrap cf">
+					<form action="convertGoods.html" id="convert-submit" method="post">
+					<div class="confirm-dh" style="margin-top: 25px; margin-bottom: 20px;">
+						<div class="address cf">
+							<h1>确认收货地址</h1>
+							<ul class="address-ul">
+								<#if addressList??>
+								<#list addressList as item>
+									<#if item.status == 1 >
+										<li class="current-address">
+											<div class="address-detail clearfix">
+												<h2>
+													<strong>${item.username!}</strong> (${item.phone!})
+													<input type="hidden" value="${item.id}" id="address_id" name="address_id" >
+													<input type="hidden" id="goodsId" name="goodsId" value="${creditGood.id}">
+													<input type="hidden" id="goodsNum" name="goodsNum" value="${goodsNum}">
+													<a href="/credit/set.html?ids=${item.id}&goodsNum=${goodsNum}&goodsId=${creditGood.id}" id="delAddr">×</a>
+												</h2>
+												<p>${item.province!}${item.city!}${item.area!}${item.address!}</p>
+											<!-- 	<a href="javascript:void(0)" aid="${item.id}" id="editor-address" class="fr" style="text-decoration: underline">编辑地址</a> -->
+											</div>				
+										</li>
+									<#else>
+										<li>
+											<div class="address-detail clearfix">
+												<h2>
+													<strong>${item.username!}</strong> (${item.phone!})
+													<a href="/credit/set.html?ids=${item.id}&goodsNum=${goodsNum}&goodsId=${creditGood.id}" id="delAddr">×</a>
+												</h2>
+												<p>${item.province!}${item.city!}${item.area!}${item.address!}</p>
+												<!-- <a href="javascript:void(0)" aid="${item.id}" id="editor-address1" class="fr" style="text-decoration: underline">编辑地址</a> -->
+											</div>
+											<input type="hidden" value="${item.id}" id="address_id" name="address_id" >
+											<input type="hidden" id="goodsId" name="goodsId" value="${creditGood.id}">
+											<input type="hidden" id="goodsNum" name="goodsNum" value="${goodsNum}">
+										</li>
+									</#if>
+								</#list>
+								</#if>
+								<li class="add-address">
+									<input type="hidden" id="goodsId" name="goodsId" value="${creditGood.id}">
+									<input type="hidden" id="goodsNum" name="goodsNum" value="${goodsNum}">
+									<a href="javascript:void(0)" id="add-new-address">使用新地址</a>
+								</li>
+							</ul>
+						</div>
+						<div class="confirm-goods cf">
+							<h1>确认兑换商品</h1>
+							<ul class="c-goods-list">
+								<li class="cf">
+									<img src="${creditGood.pic_url}">
+									<div class="r-info">
+										<span class="info-title">${creditGood.name!}</span> 
+										<span>单个积分：<input type="hidden" value="${creditGood.credit_value?c}" id="credit_value">${creditGood.credit_value!0}</span>
+										<span>剩余数量：<input type="hidden" value="${creditGood.store?c}" id="store">${creditGood.store!}</span>
+										<span>兑换数量：
+											<a class="num-btn reduce-num" >-</a>
+											<input type="text" value="${goodsNum}" class="dh-num" id="r-num" name="goodsNum"> 
+											<a class="num-btn add-num">+</a> 
+										</span>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="confirm-submit">
+							<span>总消耗积分：<span class="s-red" id="totalCredit"></span></span> 
+							<a class="goods-btn" href="javascript:void(0)" onclick="return submitBtn()">立即兑换</a>
+						</div>
+					</div>
+					</form>
+					<!--	20150403 by yangxing start	-->
+				</div>
+			</div>
+			<!--	积分兑换：end	-->
+		</div>
+	</div>
+	
+	<!--	地址添加：begin	-->	
+	<div class="addressBox" style="display:none;">
+		<div class="wrapper_bg"></div>
+		<div class="wrapper">
+			<div class="focus">
+				<span class="w_title">添加收货地址</span>
+				<div class="w_content">
+					<div class="confirm-dh" style="margin-top: 25px; margin-bottom: 20px;">
+						<form id="form" action="addAddress.html" method="post" enctype="multipart/form-data" onsubmit="return checkAddress();">
+							<div class="adminUserForm">
+                                <li class="clearfix car-add">
+                          		    <label>所在地区：</label>
+		                            <@region name="province"  id="province" pid="0"></@region>
+		                            <@region name="city" id="city" pid="-1"></@region>
+		                            <@region name="area" id="area" pid="-1"></@region>
+                        		</li>
+								<div><span>详细地址：</span><textarea name="address" id="detail-address" autocomplete="off" data-options="required: true,validType:'maxLength[30]'" style="vertical-align: middle;" maxlength='30'></textarea>*</div>
+								<div><span>邮政编码：</span><input type="text" id="postcode" name="postcode" style="width: 161px;height: 25px;">*</div>
+								<div><span>默认收货地址：</span><input type="checkbox" id="status" name="status" value=1></div>
+							</div>
+							<input type="hidden" id="gNum" name="goodsNum" value="${goodsNum}">
+							<input type="hidden" name="goodsId" value="${creditGood.id!}">
+							<button type="submit" class="btn-submit">添加地址</button>
+							<input type="hidden" name="actionType" value="addAddress">
+						</form>
+					</div>	
+				</div>
+				<span id="box_close" class="w_close" >关闭</span>
+			</div>
+		</div>
+	</div>
+
+
+	<!--	地址编辑：begin	-->	
+	<div class="addressBox1" style="display:none;">
+		<div class="wrapper_bg"></div>
+		<div class="wrapper">
+			<div class="focus">
+				<span class="w_title">修改收货地址</span>
+				<div class="w_content">
+					<div class="confirm-dh" style="margin-top: 25px; margin-bottom: 20px;">
+						<form id="form" action="addAddress.html" method="post" enctype="multipart/form-data" onsubmit="return checkAddress();">
+							<div class="adminUserForm">
+                                <li class="clearfix car-add">
+                          		    <label>所在地区：</label>
+		                            <@region name="province"  id="province" pid="0"></@region>
+		                            <@region name="city" id="city" pid="-1"></@region>
+		                            <@region name="area" id="area" pid="-1"></@region>
+                        		</li>
+								<div><span>详细地址：</span><textarea name="address" id="detail-address" autocomplete="off" data-options="required: true,validType:'maxLength[100]'" style="vertical-align: middle;"></textarea>*</div>
+								<div><span>邮政编码：</span><input type="text" id="postcode" name="postcode" style="width: 161px;height: 25px;">*</div>
+								<div><span>默认收货地址：</span><input type="checkbox" id="status" name="status" value=1></div>
+							</div>
+							<input type="hidden" id="gNum" name="goodsNum" value="${goodsNum}">
+							<input type="hidden" name="goodsId" value="${creditGood.id!}">
+							<button type="submit" class="btn-submit">修改地址</button>
+							<input type="hidden" name="actionType" value="addAddress">
+						</form>
+					</div>	
+				</div>
+				<span id="box_close1" class="w_close" >关闭</span>
+			</div>
+		</div>
+	</div>
+	<!--	地址添加：end	-->
+	<#include "../include/footer.html">
+	<script type="text/javascript">
+   $(function() {
+    jQuery("#province").change(function(){
+        var province = jQuery(this).val();
+        var count = 0;
+        jQuery.ajax({
+            url:"/tools/showarea.html",
+            dataType:'json', 
+            data:"pid="+province,
+            success:function(json){
+                jQuery("#city option").each(function(){
+                    jQuery(this).remove();               
+                });
+                jQuery("<option value='-1'>请选择</option>").appendTo("#city");
+                jQuery(json).each(function(){
+                    jQuery("<option value='"+json[count].id+"'>"+json[count].name+"</option>").appendTo("#city");
+                    count++;
+                });
+            }
+        });
+    });
+    jQuery("#city").change(function(){
+        var city = jQuery(this).val();
+        var count = 0;
+        jQuery.ajax({
+            url:"/tools/showarea.html",
+            dataType:'json', 
+            data:"pid="+city,
+            success:function(json){
+                jQuery("#area option").each(function(){
+                    jQuery(this).remove();               
+                });
+                jQuery("<option value='-1'>请选择</option>").appendTo("#area");
+                jQuery(json).each(function(){
+                    jQuery("<option value='"+json[count].id+"'>"+json[count].name+"</option>").appendTo("#area");
+                    count++;
+                });
+            }
+        });
+    });
+});
+
+	</script>
+</body>
+</html>

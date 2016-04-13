@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="user" namespace="/user" extends="wzd-default">
+         <action name="login"  class="userAction" method="login">
+       	 	<result name="login" type="ftl">/login.html</result>
+        </action>
+
+        <action name="doLogin"  class="userAction" method="doLogin">
+       	 	<result name="login" type="ftl">/login.html</result>
+            <result name="fail" type="ftl">/msg.html</result>
+            <result name="success" type="ftl">/msg.html</result>
+            <result name="member" type="redirect">/member/index.html</result>
+            <result name="error" type="redirect">/user/login.html</result>
+            <!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 start -->
+            <interceptor-ref name="myfreeze" />
+            <!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 end -->
+        </action>
+        <action name="logout"  class="userAction" method="logout">
+            <result name="success" type="ftl">/login.html</result>
+            <result name="login" type="ftl">/login.html</result>
+        </action>
+        
+        <action name="register"  class="userAction" method="register">
+            <result name="success" type="ftl">/msg.html</result>
+            <result name="fail" type="ftl">/msg.html</result>
+            <result name="add" type="ftl">/addUser.html</result>
+            <result name="register" type="ftl">/register.html</result>
+            <result name="member" type="redirect">/member/index.html</result>
+        </action>
+        <action name="getCode" class="userAction" method="getCode">
+            <result name="success" type="ftl">/getpwd.html</result>
+        </action>
+        
+        <action name="checkUsername"  class="userAction" method="checkUsername">
+        	<result name="input" type="ftl">/login.html</result>
+        </action>
+        
+        <action name="checkEmail"  class="userAction" method="checkEmail">
+        	<result name="input" type="ftl">/login.html</result>
+        </action>
+        <!--  v1.6.7.2 RDPROJECT-627 lx 2014-1-3 start -->
+        <action name="checkPhone"  class="userAction" method="checkPhone">
+        	<result name="input" type="ftl">/login.html</result>
+        </action>
+        <action name="phoneaccess"  class="userAction" method="phoneaccess"> </action>
+        <!--  v1.6.7.2 RDPROJECT-627 lx 2014-1-3 start -->
+        
+        
+        <!-- 暴露用户籍贯隐私，去掉
+        <action name="show"  class="userAction" method="show">
+        	<result name="success" type="ftl">/user/show.html</result>
+        	v1.6.7.2 RDPROJECT-595 zza 2014-01-15 start
+        	<interceptor-ref name="mydefault" />
+        	v1.6.7.2 RDPROJECT-595 zza 2014-01-15 end
+        </action> -->
+        
+        <action name="active"  class="userAction" method="active">
+            <result name="success" type="ftl">/member/main.html</result>
+        </action>
+        
+        <action name="getpwd"  class="userAction" method="getpwd">
+        	<result name="success" type="ftl">/getpwd.html</result>
+        	<result name="fail" type="ftl">/msg.html</result>
+        	<result name="pwd" type="ftl">/ptbyname.html</result>
+        </action>
+        
+        <action name="getpaypwd"  class="userAction" method="getpaypwd">
+        	<result name="success" type="ftl">/getpwd.html</result>
+        	<result name="fail" type="ftl">/msg.html</result>
+        	<result name="paypwd" type="ftl">/ptbyname.html</result>
+        </action>
+        
+        <action name="setpwd"  class="userAction" method="setpwd">
+        	<result name="fail" type="ftl">/msg.html</result>
+        	<result name="success" type="ftl">/setpwd.html</result>
+        	<result name="ok" type="ftl">/msg.html</result>
+        </action>
+        <action name="setpaypwd"  class="userAction" method="setpaypwd">
+        	<result name="fail" type="ftl">/msg.html</result>
+        	<result name="success" type="ftl">/setpwd.html</result>
+        	<result name="ok" type="ftl">/msg.html</result>
+        </action>
+        
+        <action name="updateuser" class="userAction" method="updateuser">
+        	<result name="success" type="ftl">/msg.html</result>
+        </action>
+        <action name="regInvite"  class="userAction" method="regInvite">
+        	<result name="success" type="ftl">/register.html</result>
+        </action>
+        
+        <action name="getpaypwdByEmail"  class="userAction" method="getpaypwdByEmail">
+        	<result name="success" type="ftl">/ptbyname.html</result>
+        	<result name="fail" type="ftl">/msg.html</result>
+        </action>
+        
+         <action name="getpwdByEmail"  class="userAction" method="getpwdByEmail">
+        	<result name="success" type="ftl">/ptbyname.html</result>
+        	<result name="fail" type="ftl">/msg.html</result>
+        </action>
+        
+        <action name="modifypassword" class="userAction" method="modifypassword">
+        	<result name="success" type="redirect">/admin/index.html</result>
+      </action>
+        
+        <action name="synBBSUser" class="userAction" method="synBBSUser" />
+        
+        <!-- 验证码实时校验 -->
+        <action name="validCode" class="userAction" method="validCode">
+		</action>
+		
+		<action name="validPhoneCode" class="userAction" method="validPhoneCode">
+		</action>
+		
+		<action name="registEmailCheck" class="userAction" method="registEmailCheck">
+		</action>
+		
+		<action name="getEmailCode" class="userAction" method="getEmailCode">
+		</action>
+    </package>
+    
+    <package name="regInvite" namespace="/" extends="wzd-default">
+    	 <action name="regInvite"  class="userAction" method="regInvite">
+        	<result name="success" type="ftl">/register.html</result>
+        </action>
+    </package>
+
+</struts>

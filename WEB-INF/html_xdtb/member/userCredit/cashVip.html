@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_credit">
+<#assign cid="c_cashVipInit">
+<#assign webname='积分兑换VIP - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "log-list-tab.html"></div>
+			<div class="account-content">
+				<#if errormsg?exists&&errormsg!="">
+					<script type="text/javascript">$(function() {errorDialog('${errormsg}');});</script>
+				<#elseif msg?exists&&msg!="">
+					<script type="text/javascript">$(function() {okDialog('${msg}');});</script>
+				</#if>
+				<ul class="prompt">
+					<li>3000积分兑换一年VIP，并且一年只能兑换一次。积分兑换VIP以后，减去相应的积分分值。</li>
+				</ul>
+				<form action="/credit/cashVip.html" method="post" id="form-cash-vip" class="credit-exchange">
+					<ul>
+						<li class="cf">
+							<label>可用积分：</label>
+							<span>
+								${(credit.valid_value)!0}
+								<#if credit?? && credit.valid_value??>
+									<input type="hidden" id="valid-value" value="${credit.valid_value?c!0}">
+								</#if>
+							</span>
+						</li>
+						<li class="cf">
+							<label>兑换VIP积分：</label>
+							<span>
+								${integral?c}
+								<input type="hidden" id="credit-value"  name="creditConvert.credit_value" value="${integral?c}"/>
+							</span>
+						</li>
+						<li class="cf">
+							<label>备注：</label>
+							<textarea type="text" name="creditConvert.remark" id="remark" maxLength="255"/></textarea>
+						</li>
+						<li>
+							<#if credit_cash_token?exists && credit_cash_token != "">
+								<input type="hidden" name="credit_cash_token" value="${credit_cash_token}" />
+							</#if>
+							<#if result??&&result==true>
+								<a href="javascript:" class="btn-confirm-exchange">确认兑换</a>
+							<#else>
+								<a class="btn-cannot-exchange">暂时不能兑换</a>
+							</#if>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script>
+	$('.btn-confirm-exchange').click(function() {
+		if(parseInt($('#valid-value').val()) < arseInt($('#credit-value').val())) {
+			errorDialog('您的可用积分不足，无法兑换！');
+			return false;
+		}else {
+			$('#form-cash-vip').submit();
+		}
+	});
+</script>
+</html>

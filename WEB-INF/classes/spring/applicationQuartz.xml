@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="quartzJob" class="com.rd.quartz.QuartzJob">
+		<property name="borrowService">
+            <ref bean="borrowService" />
+        </property>
+        <property name="noticePayBorrowService">
+            <ref bean="noticePayBorrowService" />
+        </property>
+        <property name="userService">
+            <ref bean="userService" />
+        </property>
+        <property name="userCreditService">
+            <ref bean="userCreditService" />
+        </property>
+        <!-- v1.6.7.1 RDPROJECT-395 zza 2013-11-04 start -->
+        <property name="rewardStatisticsService">
+            <ref bean="rewardStatisticsService" />
+        </property>
+        <!-- v1.6.7.1 RDPROJECT-395 zza 2013-11-04 end -->
+           <property name="accountService">
+            <ref bean="accountService" />
+        </property>
+          <property name="autoBorrowService">
+            <ref bean="autoBorrowService" />
+        </property>
+         <property name="repaymentDao">
+            <ref bean="repaymentDao" />
+        </property>
+	</bean> 
+    <bean id="doAutoQueue" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>doAutoQueue</value> 
+        </property>
+    </bean>
+    <!-- v1.6.7.2 RDPROJECT-695 wcw 2014-1-21 start -->
+    <bean id="doAutoQueueTime" class="com.rd.quartz.InitializingCronTrigger">
+        <property name="jobDetail">
+             <ref bean="doAutoQueue"/>
+        </property>
+        <!-- cron表达式 -->
+        <!-- <property name="cronExpression">
+            <value>*/5 * * * * ?</value>
+        </property> -->
+        <property name="timer" ref="doAutoQueueTimer"/>
+     </bean>
+     <bean id="doAutoQueueTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doAutoQueueTime</value>
+        </property>
+     </bean>
+      <!-- 定时计算逾期的天数和利息。 -->  
+     <bean id="doAutoCalcuLateInterest" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>doAutoCalcuLateInterest</value>
+        </property>
+     </bean>
+     <bean id="doAutoCalcuLateInterestTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doAutoCalcuLateInterest"/>
+         </property>
+         <!-- <property name="cronExpression">
+             <value>0 0 01 * * ?</value> 定时凌晨1点计算逾期的天数和利息。
+         </property> -->
+         <property name="timer" ref="doAutoCalcuLateInterestTimer"/>
+     </bean>
+     <bean id="doAutoCalcuLateInterestTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doAutoCalcuLateInterestTime</value>
+        </property>
+     </bean>
+     <!-- //v1.6.7.2 wcw 2013-1-8 start -->
+      <!-- 定时计算展期的天数和利息。 -->  
+     <bean id="doAutoExtensionInterest" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>doAutoExtensionInterest</value>
+        </property>
+     </bean>
+     <bean id="doAutoExtensionInterestTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doAutoExtensionInterest"/>
+         </property>
+        <!--  <property name="cronExpression">
+             <value>0 30 01 * * ?</value> 定时凌晨1点30分计算展期的天数和利息。
+         </property> -->
+         <property name="timer" ref="doAutoExtensionInterestTimer"/>
+     </bean>
+     <bean id="doAutoExtensionInterestTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doAutoExtensionInterestTime</value>
+        </property>
+     </bean>
+     <!-- //v1.6.7.2 wcw 2013-1-8 end -->
+     <!-- 流转标到期提醒。 -->  
+     <bean id="doAutoNoticeFlowBorrow" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>autoNoticeFlowBorrow</value>
+        </property>
+     </bean>
+     <bean id="doAutoNoticeFlowBorrowTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doAutoNoticeFlowBorrow"/>
+         </property>
+        <!--  <property name="cronExpression">
+             <value>0 0 02 * * ?</value> 定时凌晨2点00分  流转标到期提醒
+         </property> -->
+          <property name="timer" ref="doAutoNoticeFlowBorrowTimer"/>
+     </bean>
+     <bean id="doAutoNoticeFlowBorrowTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doAutoNoticeFlowBorrowTime</value>
+        </property>
+     </bean>
+   
+     
+     <!--v1.6.7.2 RDPROJECT-606 lx 2014-1-13 start  -->
+     <!-- 平台用户生日提醒 -->  
+     <bean id="doAutoNoticeUserBirthday" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>autoNoticeUserBirthday</value>
+        </property>
+     </bean>
+     <bean id="doAutoNoticeUserBirthdayTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doAutoNoticeUserBirthday"/>
+         </property>
+        <!--  <property name="cronExpression">
+             <value>0 30 02 * * ?</value> 定时凌晨2点30分平台用户生日提醒 。
+         </property> -->
+          <property name="timer" ref="doAutoNoticeUserBirthdayTimer"/>
+     </bean>
+     <bean id="doAutoNoticeUserBirthdayTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doAutoNoticeUserBirthdayTime</value>
+        </property>
+     </bean>
+      <!--v1.6.7.2 RDPROJECT-606 lx 2014-1-13 end  -->
+     
+      <!-- 积分等级自动扫描跟新。 -->  
+     <bean id="doUpdateCreditLevel" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>doUpdateCreditLevel</value>
+        </property>
+     </bean>
+     <bean id="doUpdateCreditLevelTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doUpdateCreditLevel"/>
+         </property>
+         <!-- <property name="cronExpression">
+             <value>0 0 03 * * ?</value> 定时凌晨3点执行一次  积分等级自动扫描跟新
+         </property> -->
+          <property name="timer" ref="doUpdateCreditLevelTimer"/>
+     </bean>
+     <bean id="doUpdateCreditLevelTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doUpdateCreditLevelTime</value>
+        </property>
+     </bean>
+     
+     <!-- 理财宝投资利息定时计算自动扫描跟新。 --> 
+     <bean id="doTreasureInterest" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>doTreasureInterest</value>
+        </property>
+     </bean>
+     <bean id="doTreasureInterestTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doTreasureInterest"/>
+         </property>
+          <property name="timer" ref="doTreasureInterestTimer"/>
+     </bean>
+     <bean id="doTreasureInterestTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doTreasureInterestTime</value>
+        </property>
+     </bean>
+     <!-- 理财宝投资利息定时计算自动扫描跟新。 --> 
+     
+       <!-- vip生日到期提醒。 -->  
+     <bean id="doAutoNoticeVIPBirthday" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>autoNoticeVIPBirthday</value>
+        </property>
+     </bean>
+     <bean id="doAutoNoticeVIPBirthdayTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doAutoNoticeVIPBirthday"/>
+         </property>
+        <!--  <property name="cronExpression">
+             <value>0 30 03 * * ?</value> 定时凌晨3点30分  vip生日到期提醒
+         </property> -->
+          <property name="timer" ref="doAutoNoticeVIPBirthdayTimer"/>
+     </bean>
+     <bean id="doAutoNoticeVIPBirthdayTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doAutoNoticeVIPBirthdayTime</value>
+        </property>
+     </bean>
+     <!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-14 start
+	 	TODO RDPROJECT-314 DONE -->
+     <!-- 借款人还款提醒。 -->  
+     <bean id="doAutoNoticeBorrowerRepay" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>autoBorrowerRepayNotice</value>
+        </property>
+     </bean>
+     <bean id="doAutoNoticeBorrowerRepayTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doAutoNoticeBorrowerRepay"/>
+         </property>
+        <!--  <property name="cronExpression">
+             <value>0 0 04 * * ?</value> 定时凌晨4点  借款人还款提醒。
+         </property> -->
+          <property name="timer" ref="doAutoNoticeBorrowerRepayTimer"/>
+     </bean>
+     <bean id="doAutoNoticeBorrowerRepayTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doAutoNoticeBorrowerRepayTime</value>
+        </property>
+     </bean>
+     <!-- 投资人收款提醒。 -->  
+     <bean id="doAutoNoticeLoanerRepay" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>autoLoanerRepayNotice</value>
+        </property>
+     </bean>
+     <bean id="doAutoNoticeLoanerRepayTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doAutoNoticeLoanerRepay"/>
+         </property>
+         <!-- <property name="cronExpression">
+             <value>0 30 04 * * ?</value> 定时凌晨4点30分  投资人收款提醒。 
+         </property> -->
+          <property name="timer" ref="doAutoNoticeLoanerRepayTimer"/>
+     </bean>
+     <bean id="doAutoNoticeLoanerRepayTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doAutoNoticeLoanerRepayTime</value>
+        </property>
+     </bean>
+      <!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-14 end-->
+        <!--  V1.6.6.1 RDPROJECT-201 wcw 2013-09-29 start-->
+      <!-- vip到期定时更新 -->
+     <bean id="doAutoUpdateExpireUser" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>doAutoUpdateExpireUser</value>
+        </property>
+     </bean>
+     <bean id="doAutoUpdateExpireUserTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doAutoUpdateExpireUser"/>
+         </property>
+         <!-- <property name="cronExpression">
+        V1.6.6.1 RDPROJECT-149 liukun 2013-10-18 start
+            <value>0 0 05 * * ?</value> 每天凌晨5点查询vip到期用户并更新
+        V1.6.6.1 RDPROJECT-149 liukun 2013-10-18 start
+         </property> -->
+          <property name="timer" ref="doAutoUpdateExpireUserTimer"/>
+     </bean>
+     <bean id="doAutoUpdateExpireUserTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doAutoUpdateExpireUserTime</value>
+        </property>
+     </bean>
+     <!-- v1.6.7.1 RDPROJECT-439 zza 2013-11-12 start -->
+     <bean id="doAutoUpdateTotalAndCollection" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>doAutoUpdateTotalAndCollection</value>
+        </property>
+     </bean>
+     <bean id="doAutoUpdateTotalAndCollectionTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doAutoUpdateTotalAndCollection"/>
+         </property>
+        <!--  <property name="cronExpression">
+             <value>0 30 05 * * ?</value> 每天早上05点30分定时查询平台的借款总金额和待收总金额
+         </property> -->
+          <property name="timer" ref="doAutoUpdateTotalAndCollectionTimer"/>
+     </bean>
+     <bean id="doAutoUpdateTotalAndCollectionTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doAutoUpdateTotalAndCollectionTime</value>
+        </property>
+     </bean>
+     <!-- v1.6.7.1 RDPROJECT-439 zza 2013-11-12 end -->
+       <!--  V1.6.6.1 RDPROJECT-201 wcw 2013-09-29 end-->
+       <!-- v1.6.7.1 RDPROJECT-368 wcw 2013-11-11 start -->
+      <bean id="doUpdateOrder" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>doUpdateOrder</value>
+        </property>
+     </bean>
+      <bean id="doUpdateOrderTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doUpdateOrder"/>
+         </property>
+        <!--  <property name="cronExpression">
+        V1.6.6.1 RDPROJECT-149 liukun 2013-10-18 start
+            <value>0 0 06 * * ?</value>  每天凌晨6点  第三方支付接口补单功能
+        V1.6.6.1 RDPROJECT-149 liukun 2013-10-18 start
+         </property> -->
+          <property name="timer" ref="doUpdateOrderTimer"/>
+     </bean>
+     <bean id="doUpdateOrderTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doUpdateOrderTime</value>
+        </property>
+     </bean>
+    <!-- v1.6.7.1 RDPROJECT-368 wcw 2013-11-11 end -->
+    
+    
+    <!-- v1.6.7.2 RDPROJECT-21 cx 2014-01-09 start  -->
+    <!-- 定时更新由为网站垫付后更新借款人利息，金额 -->
+    <bean id="updateWebSiteStatusLateDays" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>updateRepaymentByWebSiteStatus</value>
+        </property>
+    </bean>
+    <bean id="updateWebSiteStatusLateDaysTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="updateWebSiteStatusLateDays"/>
+         </property>
+         <!-- <property name="cronExpression">
+             <value>0 30 06 * * ?</value> 每天凌晨6点30分    更新由为网站垫付后更新借款人利息，金额
+         </property> -->
+          <property name="timer" ref="updateWebSiteStatusLateDaysTimer"/>
+     </bean>
+     <bean id="updateWebSiteStatusLateDaysTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>updateWebSiteStatusLateDaysTime</value>
+        </property>
+     </bean>
+    <!-- v1.6.7.2 RDPROJECT-21 cx 2014-01-09 end  -->
+    <!--v1.6.7.2  RDPROJECT-101 wcw  2014-02-17 start-->
+    <!-- 普通标自动还款 定时器-->
+     <bean id="generalBorrowAutoRepay" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    	<property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>generalBorrowAutoRepay</value>
+        </property>
+    </bean>
+    <bean id="generalBorrowAutoRepayTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="generalBorrowAutoRepay"/>
+         </property>
+         <!-- <property name="cronExpression">
+             <value>0 30 06 * * ?</value> 每天凌晨6点30分    更新由为网站垫付后更新借款人利息，金额
+         </property> -->
+          <property name="timer" ref="generalBorrowAutoRepayTimer"/>
+     </bean>
+     <bean id="generalBorrowAutoRepayTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>generalBorrowAutoRepayTime</value>
+        </property>
+     </bean>
+     <!--v1.6.7.2  RDPROJECT-101 wcw  2014-02-17 end-->
+     
+     <!-- v1.6.7.2 RDPROJECT-734 zza 2014-02-20 start -->
+     <bean id="doVerifyReward" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>doVerifyReward</value>
+        </property>
+     </bean>
+     <bean id="doVerifyRewardTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doVerifyReward"/>
+         </property>
+          <property name="timer" ref="doVerifyRewardTimer"/>
+     </bean>
+     <bean id="doVerifyRewardTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doVerifyRewardTime</value>
+        </property>
+     </bean>
+     <!-- v1.6.7.2 RDPROJECT-734 zza 2014-02-20 end -->
+     <!-- v1.6.7.2 RDPROJECT-725 wcw 2014-03-3 start -->
+     <bean id="doSelectNegativeAccount" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="quartzJob"/>
+        </property>
+        <property name="targetMethod">
+            <value>doSelectNegativeAccount</value>
+        </property>
+     </bean>
+     <bean id="doSelectNegativeAccountTime" class="com.rd.quartz.InitializingCronTrigger">
+         <property name="jobDetail">
+             <ref bean="doSelectNegativeAccount"/>
+         </property>
+          <property name="timer" ref="doSelectNegativeAccountTimer"/>
+     </bean>
+     <bean id="doSelectNegativeAccountTimer" class="com.rongdu.timer.domain.Timer">
+        <property name="job_value">
+           <value>doSelectNegativeAccountTime</value>
+        </property>
+     </bean>
+     <!-- v1.6.7.2 RDPROJECT-725 wcw 2014-03-3 end -->
+       <!-- v1.6.7.2 RDPROJECT-695 wcw 2014-1-21 end -->
+	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
+	<bean id="startQuertz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!-- 必需 --><ref bean="doAutoQueueTime" /><!-- 队列 -->
+				<!-- 必需 --><ref bean="doAutoCalcuLateInterestTime" /><!-- 1点计算逾期的天数和利息 -->
+				<ref bean="doAutoExtensionInterestTime" /><!-- 1点30分计算展期的天数和利息 -->
+				<ref bean="doAutoNoticeFlowBorrowTime" /><!-- 2点 流转标到期提醒 -->
+				<ref bean="doAutoNoticeUserBirthdayTime" /><!-- 2点30分用户生日提醒  -->
+				<ref bean="doAutoNoticeVIPBirthdayTime" /><!-- 3点 vip用户生日到期提醒 -->
+				<ref bean="doUpdateCreditLevelTime" /><!-- 3点30分 积分等级自动扫描更新 -->
+				<ref bean="doAutoNoticeBorrowerRepayTime" /><!-- 4点 借款人还款提醒 -->
+				<ref bean="doAutoNoticeLoanerRepayTime" /><!-- 4点30分 投资人收款提醒 -->
+				<!-- 必需 --><ref bean="doAutoUpdateExpireUserTime" /><!-- 5点查询vip到期更新 -->
+				<ref bean="doAutoUpdateTotalAndCollectionTime" /><!-- 5点30分定时查询平台的借款总金额和待收总金额 -->
+				<ref bean="doUpdateOrderTime" /><!-- 6点 第三方支付接口补单功能 -->
+				<ref bean="updateWebSiteStatusLateDaysTime" /><!-- 6点30分 定时更新由为网站垫付后更新借款人利息，金额 -->
+				<ref bean="generalBorrowAutoRepayTime" /><!-- 每三小时 定时更新 -->
+				<!-- v1.6.7.2 RDPROJECT-734 zza 2014-02-20 start -->
+				<ref bean="doVerifyRewardTime" /> <!-- 每天2点10分定时发放奖励 -->
+				<!-- v1.6.7.2 RDPROJECT-734 zza 2014-02-20 end -->
+				<!-- v1.6.7.2 RDPROJECT-725 wcw 2014-03-3  start -->
+				<ref bean="doSelectNegativeAccountTime" /> <!-- 每天2点10分定时发放奖励 -->
+				<!--v1.6.7.2 RDPROJECT-725 wcw 2014-03-3  end -->
+			    <!-- v1.6.7.2 理财宝 zhangyz 2013-12-13 start -->
+             	<ref bean="doTreasureInterestTime"/>
+             	<!-- v1.6.7.2 理财宝 zhangyz 2013-12-13 start -->
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                   <!-- v1.6.6.1 RDPROJECT-119 wcw 2013-09-27 start-->
+                     <#if pay_status??&&pay_status=='nopayflow'>
+                    <#assign moduleName="待还款流转标">
+                    <#else>
+                    <#assign moduleName="已还款流转标">
+                    </#if>
+                   <!-- v1.6.6.1 RDPROJECT-119 wcw 2013-09-27 end-->
+                    
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                            <div class="toolbor-module export">
+			                    <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+			                </div>
+                                <#if param?exists>
+                                	<#if param.get("repay_time1")?exists><#assign repay_time1=param.get("repay_time1")></#if>
+                    				<#if param.get("repay_time2")?exists><#assign repay_time2=param.get("repay_time2")></#if>
+                    				<!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 start-->
+                    				<#if param.get("repay_yestime1")?exists><#assign repay_yestime1=param.get("repay_yestime1")></#if>
+                    				<#if param.get("repay_yestime2")?exists><#assign repay_yestime2=param.get("repay_yestime2")></#if>
+                                    <!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 end-->
+                                    <#if param.get("username")?exists><#assign username=param.get("username")></#if>
+                                    <#if param.get("keywords")?exists><#assign keywords=param.get("keywords")></#if>
+                                    <!-- v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start -->
+                                    <#if param.get("borrow_username")?exists><#assign borrow_username=param.get("borrow_username")></#if>
+                                    <!-- v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end -->
+                                </#if>
+                                <div class="toolbor-module search"><input type="button" value="搜索" class="input-button" onclick="sousuo();"></div>
+                                <div class="toolbor-module search">
+                                	<!-- v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start -->
+	                            	<input type="text" name="username" id="username" value="请输入投资人用户名" data-value="请输入投资人用户名" class="search-value">
+	                            	<!-- v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end -->
+ 								</div>
+			                    <div class="toolbor-module search">
+			                    	<input type="text" name="keywords" id="keywords" value="请输入关键字" data-value="请输入关键字" class="search-value">
+							    </div>
+							    <!-- v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start -->
+							    <div class="toolbor-module search">
+							    	<div style="height:22px;line-height:22px;float:left;">借款人：</div>
+	                            	<input type="text" name="borrow_username" id="borrow_username" value="请输入借款人用户名" data-value="请输入借款人用户名" class="search-value">
+ 								</div>
+ 								<!-- v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end -->
+                                 <!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 start-->
+				    			<div class="toolbor-module search">   
+                                   <!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 end-->
+                                    <div style="height:22px;line-height:22px;float:left;">应还时间：</div>
+                    				<input class="_search-value js-datetime" name="repay_time1" id="repay_time1" value="" size="15" onclick="change_picktime()"/>
+                    				<div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                    				<input class="_search-value js-datetime" name="repay_time2" id="repay_time2"  value=""  size="15" onclick="change_picktime()"/>
+                                </div>
+                                <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start -->
+                                <#if pay_status??&&pay_status=='payflow'>
+		                        <div class="toolbor-module search">  
+		                            <div style="height: 22px; line-height: 22px; float: left;">实还时间：</div>
+		                            <input class="_search-value s" name="repay_yestime1" id="repay_yestime1" value="" size="15" onclick="change_picktime()" />
+		                            <div style="height: 22px; line-height: 22px; float: left; margin: 0 8px;">到</div>
+		                            <input class="_search-value s" name="repay_yestime2" id="repay_yestime2" value="" size="15" onclick="change_picktime()" />
+		                       
+		                        </div>
+		                        </#if> 
+		                        <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end -->
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                               <form action="" method="post">
+									<table  class="data-list">
+										<tr class="header">
+											<td width="" class="main_td">ID</td>
+											<td width="*" class="main_td" align="left">投资人</td>
+											<td width="*" class="main_td" align="left">借款标的名称</td>
+											<!-- v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start -->
+											<td width="*" class="main_td" align="left">借款人</td>
+											<!-- v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end -->
+											<td width="" class="main_td" align="left">期数</td>
+											<td width="" class="main_td" align="left">应还时间</td>
+											<td width="" class="main_td" align="left">应还本息</td>
+											<!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 start-->
+											<#if pay_status??&&pay_status=='payflow'>
+											<td width="" class="main_td" align="left">实还时间</td>
+											<td width="" class="main_td" align="left">实还本息</td> 
+											</#if>
+											<!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 END-->
+											<!--   v1.6.6.2 RDPROJECT-207 yl 2013-10-23 start-->
+											<td width="" class="main_td" align="left">应还本金</td>
+											<!--   v1.6.6.2 RDPROJECT-207 yl 2013-10-23 end-->
+											<td width="" class="main_td" align="left">应还利息</td>
+											<td width="" class="main_td" align="left">状态</td>
+										</tr>
+										<#import "../../common/function.html" as func>  
+										<#list list as item>
+										<tr>
+											<td>${item.id?c}</td>
+											<td><a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text")'>${item.username!}</a></td>
+											<td title="${item.borrow_name!}" class="tal">
+											<a href="${webroot}/invest/detail.html?borrowid=${((item.borrow_id))?c}" target="_blank">${item.borrow_name!}</a></td>
+											<!-- v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start -->
+											<td>${item.borrow_username}</td>
+											<!-- v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end -->
+											<td>${item.order+1}/${item.time_limit}</td>
+											<td><#if item.repay_time??> ${dateformat(item.repay_time)} </#if></td>
+											<td>${((item.repay_account)!0)?string("##.##")}元</td>
+											<!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 START-->
+											<#if pay_status??&&pay_status=='payflow'>
+											<td><#if item.repay_yestime??>
+												${dateformat(item.repay_yestime)} </#if></td>
+											<td>${(((item.repay_yesaccount?c)!0)?number)?string("##.##")}元</td>
+											</#if>
+											<!--   v1.6.6.2 RDPROJECT-207 yl 2013-10-23 start-->
+											<td>${((item.capital)!0)?string("##.##")}元</td>
+											<!--   v1.6.6.2 RDPROJECT-207 yl 2013-10-23 end-->
+											<td>${(((item.interest)!0)?number)?string("##.##")}元</td>
+											<!-- <td><font color="#006600">待还</font></td> -->
+											<td><font color="#006600"> <#if pay_status??&&pay_status=='nopayflow'>待还<#else>已还</#if></font></td>
+											<!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 END-->
+										</tr>
+										</#list>
+							
+									</table>
+									<div>
+							<span style="word-spacing: 10px;"> 应还本金合计：${model.capital} 元
+								应还利息合计：${model.interest} 元     应还本息合计：${(model.account)?string("##.##")} 元</span>
+						</div>
+				</form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+                              
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+	                                    <#import "../../common/page.html" as pager> 
+	                                    <@pager.pagination page=page url="/admin/borrow/unFinishFlow.html?pay_status=${pay_status}" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                <!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 START-->
+                                   /*  var urls = 'unFinishFlow.html?search=true';
+                                    var xlsurl = 'unFinishFlow.html?type=export'; */
+                                    <#if pay_status??&&pay_status=='nopayflow'>
+                                    var urls = 'unFinishFlow.html?pay_status=nopayflow&search=true';
+                                 	// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start
+                                    var xlsurl = 'unFinishFlow.html?pay_status=nopayflow&actionType=export';
+                                 	// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end
+									<#else>
+									var urls = 'unFinishFlow.html?pay_status=payflow&search=true';
+									// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start
+                                    var xlsurl = 'unFinishFlow.html?pay_status=payflow&actionType=export';
+                                 	// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end
+									</#if>
+                                    function sousuo(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                     	// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start
+                                        if (username!=""&&username!="请输入投资人用户名"){
+                                        	// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end
+                                            sou += "&username="+username;
+                                        }
+                                        var keywords = $("#keywords").val();
+                                        if (keywords!=""&&keywords!="请输入关键字"){
+                                            sou += "&keywords="+keywords;
+                                        }
+                                        // v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start
+                                        var borrow_username = $("#borrow_username").val();
+                                        if (borrow_username!=""&&borrow_username!="请输入借款人用户名"){
+                                            sou += "&borrow_username="+borrow_username;
+                                        }
+                                     	// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end
+                                        /* var dotime1 = $("#repay_time1").val();
+                                        var dotime2 = $("#repay_time2").val();
+                                        if (dotime1!=null){
+                                            sou += "&repay_time1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&repay_time2="+dotime2;
+                                        } */
+                                        <#if pay_status??&&pay_status=='nopayflow'>
+                                        var dotime1 = $("#repay_time1").val();
+                                        var dotime2 = $("#repay_time2").val();
+                                        if (dotime1!=null){
+                                            sou += "&repay_time1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&repay_time2="+dotime2;
+                                        }
+										<#else>
+										 var dotime1 = $("#repay_yestime1").val();
+                                        var dotime2 = $("#repay_yestime2").val();
+                                        if (dotime1!=null){
+                                            sou += "&repay_yestime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&repay_yestime2="+dotime2;
+                                        }
+										</#if>
+                                        location.href=urls+sou;
+                                    }
+                                    function exportxls(){
+                                        var sou = "";
+                                        var num='${(page.total)?c}';
+                                        num=num.replace(",","");
+                                        if(num>30000){                //条数自己定义，但必须小于65536
+                                            alert("数据过多，请选择指定的数据进行数据导出！"); //提示信息根据不同的内容注意修改下。
+                                            return false;
+                                        }
+                                        var username = $("#username").val();
+                                    	// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start
+                                        if (username!=""&&username!="请输入投资人用户名"){
+                                        	// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end
+                                            sou += "&username="+username;
+                                        }
+                                        var keywords = $("#keywords").val();
+                                        if (keywords!=""&&keywords!="请输入关键字"){
+                                            sou += "&keywords="+keywords;
+                                        }
+                                     	// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 start
+                                        var borrow_username = $("#borrow_username").val();
+                                        if (borrow_username!=""&&borrow_username!="请输入借款人用户名"){
+                                            sou += "&borrow_username="+borrow_username;
+                                        }
+                                     	// v1.6.7.2 RDPROJECT-700 zza 2014-01-23 end
+                                       /*  var dotime1 = $("#repay_time1").val();
+                                        var dotime2 = $("#repay_time2").val();
+                                        if (dotime1!=null){
+                                            sou += "&repay_time1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&repay_time2="+dotime2;
+                                        } */
+                                        <#if pay_status??&&pay_status=='nopayflow'>
+                                        var dotime1 = $("#repay_time1").val();
+                                        var dotime2 = $("#repay_time2").val();
+                                        if (dotime1!=null){
+                                            sou += "&repay_time1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&repay_time2="+dotime2;
+                                        }
+										<#else>
+										 var dotime1 = $("#repay_yestime1").val();
+                                        var dotime2 = $("#repay_yestime2").val();
+                                        if (dotime1!=null){
+                                            sou += "&repay_yestime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&repay_yestime2="+dotime2;
+                                        }
+										</#if>
+                                        if (sou!=""){
+                                            location.href=xlsurl+sou;
+                                        }else{
+                                            location.href=xlsurl;
+                                        }
+                                    }
+                                    <!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 end-->
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

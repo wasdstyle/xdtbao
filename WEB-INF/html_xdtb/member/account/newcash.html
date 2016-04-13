@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_account">
+<#assign aid="a_newcash">
+<#assign webname='提现 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "account-list-tab.html"></div>
+			<div class="account-content">
+					<!-- 温馨提示:begin -->
+					<ul class="prompt">
+						<li>线下充值或者后台充值免提现费用；</li>
+						<li>线上充值收取充值金额的千分之三作为取现手续费（手续费不满一元的按一元收取，最高200元，多出部分平台承担）；</li>
+						<li>单笔提现最低<b id="min-cash-amount">100</b>元，最高<b id="max-cash-amount">50000</b>元；</li>
+						<li>提现审核时间：当日申请次日17:00之前审核；</li>
+						<li>周日不处理提现申请，顺延至下一个工作日处理，法定节假日另行通知；</li>
+						<li>不处理当天充值当天提现的申请；</li>
+						
+					</ul>
+					<!-- 温馨提示:end -->
+					
+					<!-- 消息提示 start -->
+					<#if errormsg ??>
+					<div class="msg-text failure"><h1>${errormsg!}</h1></div>
+					</#if>
+					<!-- 消息提示 end -->
+					
+					<!-- 提现表单:begin -->
+					<ul class="wp-form-cash">
+						<a href="javascript:" class="btn-record"><i></i>提现记录</a>
+						<form action="/member/account/extract.html" method="post" id="form-cash">
+						<input type="hidden" value="${user.real_status}" id="real_status">
+						<input type="hidden" value="${user.phone_status}" id="phone_status">
+						<input type="hidden" value="<#if banklist??>${banklist?size!0}<#else>0</#if>" id="bank_size">
+							<li class="cf">
+								<label>可提现余额：</label>
+								<span class="number remain-amount"><b>${ceil(account.use_money!0)}</b>元</span>
+							</li>
+							<li class="cf">
+								<label>提现金额：</label>
+								<input type="text" name="money" id="cash-money" numberpoint="true" decimal="2" maxlength="8" autocomplete="off"/>
+								<span class="number money-tip"></span>
+								<span class="number cash-fee"></span>
+								<div class="pb10 cf"></div>
+								<#if dailySurplusCash?exists>
+									<div class="cf">
+										<span class="number today-cash-amount">本日还可提现：<b>${dailySurplusCash?c}</b>元</span>
+									<!-- 	<span class="number">免手续费提现额度：<b>${ceil(maxFreeMoney!0)}</b>元</span> -->
+									</div>
+								</#if>
+							</li>
+							<li class="cf">
+								<label>提现银行卡：</label>
+								<@linkage name="bank" id="bank" nid="account_bank"/>
+								<dl class="cash-bank cf">
+									<#if banklist?exists>
+									<#list banklist as item>
+										<dd class="cf">
+											<input type="radio" name="account" value="<#if item.bankaccount??>${item.bankaccount!""}</#if>" >
+											<input type="hidden" class="bank-id" value="${item.bank}" bankname="${item.bankname!}">
+											<div class="bg-bank"></div>
+											<span>尾号<b><#if item.bankaccount?length gt 4>${item.bankaccount?substring((item.bankaccount?length)-4,(item.bankaccount?length))}<#else>${item.bankaccount}</#if></b></span>
+										</dd>
+									</#list>
+									</#if>
+								</dl>
+							</li>
+							<li class="cf">
+								<label>交易密码：</label>
+								<input type="password" style="display: none;">
+								<#if session_user.paypassword?exists>
+									<input type="password" name="paypassword" id="pay-password"/>
+								<#else>
+									<a href="/memberSecurity/paypwd.html" target="_blank">请设置一个交易密码</a>
+								</#if>  
+							</li>
+							<li>
+								<a href="javascript:" class="btn-confirm-cash">确认提现</a>
+								<input type="hidden" name="newcash_token" value="${newcash_token?if_exists}" />
+								<input type="hidden" name="type" value="newcash" />
+							</li>
+						</form>
+					</ul>
+					<!-- 提现表单:end -->
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-cash.js"></script>
+</html>

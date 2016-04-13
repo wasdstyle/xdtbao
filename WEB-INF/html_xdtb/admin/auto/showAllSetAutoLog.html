@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<!-- v1.6.7.2 RDPROJECT-820[1] zza 2014-09-24 add -->
+<body>
+	<table class="mc">
+		<tr>
+			<td class="mc-l">
+				<!--左侧导航---{-->
+				<div id="navPanelContainer">
+					<div class="system-logo cd"></div>
+					<!--管理员信息---{-->
+					<#include "../adminInfo.html">
+					<!--管理员信息---}-->
+					<div class="nav-wrap"><#include "../userinfo/left.html"></div>
+				</div> 
+				<!--左侧导航---}-->
+			</td>
+			<td class="mc-m">
+				<div class="navToggle"></div>
+			</td>
+			<td class="mc-r">
+				<!--顶部导航---{--> 
+				<#include "../topNav.html"> 
+				<!--顶部导航---}--> 
+				<!--面包屑导航---{-->
+				<#assign moduleName="自动投标修改记录"> 
+				<#include "../setting/banner.html"> 
+				<!--面包屑导航---}-->
+				<div id="toolbar" class="clearfix">
+					<div class="toolbor-module search">
+						<input type="button" value="搜索" class="input-button" onclick="sousuo();">
+					</div>
+	                <#if param?exists> 
+						<#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if>
+						<#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if>
+					</#if>
+					<div class="toolbor-module search">
+                        <div style="height:22px;line-height:22px;float:left;">添加时间：</div>
+                        <input class="_search-value js-datetime" name="dotime1" id="dotime1" value="${dotime1!}"/>
+                        <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                        <input class="_search-value js-datetime" name="dotime2" value="${dotime2!}" id="dotime2"/>
+                    </div>
+                    <div class="toolbor-module">
+				        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+				    </div>
+				</div>
+				<div id="main" class="clearfix">
+					<form action="" method="post">
+						<table class="data-list">
+							<tr class="header">
+								<td>ID</td>
+								<td>用户名</td>
+								<td>备注</td>
+								<td>自动投标时间</td>
+							</tr>
+							<#list list as item>
+							<tr>
+								<td>${item.id}</td>
+								<td>${item.username}</td>
+								<td>${item.remark}</td>
+								<td>${dateformat(item.addtime?c)}</td>
+							</tr>
+							</#list>
+						</table>
+					</form>
+
+					<!--底部工具栏--{-->
+					<div id="bottomToolbar" class="clearfix">
+						<div class="other-tool">
+							<dl class="refresh-data">
+								<dt class="refresh-data-icon"></dt>
+								<dd>
+									<a href="javascript:void(0);" class="refresh-page">刷新数据</a>
+								</dd>
+							</dl>
+						</div>
+						<div class="container">
+				            <#import "../../common/page.html" as pager>  
+							<@pager.pagination page=page url="/admin/auto/showAllSetAutoLog.html" map=param style="style1"  /> 
+				        </div>
+					</div>
+					<!--底部工具栏--}-->
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<!--尾部--{-->
+			<td colspan="3" class="mc-b"><#include "../foot.html"></td>
+			<!--尾部--}-->
+		</tr>
+	</table>
+<script>
+	
+	var url = 'showAllSetAutoLog.html?search=true';
+	function sousuo() {
+		var sou = "";
+		var dotime1 = $("#dotime1").val();
+		var dotime2 = $("#dotime2").val();
+		if (dotime1 != null) {
+			sou += "&dotime1=" + dotime1;
+		}
+		if (dotime2 != null) {
+			sou += "&dotime2=" + dotime2;
+		}
+		if (sou != "") {
+			location.href = url + sou;
+		}
+	}
+</script>
+</body>
+</html>
+<#include "../jsPage.html">

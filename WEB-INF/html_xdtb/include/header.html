@@ -1,0 +1,107 @@
+<#if !nid??><#assign nid=""></#if>
+<div id="header">
+    <div class="header-top">
+        <div class="wrap cf">
+            <ul class="left">
+                <li class="weix-ewm">
+                    <b></b>微信客户端
+                    <img src="/themes/soonmes_xdtb/image/ewm-top.jpg" width="103" height='103' style="display:none">
+                </li>
+                <li class="sina-weib">
+                    <a href="http://weibo.com/5664131629" target="_blank"><b></b>关注我们</a>
+                </li>
+                <li class="top-tel" style="cursor: default">
+                    <b></b>财富热线：<em>0510-88880079</em>
+                </li>
+            </ul>
+            <ul class="right">
+                <li class="login-reg">
+                    <#if session_user?exists >
+                        <a href="/member/index.html" class="username" title='${session_user.username!}'>${session_user.username!}</a>
+                        <a href="/user/logout.html">退出</a>
+                    <#else>
+                        <a href="/user/login.html" class="username" >立即登录</a>
+                        <a href="/user/register.html">免费注册</a>          
+                    </#if>
+                </li>
+                <li>
+                    <a href="/article/list.html?nid=cjwt">帮助中心</a>
+                </li>
+                <li>
+                    <a href="/credit/shopIndex.html">积分商城</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <div class="wrap cf nav">
+            <a href="/" class="logo"></a>
+            <div class="fr nav-right">
+                <#if tree??&&tree.hasChild()>
+                    <ul class="cf">
+                        <#list tree.child as item>
+                        <#if (item.model.status)??&&item.model.status==1>
+                            <li <#if ((item.model.nid)??&&(item.model.nid)==nid)> class="current" <#else> class="" </#if>>
+                                <a href="<@showSiteUrl site=item.model />">${item.model.name!}</a>
+                                <#if item??&&(item.model.status!0)==1>
+                                    <div class="second-menu" style="display:none; left: -600px;">
+                                        <#if item.hasChild()>
+                                            <#list item.child as subitem>
+                                                <#if (subitem.model.status)??&&subitem.model.status==1>
+                                                    <a href="<@showSiteUrl site=subitem.model />" class="second-a">${subitem.model.name}</a>
+                                                </#if>
+                                            </#list>
+                                        </#if>
+                                    </div>
+                                </#if>
+                            </li>
+                        </#if>
+                        </#list>
+                    </ul>
+                </#if>
+                <div class="bg"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+    $(function () {
+        if ($.browser.version == 6.0)
+        $(".nav.bg").width($(window).width());
+        $(".nav li").hover(function () {
+            if (!$(this).find("div").find("a").is(':animated') && $(this).find("div").find("a").length > 0) {
+                $(this).find("div").height(100);
+                $(this).find("div").find("a").animate({ "top": 0 }, 200);
+                $(".nav-right .bg").animate({ "height": 40 }, 200);
+                $('.second-menu').show();
+            } else {
+                $(".nav-right .bg").animate({ "height": 0 }, 150);
+            }
+        }, function () {
+            $(".nav-right .bg").animate({ "height": 0 }, 150);
+            $(this).find("div").animate({ "height": 0 }, 100);
+            $(this).find("div").find("a").animate({ "top": -40 }, 100);
+        })
+        $(".nav-right").hover(function () {
+            return;
+        }, function () {
+            $(this).find(".bg").animate({ "height": 0 }, 150);
+        })
+    })
+
+</script>
+<#macro showSiteUrl site>
+    <#if site.style??&&site.style=="2">
+        ${site.url!}
+    <#elseif site.style??&&site.style=="3">
+        ${site.url!}
+    <#else>
+        <#if site.nid??>
+            /article/list.html?nid=${site.nid}
+        <#else>
+            /article/list.html?catalog=${(site.site_id!0)?c}
+        </#if>
+    </#if>
+</#macro>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_credit">
+<#assign cid="c_userlog">
+<#assign webname='积分操作记录 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "log-list-tab.html"></div>
+			<div class="account-content">
+				<div class="wp-credit-log">
+					<#if param?exists>
+						<#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if>
+						<#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if>
+						<#if param.get("type_id")?exists><#assign searchkeywords=param.get("type_id")></#if>
+					</#if>
+					<div class="search cf">
+						<span>记录时间：</span>
+						<input type="text" name="dotime1" id="start-time" value="${dotime1?default("")}"/>
+						<span class="to">到</span>
+						<input type="text" name="dotime2" id="end-time" value="${dotime2?default("")}" />
+						<span class="type">积分类型：</span>
+						<div class="pseudo-select">
+							<span></span>
+							<dl></dl>
+						</div>
+						<select name="type_id" id="type-id">
+							<option>全部</option>
+							<#list typeList as item>
+								<option <#if item.id == type_id>selected="selected"</#if> value="${(item.id)!}">${(item.name)!}</option>
+							</#list>
+						</select>
+						<a href="javascript:" class="btn-search">搜索</a>
+					</div>
+					<ul class="name cf">
+						<li>类型</li>
+						<li>变动数值</li>
+						<li>变动类型</li>
+						<li>记录时间</li>
+						<li>备注</li>
+					</ul>
+					<#list creditList as item>
+						<ul class="item cf">
+							<li><#list typeList as type><#if type.id == item.type_id >${type.name}</#if></#list></li>
+							<li>${item.value}</li>
+							<li><#if item.op == 1 >增加<#elseif item.op == 2>减少<#else>无变动</#if></li>
+							<li>${dateformat(item.addtime?c)}</li>
+							<li>${item.remark!"-"}</li>
+						</ul>
+					</#list>
+					<div class="account-page">
+						<#import "../../common/page.html" as pager>  
+		 				<@pager.pagination page=page url="/credit/userlog.html?type_id="+type_id map=params style="style1-new" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/plugin/laydate/laydate.js"></script>
+<script>
+	$('.pseudo-select').pseudoSelect('type_id');
+	
+	var url = 'userlog.html?search=true';
+	$('.search .btn-search').click(function() {
+		if($('#start-time').val()) {
+			url += '&dotime1=' + $('#start-time').val();
+		}
+		if($('#end-time').val()) {
+			url += '&dotime2=' + $('#end-time').val();
+		}
+		if($('#type-id').val()) {
+			url += '&type_id=' + $('#type-id').val();
+		}
+		location.href = url;
+	});
+</script>
+</html>

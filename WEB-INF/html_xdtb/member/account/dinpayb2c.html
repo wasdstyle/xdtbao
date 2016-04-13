@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>智付3.0支付充值跳转中......</title>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+</head>
+<body onLoad="document.dinpayForm.submit();">
+	<form name="dinpayForm" method="post"
+		action="${dinpayb2c.gatewayUrl}">
+		<div>智付3.0支付充值跳转中,请您不要关闭浏览器.....</div>
+		<input type="hidden" name="sign" value="${dinpayb2c.sign}" />
+		<input type="hidden" name="merchant_code" value="${dinpayb2c.merchant_code}" />
+		<input type="hidden" name="bank_code" value="${dinpayb2c.bank_code}"/>
+		<input type="hidden" name="order_no" value="${dinpayb2c.order_no}"/>
+		<input type="hidden" name="order_amount" value="${dinpayb2c.order_amount}"/>
+		<input type="hidden" name="service_type" value="${dinpayb2c.service_type}"/>
+		<input type="hidden" name="input_charset" value="${dinpayb2c.input_charset}"/>
+		<input type="hidden" name="notify_url" value="${dinpayb2c.notify_url}">
+		<input type="hidden" name="interface_version" value="${dinpayb2c.interface_version}"/>
+		<input type="hidden" name="sign_type" value="${dinpayb2c.sign_type}"/>
+		<input type="hidden" name="order_time" value="${dinpayb2c.order_time}"/>
+		<input type="hidden" name="product_name" value="${dinpayb2c.product_name}"/>
+		<input Type="hidden" Name="client_ip" value="${dinpayb2c.client_ip}"/>
+		<!-- <input Type="hidden" Name="extend_param" value="${dinpayb2c.extend_param}"/>
+		<input Type="hidden" Name="extra_return_param" value="${dinpayb2c.extra_return_param}"/> 
+		<input Type="hidden" Name="product_code" value="${dinpayb2c.product_code}"/>
+		<input Type="hidden" Name="product_desc" value="${dinpayb2c.product_desc}"/>
+		<input Type="hidden" Name="product_num" value="${dinpayb2c.product_num}"/>-->
+		<input Type="hidden" Name="return_url" value="${dinpayb2c.return_url}"/>
+		<input Type="hidden" Name="show_url" value="${dinpayb2c.show_url}"/>
+	</form>
+</body>
+</html>

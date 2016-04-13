@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="assignment">
+<#assign webname="债权列表 - ${webname!}">
+<#include "../../include/style.html">
+<body>
+    <#include "../../include/header.html">
+    <#include "../../common/function.html">
+    <#import "../../common/function.html" as func>
+    <div id="container">
+        <div class="wrap">
+            <div class="wp-list-assignment">
+                <#if (itemList??)&&(itemList?size gt 0)>
+                    <ul class="name cf">
+                        <li>债权名</li>
+                        <li>债权人</li>
+                        <li>债权等级</li>
+                        <li>债权状态</li>
+                        <li>预估收益率</li>
+                        <li>债权价值</li>
+                        <li>转让价格</li>
+                        <li>截止日期</li>
+                        <li>发布日期</li>
+                    </ul>
+                    <#list itemList as item>
+                        <ul class="item cf">
+                            <li>
+                                <!-- <b><#if item.name??><#if item.name?length lt 7>${item.name}<#else>${item.name[0..5]}...</#if><#else>资金周转</#if></b> -->
+                                <a href="/invest/detail.html?borrowid=${item.related_borrow_id?c}" title="${item.borrow_name!'-'}" target="_blank">
+                                    [<#if item.borrow_name?length lt 10>${item.borrow_name}<#else>${item.borrow_name[0..7]}...</#if>]
+                                </a>
+                            </li>
+                            <li>${item.username}</li>
+                            <li><#if item.level == 1>优质<#elseif item.level == 2>普通</#if></li>
+                            <li>转让中</li>
+                            <li>${(item.credit_value - item.credit_price) * 100 / item.credit_price }%</li>
+                            <li>${item.credit_value}</li>
+                            <li>￥${item.credit_price}</li>
+                            <li>${dateformat(item.buy_end_time?c, "yyyy-MM-dd")}</li>
+                            <li>${dateformat(item.addtime?c, "yyyy-MM-dd")}</li>
+                            <li><a href="/invest/view.html?caId=${item.id?c}" target="_blank">立即购买</a></li>
+                        </ul>
+                    </#list>
+                <#else>
+                    <div class="no-data">暂无需要转让的债权</div>
+                </#if>
+                <div class="account-page">
+                    <#import "../../common/page.html" as pager>
+                    <@pager.pagination page=page url="/member/ca/listCas.html" map=param style="style-new"  />
+                </div>
+            </div>
+        </div>
+    </div>
+    <#include "../../include/footer.html">
+</body>
+</html>

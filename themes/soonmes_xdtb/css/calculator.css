@@ -1,0 +1,22 @@
+.calc-title{width: 120px;height: 40px;line-height: 40px;margin-top: 30px;padding: 0 15px;font-size: 14px;text-align: center;background: #ff5454;color: #fff;letter-spacing: 1px;}
+.calc-moduler{position: relative;padding: 20px 15px;background: #fff;}
+
+.borrow-arg .repay-limit-type{height: 40px;font-size: 14px;}
+.borrow-arg .repay-limit-type label{margin: 0px 20px 0 5px;vertical-align: 1px;}
+.borrow-arg ul li{position: relative;float: left;width: 300px;margin-right: 25px; height: 55px;}
+.borrow-arg ul li label{float: left;width: 80px;line-height: 40px;font-size: 14px;}
+.borrow-arg ul li input{float: left;width: 208px;height: 18px;padding: 10px 0 10px 10px;font:bold 14px/16px 'Verdana';color: #333;border-radius: 0;}
+.borrow-arg ul li select{float: left;width: 220px;padding: 10px 5px;font-weight: bold;font-size: 14px;text-indent: 10px;border-radius: 0;color: #333;}
+.borrow-arg ul li b{position: absolute;right: 10px;top: 0;line-height: 40px;font-weight: bold;font-size: 14px;color: #333;}
+.borrow-arg .btn-calc{display: block;width: 200px;height: 40px;line-height: 40px;margin: 0 auto;font-size: 14px;text-align: center;background: #ff5454;color: #fff;letter-spacing: 2px;}
+.borrow-arg .btn-reset{position: absolute;right: 15px;top: 170px;display: block;width: 100px;height: 40px;line-height: 40px;font-size: 14px;text-align: center;background: #ff5454;color: #fff;letter-spacing: 2px;}
+
+.repay-desc{line-height: 30px;font-size: 14px;}
+.repay-desc span{color: #FF8000;}
+.repay-plan{margin-bottom: 30px;}
+.repay-plan ul li{float: left;width: 212px;height: 35px;line-height: 35px;font-size: 14px;text-align: center;background: #0078ad;border-right: 3px solid #fff;color: #fff;}
+.repay-plan ul li:first-child{width: 90px;}
+.repay-plan ul li:last-child{border: none;}
+.repay-plan dl{border-bottom: 1px solid #ccc;}
+.repay-plan dl dd{float: left;width: 215px;height: 35px;line-height: 35px;font-size: 14px;text-align: center;color: #333;}
+.repay-plan dl dd:first-child{width: 90px;color: #FF8000;}

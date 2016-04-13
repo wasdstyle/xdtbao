@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#include "../../include/style.html">
+<body>
+	<script type="text/javascript">
+		if(window.location.href.match('step=first')) {
+			document.write('<style>#modify-phone-validcode{display: block;}#form-modify-phone{display: none;}</style>');
+		}
+	</script>
+	<div class="wp-modify-form">
+		<input type="hidden" id="count-down" value="${countDown!60}">
+		<!-- 原始手机号码获取校验码:begin -->
+		<form action="/member/identify/phoneChange.html" id="modify-phone-validcode">
+			<h1>为了保护您的帐号安全，修改前请您进行安全验证</h1>
+			<ul>
+				<li class="cf">
+					<label>原始号码：</label>
+					<span>${oldPhone!}</span>
+					<input type="hidden" class="mobile" value="${oldPhone!}">
+				</li>
+				<li class="cf">
+					<label>校验码：</label>
+					<input type="text" name="phoneValicode" id="phone-validcode" maxlength="6" autocomplete="off"/>
+					<a href="javascript:" class="btn-phone-modify-validcode">获取校验码</a>
+				</li>
+				<li class="modify-prompt"></li>
+				<input type="hidden" name="query_type" value="phone_change">
+				<a href="javascript:" id="phone-next-step">下一步</a>
+			</ul>
+		</form>
+		<!-- 原始手机号码获取校验码:end -->
+
+		<!-- 新手机号码获取校验码:begin -->
+		<form action="/member/identify/phoneCheck.html" method="post" id="form-modify-phone">
+			<h1>输入新的手机号码，获取新的校验码即可完成修改</h1>
+			<ul>
+				<li class="cf text">
+					<label>新手机号码：</label>
+					<input type="text" name="mobile" class="mobile" maxlength="11" onlynumber="true" autocomplete="off" />
+				</li>
+				<li class="cf">
+					<label>校验码：</label>
+					<input type="text" name="valicode" id="valicode" maxlength="6" autocomplete="off"/>
+					<a href="javascript:" class="btn-phone-modify-validcode">获取校验码</a>
+				</li>
+				<li class="modify-prompt"></li>
+				<a href="javascript:" id="btn-submit-modify-phone">确定</a>
+			</ul>
+		</form>
+		<!-- 新手机号码获取校验码:end -->
+	</div>
+	<#include "../../include/script.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-identify.js"></script>
+
+</html>

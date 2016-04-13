@@ -1,0 +1,78 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<style type="text/css">
+		.btn-get-pwd{
+          width: 94%;
+          background: #C8050E;
+          margin:0 auto;
+          margin-top:30px!important;
+          border-radius: 5px;
+          text-align: center;
+          color: white;
+          font-size: 18px!important;
+          height:50px;
+        }
+
+        #main .form-style-reg label{
+            color:#999;
+            width:36%;
+            float:left;
+        }
+        
+        #main .form-style-reg li{height:80px;}
+
+        #main .form-style-reg li span{
+            margin-top:17px;
+            width:60%;
+            color:#999;
+        }
+
+        #main .form-style-reg input{border:1px solid #999; height:40px; margin-bottom:5px; padding-left:5px;}
+
+        .tooltip-input.error{color: #f20c00;}
+	</style>
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">找回登录密码</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg">
+            <!-- <form action="" method="post"> -->
+            <form action="" method="post" id="form-setpwd" class="form-setpwd">
+                <ul>
+                    
+                    <li style="height:40px;">
+                        <label>用户名：</label>
+                        <span><#if u?exists>${u.username?default("")}</#if></span>
+                    </li>
+
+                    <li>
+                        <input type="password" name="password" id="password" maxlength="16" onpaste="return false" onKeyUp="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')" placeholder="新密码">
+                    </li>
+
+                    <!-- <div id="bg-password-strength" class="strength"></div> -->
+
+                    <li>
+                        <input type="password" name="confirm_password" id="con-pwd" maxlength="16" onpaste="return false" onKeyUp="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')" 
+                        placeholder="确认新密码">
+                    </li>
+
+                </ul>
+                
+
+                <input type="hidden" name="type" value="setpwd" />
+                <input type="hidden" name="username" value="<#if u?exists>${u.username?default("")}</#if>" />
+            </form>
+        </div>
+    		<div id="operator" style="margin-bottom:60px;">
+            <a class="btn btn-setpwd">重置登录密码</a>
+        </div>
+<script type="text/javascript">
+    var themeDir = '${theme_dir}';
+</script>
+<script type="text/javascript" src="${theme_dir}/plugin/LAB.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/layer.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/weixin/setpwd.js"></script>
+<#include "header/footer.html">
+	

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="invest">
+<#assign webname="${borrow.name!} - ${webname!}">
+<#include "../include/style.html">
+<body>
+    <#include "../include/header.html">
+    <#include "../common/function.html">
+    <link rel="stylesheet" type="text/css" href="/themes/soonmes_xdtb/plugin/fancybox-1.3.1/jquery.fancybox.css" media="screen" />
+    <div class="borrow-top-content">
+        <div class="wrap clearfix">
+            <div class="borrow-info">
+                <div class="title cf clearfix">
+                    <h1><#if borrow.name?length lt 20>${borrow.name}<#else>${borrow.name[0..18]}...</#if></h1>
+                    <a href="/article/list.html?nid=jkxy" id="yl" class="fr">【借款协议预览】</a>
+                </div>
+                <div class="borrow-id clearfix">
+                    <@showBorrowIcon item=borrow/>
+                    <span>借款编号：#${borrow.id?c}</span>
+                    <input type="hidden" id="borrow-id" value="${borrow.id?c}">
+                </div>
+                <ul class="clearfix borrow-box">
+                    <li class="borrow-box-1">
+                        <h2 class="clearfix">
+                            <i></i>借款金额
+                        </h2>
+                        <p>${borrow.account}<font>元</font></p>
+                    </li>
+                    <li class="borrow-box-2">
+                        <h2 class="clearfix">
+                            <i></i>借款期限
+                        </h2>
+                        <p>
+                            <#if borrow.isday??&&borrow.isday==1>
+                                ${borrow.time_limit_day!0}<font>天</font>
+                            <#elseif borrow.type==101>
+                                <font>满标即还</font>
+                            <#else>
+                                ${(borrow.time_limit)!0}<font>个月</font>
+                            </#if>
+                        </p>
+                    </li>
+                    <li class="borrow-box-3">
+                        <h2 class="clearfix">
+                            <i></i>年化收益
+                        </h2>
+                        <p>${borrow.apr}<font>%</font></p>
+                    </li>
+                </ul>
+                <ul class="clearfix borrow-style-box">
+                    <li>
+                        还款方式：
+                        <@linkage plantext=true default=borrow.style nid="borrow_style"/>
+                    </li>
+                    <li>
+                        最高投标：
+                        <#if borrow.most_account??&&borrow.most_account?c?number gt 0>${borrow.most_account?c}元<#else>无限制</#if></li>
+                    <li>
+                        投标奖励： 
+                        <#if borrow.award??&&borrow.award==0>没有奖励
+                        <#elseif borrow.award??&&borrow.award==1>${(borrow.part_account)!0}%奖励
+                        <#elseif borrow.award??&&borrow.award==2> ${(borrow.funds)!0}元分摊奖励
+                        <input id="borrowFunds" type="hidden" value="${(borrow.funds?c)!0}"/>
+                        </#if>
+                    </li>
+                    <li>
+                        发标时间：
+                        ${dateformat(borrow.verify_time!0,"yyyy-MM-dd")}
+                    </li>
+                    <li>最低投标：
+                        <#if borrow.lowest_account??&&borrow.lowest_account?c?number gt 0>${borrow.lowest_account?c}元<#else>无限制</#if>
+                    </li>
+                    <li>当前状态：
+                        <@statusTypeName status=borrow.status item=borrow/>
+                    </li>
+                </ul>
+            </div>
+            <div class="borrow-process fl">
+                <div class="process-content">
+                    <h1>投资进度</h1>
+                    <#assign borrow_process=(borrow.account_yes/borrow.account)> 
+                    <canvas class="process-bar" percent="${(borrow_process*100)?string('##.##')}"></canvas>
+                </div>
+                <div class="remain-money">
+                    <h1>剩余可投</h1>
+                    <p>
+                    <#assign borrow_remain=borrow.account > 
+                    <#if borrow.account_yes?exists> 
+                        <#assign borrow_remain=(borrow.account-borrow.account_yes) >
+                     </#if>
+                    <#if borrow.type==110>
+                    ${((borrow.account?c!0)?number-(borrow.account_yes?c!0)?number)/borrow.flow_money}<font>份</font>
+                        <input type="hidden" value="${(borrow.flow_money)?string("0.##")}" id="single-flow-money">
+                        <input type="hidden" value="${((borrow.account?c!0)?number-(borrow.account_yes?c!0)?number)/borrow.flow_money}" id="remain-invest-amount">
+                    <#else>
+                        ${(borrow_remain!0)?string("###,###")}<font>元</font>
+                        <input type="hidden" value="${(borrow_remain)?string("0.##")}" id="remain-invest-amount">
+                    </#if>
+                    </p>
+                </div>
+            </div>
+            <div class="invest-form">
+                <#include "../common/invest-form.html">
+            </div>
+        </div>
+    </div>
+    <div class="bottom wrap">
+        <div class="bottom-tit clearfix">
+            <a href="javascript:void(0)" class="active tit-1">项目详情</a>
+            <a href="javascript:void(0)">投标详情</a>
+        </div>
+        <!-- 选项卡内容:begin -->
+        <div class="tab-cont cont" style="display: block;">
+            <h1>借款详情</h1>
+            ${borrow.content!}
+            <h1>借款人情况说明</h1>
+            <div class="clearfix ">            
+                <span class="name">借款人信用档案：</span>
+                <ul class="cf tab-ul-cont">
+                    <li><b>${(summary.borrowTimes)!0}</b>次成功借款</li>
+                    <li><b>${borrowFlowList!0}</b>次流标</li>
+                    <li><b>${repament_failure!0}</b>笔待还款</li>
+                    <li><b>${repament_scuess!0}</b>笔已成功还款 </li>
+<!--                     <li><b>${earlyRepaymentList!0}</b>笔提前还款</li> -->
+                    <li><b>${lateRepaymentList!0}</b>笔迟还款</li>
+                    <li><b>${overdueRepaymentList!0}</b>笔30天之内的逾期还款</li>
+                    <li><b>${overdueRepaymentsList!0}</b>笔超过30天的逾期还款</li>
+                    <li><b>${overdueNoRepaymentsList!0}</b>笔逾期未还款</li>
+                </ul>
+                <#if borrow.open_tender?? && borrow.open_tender="1">
+                    <span class="name">借款人投标资金公示：</span>
+                    <ul class="cf tab-ul-cont">
+                        <li>投标总额：<b>${summary.lendTotal!0}</b></li>
+                        <li>已收回总额：<b>${summary.acceptSum!0}</b></li>
+                        <li>待收回总额：<b>${summary.collectTotal!0}</b></li>
+                    </ul>
+                </#if>
+                <#if borrow.open_account?? && borrow.open_account="1">
+                    <span class="name">借款人账户资金公示：</span>
+                    <ul class="cf tab-ul-cont">
+                        <li>账户总额：<b>${(summary.accountTotal)!0}</b></li>
+                        <li>可用余额：<b>${summary.accountUseMoney!0}</b></li>
+                        <li>冻结总额：<b>${summary.accountNoUseMoney!0}</b></li>
+                    </ul>
+                </#if>
+                <#if borrow.open_borrow?? && borrow.open_borrow="1">
+                    <span class="name">借款人借款资金公示：</span>
+                    <ul class="cf tab-ul-cont">
+                        <li>借款总额：<b>${(summary.borrowTotal)!0}</b></li>
+                    <li>已还款总额：<b>${((summary.borrowTotal!0)+(summary.borrowInterest!0)-(summary.repayTotal!0))}</b></li>
+                        <li>未还款总额：<b>${(summary.repayTotal)!0}</b></li>
+                    </ul>
+                </#if>
+                <#if borrow.type?? && borrow.type=112>
+                        <h1>抵押担保情况调查</h1>
+		                <div style="margin-bottom: 10px;">
+		                    ${borrow.vouch_user!""} 
+		                </div>
+                </#if>
+                
+                <h1>相关资料</h1>
+                <div class="project-mater">
+                    <div class="img-roll clearfix" style="position: relative;">
+                    <div class="img-roll-content">
+                        <ul class="clearfix img-list" style="position: absolute; width: 0px;">
+                        
+                        </ul>
+                    </div>
+                    <a class="prev" ></a>
+                    <a class="next"></a>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="tab-cont" style="display:none">
+            <div class="list-record"></div>
+            <div class="list-record-page"><ul class="cf"></ul></div>
+        </div>
+        <!-- 选项卡内容:end -->
+    </div>
+    <#include "../include/footer.html">
+</body>
+<script type="text/javascript" src="/themes/soonmes_xdtb/js/jquery.fancybox-1.3.1.pack.js"></script>
+<script src="${theme_dir}/js/invest-detail.js"></script>
+<script type="text/javascript">
+    $(".tab-cont img").parents("p").addClass("re-img");
+    $(".tab-cont img").clone().prependTo(".img-list");
+    $(".img-list img").each(function(){$(this).wrap("<li><a></a></li>");})
+    $(".img-list a").attr("data-lightbox","roadtrip");
+    $(".img-list a").each(function(){$(this).attr("href",$(this).find("img").attr("src")); })
+    $(".re-img").remove();
+    $('.img-roll').listScroll({
+    scrollList:'.img-list',
+    prevBtn:'.prev',
+    nextBtn:'.next',
+    autoPlay:false,
+    autoPlayInterval:6
+});
+    $(".img-roll-content a").fancybox();
+    
+</script>
+
+</html>

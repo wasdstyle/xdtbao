@@ -1,0 +1,267 @@
+<#include "header/base_top.html">
+<style>
+	#main .form-style-reg input{
+		border:1px solid #E8E8E8;
+	}
+</style>
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="/themes/soonmes_huanandai/images/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">注册</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="/themes/soonmes_huanandai/images/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg">
+            <form action="register.html" method="post" id="reg_sub" name="formUser">
+                <ul>
+                    <li style="border-bottom:1px solid #E8E8E8;">
+						<input type="text" name="username" id="username" placeholder="请输入用户名" maxlength="12" />
+                    </li>
+                    <li style="border-bottom:1px solid #E8E8E8;">
+						<input type="password" id="firstpwd" name="password" placeholder="请输入密码" maxlength="16" />
+                    </li>
+					<li style="border-bottom:1px solid #E8E8E8;">
+						<input type="password" id="checkpwd" name="confirm_password" placeholder="请再次输入密码" maxlength="16" />
+                    </li>
+					<li style="border-bottom:1px solid #E8E8E8;">
+						<input type="text" id="email" name="email" placeholder="请输入电子邮件" maxlength="30" />
+                    </li>
+					<li style="border-bottom:1px solid #E8E8E8;">
+						<input type="text" id="realname" name="realname" placeholder="请输入您的真实姓名" maxlength="5" />
+                    </li>
+					<li style="border-bottom:1px solid #E8E8E8;">
+						<input type="text" name="invite_username" id="invite_username" placeholder="介绍人(非必填项)" maxlength="15" value="<#if inviteUser?exists&&inviteUser.username?exists>${inviteUser.username}</#if>" />
+                    </li>
+					<li style="border-bottom:1px solid #E8E8E8;">
+						<input class="helper" type="text" name="valicode" id="valicode" maxlength="5" placeholder="验证码" />
+                        <img src="/validimg.html" alt="点击刷新" onclick="this.src='/validimg.html?t=' + Math.random();" align="absmiddle" >
+                    </li>		
+                </ul>
+				<input type="hidden" name="actionType"  value="register" />
+                <input type="hidden" name="openLoginId"  value="${openLoginId!}" />
+                <input type="hidden" value="register">
+            </form>
+			<a href="login.html" style="margin-left:3%;margin-top:15px;color:#057DFF;font-weight:bold;display:block;">已有账号？请登入</a>
+        </div>
+		<div id="operator">
+			<a class="btn">立即注册</a>
+		</div>
+<script>	
+	var pwdBox = $("#firstpwd");
+	var checkBox = $("#checkpwd");
+	var userStatus = 0;
+	var status_pwd = 0;
+	var status_ck = 0;
+	var status_realname = 0;
+	var status_email = 0;
+	var checkStr = "";
+	var value = "";
+
+	function str_length(val) {
+		var len = 0;
+		var a = val.split("");
+		for (var i=0;i<a.length;i++) {
+			if (a[i].charCodeAt(0)<299) {
+				len++;
+			} else {
+				len+=2;
+			}
+		}
+		return len;
+	}//判断中文为2个字符，英文为一个
+						
+	var userBox = $("#username");
+	userBox.focus(function(){
+
+	}).blur(function(){
+		var reg = /^([a-zA-Z0-9_]|[\u0391-\uFFE5]){2,15}$/;
+		var str;
+		str = userBox.val();
+		var str_len = str_length(str);
+		if(str =="")
+		{
+			okDialog("请输入4-15位英文,数字或不超过6个汉字");
+			userStatus = 0;
+		}
+		else if(str_len<4)
+		{
+			okDialog("用户名必须大于4个数字或是1个汉字");
+			userStatus = 0;
+		}
+		else if(str_len>15)
+		{
+			okDialog("用户名必须小于15个数字或是6个汉字");
+			userStatus = 0;
+		}
+		else if(reg.exec(str)){
+			//判断是否存在
+			$.get("/user/checkUsername.html", {username: $("#username").val() },function (result){
+				if(result==true){						
+					userStatus = 1;
+				}
+				else{
+					okDialog("用户名已经存在");
+					userStatus = 0;
+				}
+			});
+		}
+		else{
+			okDialog("用户名必须小于15个数字或是6个汉字");
+			userStatus = 0;
+		}
+	});//用户名表单校验
+	
+	var email = $("#email");
+	email.focus(function(){
+
+	}).blur(function(){
+		var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+		var str;
+		str = email.val();
+		if(str =="")
+		{
+			okDialog("请输入邮箱地址");
+			status_email = 0;
+		}
+		else if(!reg.test(str))
+		{
+			okDialog("邮箱格式不正确");
+			status_email = 0;
+		}
+		else{
+			//判断是否存在
+			$.get("/user/checkEmail.html", {email: $("#email").val() },function (result){
+				if(result==true){						
+					status_email = 1;
+				}
+				else{
+					okDialog("此邮箱已经存在");
+					status_email = 0;
+				}
+			});
+		}
+	});//邮箱表单校验
+	
+	
+	
+	
+	
+	var realname = $("#realname");
+	realname.focus(function(){
+
+	}).blur(function(){
+		var reg = /^[\u0391-\uFFE5]+$/;
+		var str;
+		str = realname.val();
+		if(str =="")
+		{
+			okDialog("请输入真实姓名");
+			status_realname = 0;
+		}
+		else if(str.length>5 || str.length<2)
+		{
+			okDialog("真实姓名长度在2-5位");
+			status_realname = 0;
+		}
+		else if(!reg.test(str))
+		{
+			okDialog("真实姓名格式不正确");
+			status_realname = 0;
+		}
+		else{
+			status_realname = 1;
+		}
+	});//真实姓名校验
+	
+	
+	pwdBox.focus(function(){
+		
+	}).blur(function(){
+		value = pwdBox.val();
+		var pwdtestVal = getResult(value);
+		var str_len = value.length;			
+		if((str_len>7)&&(str_len<17)){			
+			if(pwdtestVal<2)
+			{				
+				okDialog("请输入8至16位，数字加字母的密码");
+				status_pwd = 0;
+			}
+			else{
+				checkStr = checkBox.val();
+				value = pwdBox.val();
+				if(checkStr=="")
+				{
+			
+				}
+				else if(value!=checkStr)
+				{
+					okDialog("两次输入的密码不一致");
+					status_ck = 0;
+				}else{
+					status_ck = 1;
+				}
+				status_pwd = 1;
+			}
+		}else{
+			okDialog("请输入8到16位密码");
+			status_pwd = 0;
+		}										
+	});//密码表单校验
+	
+	checkBox.focus(function(){
+
+	}).blur(function(){
+		value = pwdBox.val();
+		checkStr = checkBox.val();
+		if(checkStr=="")
+		{
+			okDialog("请输入和上面一致的密码");
+			status_ck = 0;
+		}
+		else if(checkStr!=value){
+			okDialog("两次输入的密码不一致");
+			status_ck = 0;
+		}
+		else{
+			status_ck = 1
+		}
+	});//确认密码表单校验
+	
+	function getResult(value){
+		var str_len = value.length;
+		var i = 0;
+		if(value.match(/[a-z]/ig)) {
+			i++;
+		}
+		if(value.match(/[0-9]/ig)) {
+			i++;
+		}
+		if(value.match(/(.[^a-z0-9])/ig)) {
+			i++;
+		}
+		if(value.length < 8 && i > 0) {
+			i--;
+		}
+		return i;
+	};//密码正则表达式 
+
+	$(".btn").click(function(){
+		var valicode_val = $("input[name='valicode']").val();
+		var check_form = userStatus*status_pwd*status_ck*status_realname*status_email;
+		if(check_form==1)
+		{
+			if(valicode_val=="")
+			{
+				okDialog("请输入验证码");
+			}
+			else{	
+				$("#reg_sub").submit();				
+			}
+		}
+		else{
+			okDialog("请检查填写的信息是否正确");
+		}
+	});				
+</script>		
+<#include "header/footer.html">	
+	

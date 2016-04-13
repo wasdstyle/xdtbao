@@ -1,0 +1,162 @@
+﻿@charset "utf-8"; 
+
+/* reset.css */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,blockquote, pre, a, abbr, acronym, address,big, cite, code, del, dfn, em, img, ins, kbd,q, s, samp, small, strike, strong, sub, sup,tt, var, b, u, i, center, div, dl, dt, dd, ol, ul,li, fieldset, form, label, legend, table,caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed,figure, figcaption, footer, header, hgroup,menu, nav, output, ruby, section, summary,time, mark, audio, video{margin:0;padding:0;}
+a{outline: none;text-decoration:none;color:#666;star:expression(this.onFocus=this.blur());}
+body{background: #fafafa;color: #666;font-size: 14px; font-family: 'Microsoft YaHei', 'Helvetica', 'Simsun'; min-width: 1190px;}
+h1, h2, h3, h4, h5, h6 {font-weight:normal;font-size:100%;}
+img {border:none;}
+ul, li{list-style:none;}
+input, textarea, select{border: 1px solid #ccc;border-radius: 3px;}
+input:focus, textarea:focus, input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus, select:focus{outline: none;}
+input[type="radio"], input[type="checkbox"]{border: none;}
+input[type="button"], input[type="submit"], input[type="image"]{cursor: pointer;}
+input::-ms-clear, input::-ms-reveal{display: none;}
+table, th, td { border-collapse: collapse; }
+textarea{resize: none;}
+.fff{background: #fff; min-width: 1190px;}
+
+/* general.css */
+.clearfix,.cf{*zoom: 1;}
+.clearfix:after, .cf:after{display: block;clear: both;height: 0;content: '';}
+.fl{float: left;}
+.fr{float: right;}
+.show{display: block}
+.hide{display: none}
+.wrap,.box{width: 1190px;margin: 0 auto;}
+.box .reg-pro{font-size: 16px; font-weight: bold;}
+
+/* sprite.css */
+#footer .identify li a,  #footer .attention a,
+.online-service .icon, .online-service .wrap h1 a, .online-service .wrap ul li i, .online-service .wrap ul li.offline i,
+.msg-text h1 i,
+.banner .btn-prev, .banner .btn-next, .count-data ul li i, .index-invest h1 i, .partner h1 i,
+.form-login ul li i,
+.form-register ul li .refresh i, .email-actived .icon, .send-email i, .email-actived h1 i,
+.wp-form-getpwd ul li i,
+.form-setpwd ul #bg-password-strength,
+.more-filter a i,
+.borrow-info .tab-title li:hover b, .borrow-info .tab-title li.active b,
+.borrow-type li span b,
+.borrow-submit a i,
+#form-modify-pwd ul #bg-password-strength,
+.index-top .identify li a{background-image: url(../bg/icons-style.png);background-repeat: no-repeat;}
+
+/* poshytip, artdialog自定义样式 */
+.tip-inner {font-size: 12px!important;}
+.aui_content{font-size: 14px!important;color: #333!important;}
+.aui_buttons{padding: 5px 25px!important;}
+button.aui_state_highlight, .aui_buttons button{border-radius: 0!important;box-shadow: none!important;padding: 6px 15px!important;}
+
+/* header:begin */
+#header{min-width: 1190px;}
+.header-top{background: #f3f3f3;border-bottom: 1px solid #e0e0e0; min-width: 1090px;}
+.header-top .left{float: left;}
+.header-top .left li{float: left; border-left: 1px #e0e0e0 solid; height: 40px; line-height: 40px; color: #888; cursor: pointer;}
+.header-top .left li b{float: left; margin: 11px 11px 0; background: url(../bg/index-icon.png) no-repeat;}
+.header-top .left li.weix-ewm{width: 127px; position: relative; cursor: default;}
+.header-top .left li.weix-ewm img{position: absolute; top: 41px; z-index: 999; left: 0px; }
+.header-top .left li.weix-ewm b{background-position:-3px -1px; width: 20px; height: 18px;}
+.header-top .left li.sina-weib{width: 109px;}
+.header-top .left li.sina-weib b{width: 18px; height: 15px; background-position: -27px -3px;}
+.header-top .left li a:hover{text-decoration: underline; color: #ff5454}
+.header-top .left li.top-tel{ border-right: 1px #e0e0e0 solid; width: 243px;}
+.header-top .left li.top-tel b{width: 18px; height: 16px; background-position: -52px -3px;}
+.header-top .left li.top-tel em{font-size: 16px; color: #eb4343; font-family: 'Myriad Pro'}
+.header-top .right{float: right;}
+.header-top .right li{width: 94px; text-align: center; float: left; border-right: 1px #e0e0e0 solid; height: 40px; line-height: 40px;}
+.header-top .right li.login-reg{width: 161px; border-left: 1px #e0e0e0 solid;}
+.header-top .right li a{color: #888}
+.header-top .right li.login-reg a{float: left;}
+.header-top .right li.login-reg a.username{width: 68px;  height: 22px; overflow: hidden;border: 1px #ff5454 solid; text-decoration: none;border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px; color: #ff5454;
+ margin: 8px 12px 0; line-height: 22px;}
+.header-top .right li.login-reg a.username:hover{background:#ff5454; color: #fff; }
+.header-top .right li a:hover{color: #ff5454; text-decoration: underline;}
+
+.navbar{background: #fff;position: relative;z-index: 10; min-width: 1090px;}
+.navbar .logo{display: block;float: left;width: 417px;height: 50px;background: url(../bg/logo.png) no-repeat;margin: 24px 0 25px 1px;}
+.navbar .nav-right{float: right;margin: 33px 0 0px;}
+.navbar ul li{float: left;margin-left: 17px;text-align: center; width: 102px; height:66px; line-height: 36px; position: relative;}
+.navbar ul li a{font-size: 18px; color: #888; display: block; width: 102px; height: 36px; line-height: 36px;}
+.navbar ul li.current a{background: #ff5454;border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px; }
+.navbar ul li.current a,.navbar ul li:hover a{color: #fff;background: #ff5454;}
+.navbar ul li .second-menu {position: absolute; z-index: 51; top:66px;  overflow: hidden; white-space: nowrap; left: 0px;}
+.nav-list li .second-menu{  position: absolute; z-index: 51; top: 99px; overflow: hidden; min-width: 500px; white-space: nowrap; left: 0px;}
+.navbar ul li .second-menu a {float:left; color: #888; font-size: 16px; margin-right: 28px; position: relative; line-height: 40px; white-space: nowrap; height: 40px; width: auto;}
+.navbar ul li .second-menu a:hover{text-decoration: underline; background: none;}
+.navbar ul li.current .second-menu a,.navbar ul li:hover a.second-a{background: none}
+.navbar .nav .bg{position: absolute; top:99px; left: 0px; width:100%;  z-index: 50; overflow: hidden; height: 0px; background: url(../bg/nav-bg.png) repeat;}
+/* header:end */
+
+/* container*/
+ 
+/* footer:begin */
+#footer{overflow: hidden; position: relative; min-width: 1190px;}
+.web-detail-intro{height: 144px; background: url(../bg/line-bg.png) repeat #ddd; padding-top: 26px; min-width: 1190px;}
+.web-detail a,.web-detail p,.web-detail span,.web-detail .bottom-ewm{float: left;}
+.web-detail a{margin: 5px 34px 0 0;}
+.web-detail p{width: 224px; line-height: 24px; text-indent: 2em; color: #868686; margin: 7px 29px 0 0;}
+.web-detail span {width: 294px;}
+.web-detail span a{margin: 11px 32px 0 0;}
+.web-detail span a img{width: 114px; height: 41px;}
+.web-detail .bottom-ewm{margin-top: 8px; width: 141px; background: url(../bg/do-ewm.png) no-repeat right 0 ; height: 105px;}
+.web-detail ul{float: right; text-align: right;}
+.web-detail ul li{height: 35px; line-height: 35px; font-size: 16px;}
+.web-detail ul li b{float: left; width: 27px; height: 28px; background: url(../bg/index-icon.png) no-repeat -126px -4px; margin:3px  20px 0 0 }
+#footer .bottom{padding: 12px 0 20px; color: #999; text-align: center; line-height: 28px; min-width: 1190px;}
+/* footer:end */
+
+/* 客服窗口:begin */
+.help-center,#rightFix{position:fixed;top:210px;right: 20px;z-index:999; width: 120px; height: 240px; background: url(../bg/fix-icon.png) no-repeat -125px 0; }
+#rightFix{width: 255px; background: none}
+.online-service{float: right; width: 120px; height: 240px; background: url(../bg/fix-icon.png) no-repeat -125px 0; }
+.help-center{background: none;  width: 120px; height: 41px; }
+.help-center a{display: block;  width: 120px; height: 41px; background: url(../bg/fix-icon.png) no-repeat -125px -40px; text-indent: -9999em;}
+.help-center a:hover{background-position: 0 -40px;}
+.online-service a,.online-service div.service-5{display: block; height: 40px; line-height: 40px; text-indent: 43px; color: #999}
+.online-service a.service-1:hover
+,.online-service a.service-2:hover
+,.online-service a.service-3:hover
+,.online-service a.service-4:hover
+,.online-service div.service-5:hover
+,.online-service a.service-6:hover{background: url(../bg/fix-icon.png) no-repeat;color: #fff;}
+.online-service a.service-1:hover{background-position:0px 0px;}
+.online-service a.service-2:hover{background-position:0px -40px;}
+.online-service a.service-3:hover{background-position:0px -80px;}
+.online-service a.service-4:hover{background-position:0px -120px;}
+.online-service div.service-5{cursor: pointer;}
+.online-service div.service-5:hover{background-position:0px -160px;}
+.online-service a.service-6:hover{background-position:0px -200px;}
+div.list-service1{background: #fff; height: auto; position: absolute; display: block; top:160px; right: 125px; width: 130px;}
+div.list-service1 h1{width: 130px; height: 35px; line-height: 35px; text-align: center; color: #fff; background: #ff5454; text-indent: 0px;}
+div.list-service1 ul{width:100px; padding: 10px 15px; overflow: hidden;}
+div.list-service1 ul li{height: 40px;background: url(../bg/icon-qq-online.png) no-repeat 5px 6px; overflow: hidden;}
+div.list-service1 ul li.offline{ background: url(../bg/icon-qq-offline.png) no-repeat 5px 6px;}
+div.list-service1 ul li a:hover{color: #333; text-decoration: underline;}
+/* 客服窗口:end */
+
+/* 标种图标:begin */
+.icon-bid{background-image: url(../bg/icons-bid-type.png);background-repeat: no-repeat;}
+.icon-bid.second{background-position: 0 0;}
+.icon-bid.mortgage{background-position: -20px 0;}
+.icon-bid.credit{background-position: -40px 0;}
+.icon-bid.flow{background-position: -60px 0;}
+.icon-bid.networth{background-position: -80px 0;}
+.icon-bid.vouch{background-position: -100px 0;}
+.icon-bid.day{background-position: -120px 0;}
+.icon-bid.award{background-position: -140px 0;}
+.icon-bid.password{background-position: -160px 0;}
+/* 标种图片:end */
+
+/* msg提示页面:begin */
+.container-msg{width: 980px;margin: 30px auto;}
+.pro-bar-container{margin: 0;background: #2980b9!important;border-color: #2980b9!important;}
+.color-custom{background: #3498db!important;}
+.msg-text{text-align: center;}
+.msg-text h1{display: inline-block;line-height: 45px;font-size: 25px;color:#333;margin-top: 30px;}
+.msg-text h1 i{display: inline-block;width: 45px;height: 45px;margin-right: 10px;vertical-align: -9px;}
+.msg-text.success h1 i{background-position:-46px -80px;}
+.msg-text.failure h1 i{background-position:-94px -80px;}
+.container-msg h2{line-height: 35px;font-size: 18px;}
+.btn-back-prev a{display: block;width: 300px;height: 40px;line-height: 40px;margin: 20px auto;font-size: 14px;text-align: center;background: #ff5454;border-radius: 3px;color: #fff;letter-spacing: 2px;}
+/* msg提示页面:end */

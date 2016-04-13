@@ -1,0 +1,92 @@
+.money-account-title {background:#f5f5f5;padding:0 10px;}
+.money-account-title li {float:left; line-height:35px;width:120px;}
+.money-account-title .li1 {width:109px;}
+.money-account-title .li7 {width:123px;}
+.money-account-content ul li {padding:0 10px;}
+.money-account-content ul li:hover{background:#f5f5f5}
+.money-account-content ul li span{float:left;width:120px;line-height:25px;}
+.money-account-content ul li .sp1{width:108px;}
+.money-account-content ul li .sp8{width:600px; line-height:35px;border-bottom:1px solid #eee;}
+/*资金记录*/
+
+.account-statistics {padding: 15px;}
+.account-statistics ul {padding: 5px;font-size: 14px;}
+.account-statistics ul li {line-height:45px;}
+.account-statistics ul .title {font-size: 20px;line-height: 30px;}
+.account-statistics ul font{font-size: 16px;display: inline-block; width: 120px;text-align: right;}
+.account-statistics ul span{float: left; width: 210px;}
+/*账户统计*/
+
+.invest-bid .title{ line-height: 35px;font-size: 16px;background: #f5f5f5;padding: 0 5px;}
+.invest-bid .title .sp3 {width: 199px;}
+.invest-bid .title .sp4 {width: 90px;text-align: center;}
+.invest-bid span{float: left; width: 130px;}
+.invest-bid ul {padding: 0 5px;}
+.invest-bid ul li {height: 35px;line-height: 35px;border-bottom: 1px dotted #D2D2D2;overflow: hidden;padding: 5px 0;}
+.invest-bid ul li:hover {}
+.invest-bid ul .sp4 {width: 90px;text-align: center;}
+.invest-bid ul .sp4 img{padding-top: 5px;}
+.invest-bid ul .sp3 {width:199px;line-height: 17px;}
+/*投资的项目*/
+
+.account-list .title{ line-height: 35px;font-size: 16px;background: #f5f5f5;padding: 0 5px;}
+.account-list .title .sp6 {text-align: center;padding: 0 29px;}
+.account-list .sp5 {width: 40px;padding: 0 10px;}
+.account-list span{float: left; width: 117px;}
+.account-list ul {padding: 0 5px;}
+.account-list ul li {height: 35px;line-height: 35px;border-bottom: 1px dotted #D2D2D2;overflow: hidden;padding: 5px 0;}
+.account-list ul .sp6 {line-height: 18px;text-align: center;padding: 0 29px;}
+/*收款中项目 已收款项目*/
+
+.account-collect .title { line-height: 35px;font-size: 12px;background: #f5f5f5;padding: 0 5px;}
+.account-collect span{float: left; width: 85px;}
+.account-collect ul {padding: 0 5px;}
+.account-collect ul li {height: 35px;line-height: 35px;border-bottom: 1px dotted #D2D2D2;overflow: hidden;padding: 5px 0;}
+.account-collect ul li .sp4 {text-align: center;}
+/*已收款明细 未收款明细*/
+
+.account-tender .title{ line-height: 35px;font-size: 16px;background: #f5f5f5;padding: 0 5px;}
+.account-tender span{float: left; width: 104px;}
+.account-tender ul {padding: 0 5px;}
+.account-tender ul li {height: 35px;line-height: 35px;border-bottom: 1px dotted #D2D2D2;overflow: hidden;padding: 5px 0;}
+/*投资记录*/
+
+.account-publish .title{ line-height: 35px;font-size: 16px;background: #f5f5f5;padding: 0 5px;}
+.account-publish span{float: left; width: 116px;}
+.account-publish ul li {height: 35px;line-height: 35px;border-bottom: 1px dotted #D2D2D2;overflow: hidden;padding: 5px 0;}
+.account-publish ul {padding: 0 5px;}
+/*待审核项目 募集中项目 还款中项目 已还款项目*/
+
+.account-repaymentail .title{line-height: 35px;font-size: 12px;background: #f5f5f5;padding: 0 5px;}
+.account-repaymentail span{float: left; width: 94px;}
+.account-repaymentail ul li {height: 35px;line-height: 35px;border-bottom: 1px dotted #D2D2D2;overflow: hidden;padding: 5px 0;}
+.account-repaymentail ul {padding: 0 5px;}
+#msgDiv{ position:absolute; display:none; width:400px; height:243px; background:#FFF; z-index:2009;  overflow:hidden;}
+#msgDiv h1{ padding:0px 3px 0px 10px; height:40px; line-height:40px; color:#FFF; background:#91a6b5; font-weight:normal; font-size:16px;}
+#msgDiv h1 a { color:#FFF; font-size:12px;}
+#msgDiv h1 span{ float:right}
+#msgDiv .huankuan { margin:20px auto; width:258px;}
+#msgDiv .huankuan ul li { line-height:40px;}
+/*还款明细*/
+
+.account-limitapp .title{line-height: 35px;font-size: 14px;background: #f5f5f5;padding: 0 5px;}
+.account-limitapp span{float: left; width: 116px;}
+.account-limitapp ul li {height: 35px;line-height: 35px;border-bottom: 1px dotted #D2D2D2;overflow: hidden;padding: 5px 0;}
+.account-limitapp ul {padding: 0 5px;}
+/*申请授信额度*/
+
+.account-cash-log .title{line-height: 35px;font-size: 14px;background: #f5f5f5;padding: 0 5px;}
+.account-cash-log span{float: left; width: 156px;}
+.account-cash-log ul li {height: 35px;line-height: 35px;border-bottom: 1px dotted #D2D2D2;overflow: hidden;padding: 5px 0;}
+.account-cash-log ul {padding: 0 5px;}
+/*积分兑换记录*/
+
+.account-log .title{line-height: 35px;font-size: 14px;background: #f5f5f5;padding: 0 5px;}
+.account-log span{float: left; width: 120px;}
+.account-log ul li {height: 35px;line-height: 35px;border-bottom: 1px dotted #D2D2D2;overflow: hidden;padding: 5px 0;}
+.account-log ul {padding: 0 5px;}
+.account-log .sp4 {width: 457px;}
+
+/* 进度条*/
+.rate_tiao { width: auto; height: 10px; line-height: 10px; overflow: hidden; background: #2B77D5; }
+.rate_bg { width: 71px; height: 10px; line-height: 10px; margin-top: 10px;margin-right: 5px; padding: 1px; overflow: hidden; background: #ececec; border: 1px solid #ccc; }

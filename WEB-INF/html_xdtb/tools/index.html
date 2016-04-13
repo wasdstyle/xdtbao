@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<#assign webname='贷款计算器 - ${webname!}'>
+<#include "../include/style.html">
+<link rel="stylesheet" type="text/css" href="${theme_dir}/css/calculator.css">
+<body>
+	<#include "../include/header.html">
+	<#include "../common/function.html"> 
+	<div id="container" class="wrap">
+		<h1 class="calc-title">投资参数选择</h1>
+		<div class="calc-moduler borrow-arg">
+			<form action="/tools/interest.html" method="post" id="form-interest" class="form-interest">
+				<div class="repay-limit-type">
+					<input type="radio" id="is_month" name="is_month" value="1" <#if is_month??&&is_month==1>checked="checked"</#if>><label for="is_month">月标</label>
+                    <input type="radio" id="is_day" name="is_month" value="0" <#if is_month??&&is_month==0>checked="checked"</#if>><label for="is_day">天标</label>
+				</div>
+				<ul class="cf">
+					<li>
+						<label>投资金额</label>
+						<input type="text" name="account" id="account" value="<#if (account?exists)&&(account&gt;0)>${account?c}</#if>" maxlength="8" numberpoint="true" decimal="2" autocomplete="off"/>
+						<b>元</b>
+					</li>
+					<li>
+						<label>年利率</label>
+						<input type="text" name="lilv" id="interest" value="<#if (lilv?exists)&&(lilv&gt;0)>${lilv?c}</#if>" maxlength="5" numberpoint="true" decimal="2" autocomplete="off"/>
+					 	<input type="radio" name="is_APR" value="1" checked="checked" style="display: none;">
+					 	<b>%</b>
+                    </li>
+					<li style="margin: 0;">
+						<label for="">投资期限</label>
+						<input type="text" name="times" id="times" value="<#if (times?exists)&&(times&gt;0)>${times?c}</#if>" onlynumber="true" autocomplete="off" maxlength="3"/>
+						<b class="borrow-limit-text"></b>
+                    </li>
+					<li>
+						<label for="">投标奖励</label>
+						<input type="text" name="tender_award_percentage" size="10" value="<#if (tender_award_percentage?exists)&&(tender_award_percentage&gt;0)>${tender_award_percentage?c}</#if>" id="lilv" maxlength="5" numberpoint="true" decimal="2" autocomplete="off"/>
+						<b>%</b>
+					</li>
+					<li>
+						<label for="">还款方式</label>
+						<select name="type" id="repay-style"></select>
+					</li>
+				</ul>
+				<a href="javascript:" class="btn-calc">投资计算</a>
+				<a href="javascript:location.reload(true);" class="btn-reset">重新计算</a>
+			</form>
+		</div>
+          
+		<#if (type?exists)&&(ic?exists)>
+			<h1 class="calc-title">投资概述</h1>
+			<div class="calc-moduler repay-desc">
+				投资本息总额：<span>${ceil(account+ic.net_earn_total)}</span>元；&nbsp;&nbsp;
+				<#if type??&&type=="monthEqual">
+					每月所得金额：<span>${ceil((ic.moneyPerMonth?c!0)?number)}</span>元
+				<#elseif type??&&type=="monthInterest">
+					每月所得利息：<span class="month-interest">${ceil(((ic.total_interest / times)?c!0)?number)}</span>元；&nbsp;&nbsp;
+					到期所得金额：<span>${ceil((ic.moneyPerMonth?c!0)?number)}</span>
+				<#elseif type??&&type=="monthEndInterest">
+					到期所得金额：<span>${ceil((ic.moneyPerMonth?c!0)?number)}</span>
+				<#else>
+					每月所得利息：<span class="month-interest">${ceil(((ic.total_interest / times)?c!0)?number)}</span>元；&nbsp;&nbsp;
+					到期所得金额：<span>${ceil((account?c!0)?number)}</span>
+				</#if>
+			</div>
+
+			<h1 class="calc-title">投资计划</h1>
+			<div class="calc-moduler repay-plan">
+				<ul class="cf">
+					<li>期数</li>
+					<li>每月所得本息</li>
+					<li>本金</li>
+					<li>利息</li>
+					<li>剩余金额</li>
+				</ul>
+				<#list ic.monthList as item>
+					<dl class="cf">
+						<dd>${item_index+1}</dd>
+						<dd>${ceil(((item.accountPerMon+item.interest)?c!0)?number)}</dd>
+						<dd>${ceil((item.accountPerMon?c!0)?number)}</dd>
+						<dd>${ceil((item.interest?c!0)?number)}</dd>
+						<dd>${ceil((item.totalRemain?c!0)?number)}</dd>
+					</dl>
+				</#list>
+			</div>
+		</#if>
+	</div>
+	<#include "../include/footer.html">
+</body>
+<script type="text/javascript">
+	$(function() {
+		$('.btn-calc').click(function() {
+	        if(!$('#account').val()){
+	        	infoDialog("请输入投资金额！");
+	        	$('#account').focus();
+	        	return false;
+	        }else if(!$('#interest').val()) {
+	        	infoDialog("请输入投资的年利率！");
+		        $('#interest').focus();
+		        return false;
+	        }else if(!$('#times').val()){
+	        	infoDialog("请输入投资期限！");
+		        $('#times').focus();
+		        return false;
+	        }else{
+	        	$('#form-interest').submit();
+	        }
+		});
+		//alert(${is_month});
+		//if(${is_month}==1){
+		//	$(":radio[name='is_month']").first().attr("checked",true);
+		//}
+		changeRepayStyle();
+		$(':radio[name="is_month"]').change(function() {
+			changeRepayStyle();
+		});
+
+		/*按月标/天标的种类来设置还款方式*/
+		function changeRepayStyle() {
+			var repayStyle1 = '<option value="monthEqual" <#if type??&&type=="monthEqual">selected="selected"</#if>>按月还款</option>';
+			var repayStyle2 = '<option value="monthInterest" <#if type??&&type=="monthInterest">selected="selected"</#if>>按月还息到期还本</option>';
+			var repayStyle3 = '<option value="monthEndInterest" <#if type??&&type=="monthEndInterest">selected="selected"</#if>>一次性还款</option>';
+			/*var repayStyle4 = '<option value="fullverifyAndMonth" <#if type??&&type=="fullverifyAndMonth">selected="selected"</#if>>按月提前还息到期还本</option>';*/
+			var optionStr   = '';
+			
+			// 月标
+			if($('#is_month').attr('checked')) {
+				optionStr += repayStyle1 + repayStyle2 + repayStyle3;
+				$('#repay-style').html(optionStr);
+				$('.borrow-limit-text').text('月');
+			//天标
+			}else {
+				optionStr +=  repayStyle3;
+				$('#repay-style').html(optionStr);
+				$('.borrow-limit-text').text('天');
+			}
+		}
+	});
+</script>
+</html>

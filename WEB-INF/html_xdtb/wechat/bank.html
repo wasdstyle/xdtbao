@@ -1,0 +1,135 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">绑定银行卡</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+	<style>
+		#main .form-style-reg label{
+			color:#ABA9A9;
+			width:30%;
+			display:block;
+			float:left;
+		}
+		#main .form-style-reg li span{
+			margin-top:-5px;
+		}
+		.prompt{padding-top:10px;}
+		.prompt-unfolder{display:none;}
+		.prompt li{margin-left:3%; height:40px!important; font-size:20px;}
+		.aui_content{padding:50px 25px 20px 25px!important;}
+		.aui_icon div{margin: 35px 0 10px 10px!important;}
+	</style>
+		<div class="form-style-reg">
+				<ul class="prompt">
+					<li>最多可以添加${bank_num}张银行卡</li>
+					<li>已绑定银行卡：</li>
+					<!-- <li>为了您的资金账户安全，如需要修改银行卡，请联系客服给予修改。</li> -->
+				</ul>
+
+				<!-- 已添加银行卡列表:begin -->
+				<ul class="cardList">
+					<#if banklist?? && banklist?size gt 0>
+					<#list banklist as item>
+					   <li style="margin-left:3%;">
+					      <dl>
+					      	<!-- <dt><span>银行卡</span>Bank</dt> -->
+					      	<dd>${item.bankname!""}</dd>
+					      	<dd>${item.bankaccount!""}</dd>
+					      </dl>
+					   </li>
+				    </#list>
+					</#if>
+					<!-- 如果用户没有设置银行卡或者银行卡数量未超过最大设置银行卡数则可以继续添加银行卡 -->
+					<!-- <#if !banklist?? || banklist?size lt bank_num?number>
+						<li class="addCard">
+							<a href="#" title="添加银行卡"><i class="iconfont"><i class="iconfont">+</i></i>添加银行卡</a>
+						</li>
+					</#if> -->
+				</ul>
+				<!-- 已添加银行卡列表:end -->
+
+				<!-- 添加银行卡列表表单:begin -->
+				<#if !banklist?? || banklist?size lt bank_num?number>
+					<div class="wp-form-add-bank">
+						<form action="/wx/addbank.html" method="post" id="form-add-bank">
+							<ul>
+								<li>
+									<label>真实姓名：</label>
+									<span>
+										<input type="text" value="${user.realname!}" readonly="true" style="border:none;">
+										<input type="hidden" value="${user.real_status}" id="real_status">
+									</span>
+								</li>
+								<li>
+									<label>身份证号：</label>
+									<span>
+										<input type="text" id="identify" value="<#if user.card_id??>${user.card_id?substring(0,6)}********${user.card_id?substring((user.card_id?length)-4,(user.card_id?length))}</#if>" readonly="true" style="border:none;">
+									</span>
+								</li>
+								<li>
+									<label>银行账号：</label>
+									<span>
+										<input type="text" name="account" id="account" onlynumber="true" maxlength="20" autocomplete="off" placeholder="银行账号">
+									</span>
+								</li>
+								<li>
+									<label>开户银行：</label>
+									<span style="margin-top:15px;"> 
+										<@linkage name="bank" id="bank" nid="account_bank"/>
+									</span>
+								</li>
+								<li>
+									<label>开户地区：</label>
+									<div class="bank-area cf">
+										<span style="margin-top:5px;">
+											<@region name="province" id="province" pid="0"></@region>
+											<@region name="city" id="city" pid="-1"></@region>
+											<@region name="area" id="area" pid="-1"></@region>
+										</span>
+									</div>
+								</li>
+
+
+								<li>
+									<label>开户分行：</label>
+									<span class="bank-area" style="width:60%;">
+								    	<input type="text" id="branch" name="branch" placeholder="开户分行">
+								    </span>
+								</li>
+
+
+								<li>
+								    <label>验证码：</label>
+								    <span style="width:35%;">
+								    	<input type="text" name="valicode" id="validcode" maxlength="5" autocomplete="off"
+								    	placeholder="验证码"/>
+								    </span>
+								    <img src="/validimg.html" title="点击更换验证码" class="validcode-img" onclick="this.src='/validimg.html?t=' + Math.random();" style="position:relative; top:7px;" />
+								</li>
+								
+								<input type="hidden" name="branch" value="--" />
+								<input type="hidden" name="type" value="add" />
+								<input type="hidden" name="userid" value="" />
+								
+								<div id="operator">
+				                	<a class="btn-add-bank btn"/>确认添加</a>
+				            	</div>	
+							</ul>
+						</form>
+					</div>
+				</#if>
+				<!-- 添加银行卡列表表单:end -->
+        </div>
+
+												
+<#include "header/footer.html">
+
+
+<script type="text/javascript" src="${theme_dir}/js/account.js"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/artDialog-4.1.7/jquery.artDialog.js?skin=default"></script>
+<script type="text/javascript" src="${webroot}${theme_dir}/js/layer.min.js"></script>	
+<script type="text/javascript" src="${theme_dir}/js/weixin/account-bank.js"></script>
+

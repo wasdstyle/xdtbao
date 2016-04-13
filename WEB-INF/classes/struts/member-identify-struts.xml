@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="identify" namespace="/member/identify" extends="wzd-default">
+
+        <action name="attestation"  class="memberIdentifyAction" method="list">
+            <result name="success" type="ftl">/member/identify/attestation.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="realname"  class="memberAction" method="realname">
+            <result name="success" type="ftl">/member/identify/realname.html</result>
+            <!-- v1.6.7.2 RDPROJECT-672 zza 2014-01-06 start -->
+            <result name="ID5Realname" type="ftl">/member/identify/ID5Realname.html</result>
+            <!-- v1.6.7.2 RDPROJECT-672 zza 2014-01-06 end -->
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="showarea"  class="memberAction" method="showarea">
+            <result name="success" type="ftl">/member/identify/realname.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="email"  class="memberIdentifyAction" method="email">
+            <result name="success" type="ftl">/member/identify/email.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="active"  class="memberIdentifyAction" method="active">
+            <result name="success" type="ftl">/member/identify/email.html</result>
+        </action>
+        <action name="phone"  class="memberIdentifyAction" method="phone">
+            <result name="success" type="ftl">/member/identify/phone.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="phoneSms"  class="memberIdentifyAction" method="phoneSms">
+        </action>
+        <action name="scene"  class="memberIdentifyAction" method="scene">
+            <result name="success" type="ftl">/member/identify/scene.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="video"  class="memberIdentifyAction" method="video">
+            <result name="success" type="ftl">/member/identify/video.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="avatar"  class="memberIdentifyAction" method="blank">
+            <result name="success" type="ftl">/member/identify/avatar.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="avatarDialog">
+            <result name="success" type="ftl">/member/identify/avatar-dialog.html</result>
+		</action>
+		
+        <action name="mobileaccess"  class="memberIdentifyAction" method="mobileaccess"> </action>
+		<action name="phoneSms"  class="memberIdentifyAction" method="phoneSms"></action>
+		<!-- v1.6.7.2 RDPROJECT-672 zza 2014-01-09 start -->        
+        <action name="checkCardId" class="memberAction" method="checkCardId">
+        	<result name="input" type="ftl">/member/identify/ID5Realname.html</result>
+        </action>
+        <action name="getLinkageNameById" class="memberAction" method="getLinkageNameById">
+        	<result name="input" type="ftl">/member/identify/ID5Realname.html</result>
+        </action>
+     <action name="ID5Result" class="memberAction" method="ID5Result">
+            <result name="success" type="ftl">/member/identify/ID5Result.html</result>
+        </action>
+        <!-- v1.6.7.2 RDPROJECT-672 zza 2014-01-09 end -->
+        
+        <action name="phoneChange"  class="memberIdentifyAction" method="phoneChange">
+            <result name="success" type="ftl">/member/identify/modify-phone.html</result>
+            <result name="phonechange" type="ftl">/member/identify/modify-phone.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="emailChange"  class="memberIdentifyAction" method="emailChange">
+            <result name="success" type="ftl">/member/identify/modify-email.html</result>
+            <result name="emailchange" type="ftl">/member/identify/modify-email.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+		<action name="getPhoneCode"  class="memberIdentifyAction" method="getPhoneCode"></action>
+        <action name="getEmailCode"  class="memberIdentifyAction" method="getEmailCode"> </action>
+		
+		<action name="phoneCheck"  class="memberIdentifyAction" method="phoneCheck">
+            <result name="phone" type="ftl">/member/identify/phone.html</result>
+		</action>               
+		<action name="emailCheck"  class="memberIdentifyAction" method="emailCheck">
+            <result name="email" type="ftl">/member/identify/email.html</result>
+		</action>
+    </package>
+</struts>

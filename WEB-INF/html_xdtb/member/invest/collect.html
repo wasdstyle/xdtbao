@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member"> 
+<#assign mid="m_invest">
+<#if status??&&status==0>
+	<#assign invest_type="notcollect">
+	<#assign iid="i_collect0">
+	<#assign webname='未收款明细 - 账户中心 - ${webname!}'>
+<#else>
+	<#assign iid="i_collect1">
+	<#assign webname='已收款明细 - 账户中心 - ${webname!}'>
+</#if>
+<#include "../../include/style.html">
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "invest-list-tab.html"></div>
+			<div class="account-content">
+				<div class="wp-invest-collect">
+					<#if param?exists>
+						<#if param.get("repay_time1")?exists><#assign repay_time1=param.get("repay_time1")></#if>
+						<#if param.get("repay_time2")?exists><#assign repay_time2=param.get("repay_time2")></#if>
+					</#if>
+					<div class="search cf">
+						<span>应收日期：</span>
+						<input type="text" name="repay_time1" id="start-time" value="${repay_time1!}"/>
+						<span class="to">到</span>
+						<input type="text" name="repay_time2" id="end-time" value="${repay_time2!}"/>
+						<a href="javascript:" class="btn-search">搜索</a>
+					</div>
+					<ul class="name cf">
+						<li>借款者</li>
+						<li>借款名称</li>
+						<li>期数/总期数</li>
+						<li>收款日期</li>
+						<li>收款总额</li>
+						<li>本金</li>
+						<li>利息</li>
+						<li>管理费</li>
+						<li>实得利息</li>
+						<li>逾期利息</li>
+						<li>逾期天数</li>
+					</ul>
+					<#import "../../common/function.html" as func>
+					<#list collect as item>
+						<ul class="item cf">
+							<li>${item.username!}</li>
+							<li>
+								<a href="/invest/detail.html?borrowid=${item.borrow_id?c}" target="_blank" title="${item.borrow_name}">
+									<#if item.borrow_name?length lt 15>${item.borrow_name}<#else>${item.borrow_name[0..12]}...</#if>
+								</a>
+							</li>
+							<li>${item.order+1} <#if item.borrow_style!='2'&&item.time_limit?exists>/ ${item.time_limit}<#else>/ ${item.order+1}</#if></li>
+							<li>${dateformat(item.repay_time!0,"yyyy-MM-dd")}</li>
+							<li>${func.format2(item.repay_account)}</li>
+							<li>${func.format2(item.capital)}</li>
+							<li>${func.format2(item.interest)}</li>
+							<li><#if item.manage_fee??>${func.format2(item.manage_fee)}<#else>0</#if></li>
+							<!-- v1.9.u2 BIAOZHUN-400 zza 2015-03-23 start -->
+							<li><#if item??&&item.manage_fee??>${((item.interest?c)?number-(item.manage_fee?c)?number)?string("##.##")}</#if></li>
+							<!-- v1.9.u2 BIAOZHUN-400 zza 2015-03-23 end -->
+							<li>${func.format2(item.late_interest)}</li>
+							<li>${item.late_days}<b>天</b></li>
+						</ul>
+					</#list>
+					<div class="account-page">
+						<#import "../../common/page.html" as pager>  
+					    <@pager.pagination page=page url="/member/invest/collect.html" map=param style="style-new"/> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/plugin/laydate/laydate.js"></script>
+<script>
+	var url = 'collect.html?status=${status}';
+	$('.search .btn-search').click(function() {
+		if($('#start-time').val()) {
+			url += '&repay_time1=' + $('#start-time').val();
+		}
+		if($('#end-time').val()) {
+			url += '&repay_time2=' + $('#end-time').val();
+		}
+		location.href = url;
+	});
+</script>
+</html>

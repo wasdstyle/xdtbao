@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="article" namespace="/article" extends="wzd-default">
+		<action name="list" class="articleAction" method="list">
+			<result name="list" type="ftl">/article/list.html</result>
+		</action>
+
+		<action name="detail" class="articleAction" method="detail">
+			<result name="detail" type="ftl">/article/detail.html</result>
+		</action>
+		
+		<action name="onlinekefu" class="articleAction" method="onlinekefu">
+			<result name="success" type="ftl">/article/onlinekefu.html</result>
+		</action>
+		
+		<action name="security" class="articleAction" method="security">
+			<result name="success" type="ftl">/article/security.html</result>
+		</action>
+		<action name="jsonList" class="articleAction" method="jsonList">
+		</action>
+		<action name="scrollPicList" class="articleAction" method="scrollPicList">
+		</action>
+	</package>
+	<package name="service" namespace="/service" extends="wzd-default">
+		<action name="onlinekefu" class="articleAction" method="onlinekefu">
+			<result name="success" type="ftl">/article/onlinekefu.html</result>
+		</action>
+		
+	</package>
+</struts>

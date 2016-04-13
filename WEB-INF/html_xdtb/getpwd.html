@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<#assign webname='找回密码 - ${webname!}'>
+<#include "include/style.html"> 
+<#if !nid??><#assign nid=""></#if>
+<body>
+    <div id="header-simple">
+        <div class="wrap cf">
+            <a href="/" class="logo"></a>
+            <h1><#if getpwdtype == "paypwd">交易密码<#else>登录密码</#if></h1>
+            <#if tree??&&tree.hasChild()>
+                <ul class="cf fr login-nav">
+                    <#list tree.child as item>
+                    <#if (item.model.status)??&&item.model.status==1>
+                        <li <#if ((item.model.nid)??&&(item.model.nid)==nid)> class="current" <#else> class="" </#if>>
+                            <a href="<@showSiteUrl site=item.model />">${item.model.name!}</a>
+                        </li>
+                    </#if>
+                    </#list>
+                </ul>
+            </#if>
+        </div>
+    </div>
+    <div id="container-simple" class="container-getpwd">
+        <div class="wrap">
+            <div class="wp-form-getpwd">
+                <form action="" method="post">
+                    <h1>信达通宝·您的财富管家！</h1>
+                    <ul>
+                        <li class="clearfix">
+                            <label for="username">用户名/手机号/邮箱</label>
+                            <input type="text" name="username" id="username" maxlength="25" autocomplete="off">
+                        </li>
+                        <li class="cf clearfix">
+                            <label for="validcode" style="z-index: 999">验证码</label>
+                            <input type="text" name="validcode" id="validcode" maxlength="5" autocomplete="off" style="width:138px; padding-right: 0px;">
+                            <a href="javascript:" id="btn-get-validcode">获取校验码</a>
+                        </li>
+                        <input type="submit" class="btn-get-pwd" <#if getpwdtype == "paypwd">value="找回交易密码"<#else>value="找回登录密码"</#if>/>
+                        <input type="hidden" name="getpwdtype" value="${getpwdtype}">
+                        <input type="hidden" value="getpwd" name="actionType"/>
+                    </ul>
+                </form>
+            </div>
+        </div>
+        <div id="footer-simple">
+            <div class="wrap">
+               <div class="clearfix footer-contact">
+                   <ul class="fl">
+                        <li><a href="/">网站首页</a></li>
+                        <li><a href="/article/list.html?nid=about">关于我们</a></li>
+                        <li><a href="/guide.html">新手指引</a></li>
+                        <li><a href="/article/list.html?nid=cjwt">常见问题</a></li>
+                        <li style="border-right: none"><a href="/article/list.html?nid=lxwm">联系我们</a></li>
+                   </ul>
+                   <ul class="fr">
+                      <li>
+                           <a href="http://weibo.com/u/5664131629" title='新浪微博' class="login-sina" target="_blank"></a>
+                       </li>
+                       <li>
+                           <a href="###" title='腾讯微博' class="login-tencent"></a>
+                       </li>
+                       <li>
+                           <a href="javascript:void(0)" title='微信' class="login-weix">
+                                <img src="/themes/soonmes_xdtb/image/ewm-top.jpg" width="103" height='103' style="display:none">
+                           </a>
+                       </li>
+                       <li>
+                           <a href="###" title='QQ群' class="login-group"></a>
+                       </li>
+                   </ul>
+               </div>
+               <div class="footer-link clearfix">
+                   <span class="link-tel"><b></b>${fuwutel}</span>
+                   <span class="link-email"><b></b>kefu@xdtbao.com</span>
+                   <span class="link-addr"><b></b>${address}</span>
+               </div>
+               <p>${copyright}&nbsp;${beian}</p>
+            </div>
+        </div>
+    </div>
+     
+        <#include "include/script.html">
+    <#macro showSiteUrl site>
+    <#if site.style??&&site.style=="2">
+        ${site.url!}
+    <#elseif site.style??&&site.style=="3">
+        ${site.url!}
+    <#else>
+        <#if site.nid??>
+            /article/list.html?nid=${site.nid}
+        <#else>
+            /article/list.html?catalog=${(site.site_id!0)?c}
+        </#if>
+    </#if>
+</#macro>
+</body>
+<script type="text/javascript">
+    $('.wp-form-getpwd ul li input').each(function() {
+        if($.browser.msie) {
+            this.onpropertychange = function() {
+                if(this.value) {
+                    $(this).siblings('label').hide();
+                }
+            };
+        }else {
+            this.addEventListener('input',function() {
+                $(this).siblings('label').hide();
+            },false);
+        }
+    });
+
+    $('.wp-form-getpwd ul li input').blur(function() {
+        if(!$(this).val()) {
+            $(this).siblings('label').show();
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(".login-weix").mouseenter(function(){
+        $(".login-weix img").css('display','block')
+    }).mouseleave(function(){
+         $(".login-weix img").css('display','none')
+    })
+
+
+    $('#btn-get-validcode').live('click', function() {
+    var self = this;
+    var countDown = 120;
+      $.ajax({
+        url     : '/user/getCode.html?phone=' + $('#username').val(),
+        type    : 'post',
+        cache   : false,
+        dataType: 'json',
+/*        data    : {name: $('#phone').val()},*/
+        // 重新发送倒计时
+        success: function(data){
+          if(data.data == "true"){
+            $(self).attr({id: 'resend-time'}).text(countDown + '秒后重新发送');
+            timer = setInterval(function() {
+              countDown--;
+              if(countDown) {
+                $(self).text(countDown + '秒后重新发送');
+              }else {
+                clearInterval(timer);
+                countDown = parseInt($('#count-down').val());
+                $(self).attr({id: 'btn-get-validcode'}).text('获取校验码');
+              }
+            }, 1000);
+          }else{
+            infoDialog(data.data);
+          }
+          
+        }
+      });
+  });
+</script>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${topic.title}- ${forum.name?html} -钱庄网_Qian360.Com</title>
+	<!-- <#if posts?? && posts[0]??><#assign mainText = posts[0].text></#if> -->
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<#include "head.htm"/>
+	
+	
+<link href="${contextPath}/themes/bbs/templates/${templateName}/plugins/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="${contextPath}/themes/bbs/templates/${templateName}/plugins/umeditor/third-party/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${contextPath}/themes/bbs/templates/${templateName}/plugins/umeditor/umeditor_q.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${contextPath}/themes/bbs/templates/${templateName}/plugins/umeditor/umeditor.min.js"></script>
+<script type="text/javascript" src="${contextPath}/themes/bbs/templates/${templateName}/plugins/umeditor/lang/zh-cn/zh-cn.js"></script>	
+	
+</head>
+<#import "../macros/pagination.ftl" as pagination>
+<#import "../macros/presentation.ftl" as presentation/>
+<body class="full">
+	<!--S 快速导航开始-->
+		<#include "quickNav.htm"/>
+	<!--E 快速导航结束-->
+<!--S 主体部分开始-->
+	<!--S 主体部分开始-->
+	<section class="bd mid clearfix">
+
+        <!--S 2014.3.19 add 论坛详情开始-->
+      
+	<div class="bbs-page">
+        <div class="bbs-head">
+            <div class="bread-crumbs-nav">
+                <ul>
+                    <li>
+                        <a  href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
+                    </li>
+                    <li>
+                        <a  href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a>
+                    </li>
+                    <li class="v">
+                        <a href="javascript:;">阅读文章</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mn-row clearfix">
+                <div class="mn-r">
+                    <div class="search-mini">
+                        <form "${JForumContext.encodeURL("/jforum")}">
+                            <input type="text" value="搜索主题 ..." data-val="搜索主题 ..." class="search-val input-focus">
+                   			<input type="hidden" name="module" value="search" />
+							<input type="hidden" name="action" value="search" />
+							<input type="hidden" name="match_type" value="all" />
+							<input type="hidden" name="sort_by" value="relevance" />
+                       		 <input type="submit" value="搜索" class="btn search-btn">
+                        </form>
+                    </div>
+                </div>
+                <div class="mn-l">
+                	 
+                    <a class="btn btn-newpost" id="isLogin" data-value="<#if logged>1<#else>0</#if>" onclick="checkIsLogin();" href="${JForumContext.encodeURL("/jforum${extension}?module=posts&amp;action=insert&amp;forum_id=${forum.id}", "")}">发新帖</a>
+                    <a class="btn btn-reply" onclick="checkIsLogin();" href="${JForumContext.encodeURL("/posts/reply/${start}/${topic.id}")}">回复</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="bbs-detail-inner">
+            <div class="bbs-detail-title">
+                <div class="w-1">
+                    <div class="s-mn">
+                        查看<span>${topic.totalViews!0}</span>
+                        &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                        回复<span>${topic.totalReplies!0}</span>
+                    </div>
+                </div>
+
+                <div class="w-2">
+                <div class="detail-title" style='font-size:0;line-height:0'> <span style="font-size:18px;line-height:50px"><#if (topic.title?length == 0)>No Subject<#else><#if (topic.title?length gt 18)>${topic.title?substring(0,18)}...<#else>${topic.title}</#if></#if></span>
+                    <a id="copyLink" href="#" style="margin-left:10px;font-size:14px;line-height:50px" > [复制链接]</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="bbs-detail-list-inner" id="mainList">
+			<#list posts as post>
+            <#assign user = users.get(post.userId)/>
+			<#assign canEditCurrentMessage = (post.canEdit && topic.status != STATUS_LOCKED) || moderatorCanEdit/>
+			
+            <div class="bbs-floor">
+                <div class="user-info w-1">
+                	<#if (user.avatar?exists && user.avatar?length > 0)>
+								<#if (user.avatar?exists && user.avatar?length > 0) && user.isExternalAvatar() || user.avatar.startsWith("http://")>
+									<#if avatarAllowExternalUrl>
+										<img src="${user.avatar?html}"  class="avatar" border="0" alt="[Avatar]" />
+									</#if>
+								<#else>
+									<img class="avatar" src="${WZ_URL}/imgurl.html?userName=${user.username}&size=big" border="0" alt="[Avatar]" />
+								</#if>
+							<#else>
+								<img class="avatar" src="${WZ_URL}/imgurl.html?userName=${user.username}&size=big" border="0" alt="[Avatar]" />
+							</#if>
+
+                    <ul>
+                        <li class="user-name"><figure></figure>
+                        <#if user.username?length==11&&(user.username?substring(0,2)=="13"||user.username?substring(0,2)=="15"||user.username?substring(0,2)=="18")>
+                        	${user.username?substring(0,3)}****${user.username?substring(7,user.username?length)}
+                        <#else>
+                        	${user.username}
+                        </#if>
+                        </li>
+                        <#assign totalPosts = user.totalPosts>
+                        <li>用户等级：</li>
+                        <li>注册时间：${user.registrationDate?string}</li>
+                        <li>发表文章：${user.totalPosts!0}</li>
+                         <#if post.userId != 1>
+								<#if user.isOnline()>
+									<li>用户状态：<span class="offline-color">${I18n.getMessage("PostShow.userOnline")}</span></li>
+								<#else>
+									<li>用户状态：<span class="offline-color">${I18n.getMessage("PostShow.userOffline")}</span></li>
+								</#if>
+								</#if>
+						
+                    </ul>
+                    	<#if (post_index+start)=0>
+							<figure class="first"></figure>
+						<#elseif (post_index+start)=1>
+							<figure class="second"></figure>
+						<#elseif (post_index+start)=2>
+							<figure class="third"></figure>
+						<#else>
+							
+						</#if>
+                </div>
+                 <div <#if (post_index+start)=0>class="detail-txt w-2 detail-txt-first"<#else>class="detail-txt w-2"</#if>>
+
+                    <div class="info clearfix">
+                        <div class="f_l">
+                            <span class="time">${post.time?string('yyyy-MM-dd HH:mm:ss')} </span><span class="floor" style="font-size: 16px;font-weight: bold;color: green;">${post_index+1+start}楼</span>
+                        </div>
+                      		<#if logged>
+			                        <#if karmaEnabled>
+			                            <script type="text/javascript">writeStars(${post.karma.karmaPoints}, ${post.id});</script>
+			                        </#if>
+		                        
+		                        
+			                        <#if (canEditCurrentMessage)>
+			                            &nbsp;<a href="${JForumContext.encodeURL("/jforum${extension}?module=${moduleName}&amp;action=edit&amp;post_id=${post.id}&amp;start=${start}","")}" rel="nofollow" class="icon_edit"><img src="${contextPath}/themes/bbs/templates/${templateName}/images/edit.png" alt="编辑" />编辑</a>&nbsp;  
+			                        </#if>
+			                        <#if canRemove>
+			                            <a class="js_del" href="${JForumContext.encodeURL("/jforum${extension}?module=${moduleName}&amp;action=delete&amp;post_id=${post.id}&amp;start=${start}","")}" id="delete${post.id}" ><img src="${contextPath}/themes/bbs/templates/${templateName}/images/icon_delete.png" alt="删除"/>删除</a>&nbsp;  
+			                        </#if>
+			                        <#if session?exists && session.isAdmin()&&(post_index+start)==0>
+			                        	<a href="javascript:;" onclick="jhTopicFun('${topic.id}',2)">置顶</a>&nbsp;
+			                        	<a href="javascript:;" onclick="jhTopicFun('${topic.id}',1)">加精</a>
+			                        </#if>
+				            </#if>
+                      
+                      
+                    </div>
+                    <div class="main">
+                     	${post.text!''}
+                    </div>
+                    <div class="footer">
+                        <figure class="hricon"></figure>
+                        <div class="operation">
+                        <#if logged>
+						    <#if topic.status != STATUS_LOCKED && !readonly && (post_index+start) != 0>
+                            	<a href="${JForumContext.encodeURL("/posts/quote/${start}/${post.id}")}">引用</a>
+                            </#if> 
+                            	<a href="${JForumContext.encodeURL("/posts/reply/${start}/${topic.id}")}">回复</a>
+                       	</#if>
+                        </div>
+                     
+                     <#if (post_index+start)==0>
+                        <div class="share-outer clearfix">
+                                <div class="f_r">
+                                    <ul class="f_r clearfix" id="qianShare">
+                                        <li>
+                                        <a class="no_txt share_icon share_rr" data-share="rr" href="javascript:;" target="_blank">人人</a>
+                                    </li>
+                                    <li>
+                                        <a class="no_txt share_icon share_qqkj" data-share="qqkj" href="javascript:;" target="_blank">QQ空间</a>
+                                    </li>
+                                    <li>
+                                        <a class="no_txt share_icon share_qq" data-share="qq" href="javascript:;" target="_blank">腾讯QQ</a>
+                                    </li>
+                                    <li>
+                                        <a class="no_txt share_icon share_txwb" data-share="txwb" href="javascript:;" target="_blank">腾讯微博</a>
+                                    </li>
+                                    <li>
+                                        <a class="no_txt share_icon share_xlwb" data-share="xlwb" href="javascript:;" target="_blank">新浪微博</a>
+                                    </li>
+                                    </ul>
+                                    <div class="f_r">分享到：</div>
+                                </div>
+                        </div>
+                        <#if borrow??>
+                        <div class="ad-banner">
+                            <div class="tit"><a href="${WZ_URL}/invest/detail.html?id=${borrow.id}" title="${borrow.name!''}">${borrow.name!''}</a>&nbsp;<#if borrow.pwd??&&borrow.pwd!="null"><figure class="qui_bid_ico qui_bid_ding" title="设置定向密码的理财产品"></figure></#if>
+                            </div><div class="cont"><div class="rates"><div class="tits">年化收益率</div><div class="conts"><b>${borrow.apr!''}</b><span>%</span></div></div>
+                            <div class="time"><div class="tits">理财期限</div><div class="conts"><#if borrow.isday==0><span>${borrow.time_limit}个月</span><#else><span>${borrow.time_limit_day}天</span></#if></div></div><div class="amount"><div class="tits">项目总额</div><div class="conts">${borrow.account!''}<span>元</span></div></div></div><div class="operate">
+                            <#if borrow.status==1 && borrow.account != borrow.account_yes><a href="${WZ_URL}/invest/detail.html?id=${borrow.id}" class="btn red">立即投标</a><#else><a href="${WZ_URL}/invest/detail.html?id=${borrow.id}" class="btn">已满标</a><figure class="seal"></figure></#if></div>
+                        </div>
+                        </#if>
+                        </#if>
+                    </div>
+                </div>
+            </div>
+        	</#list> 
+           
+
+        </div>
+    </div>
+
+
+            <#assign paginationData>
+                <@pagination.doPagination action, topic.id/>
+                </#assign>
+                
+            <div class="paging" id="paging">${paginationData}</div>
+            
+     <#if logged>       
+    <form action="${JForumContext.encodeURL("/jforum")}" enctype="multipart/form-data" name="post" method="post" id="post" onsubmit="return validatePostForm();">
+    		<input type="hidden" name="action" value="insertSave" />
+       		<input type="hidden" name="module" value="posts" />
+       		<input type="hidden" name="preview" value="0"/>
+       		<input type="hidden" name="forum_id" value="${forum.id}" />
+       		<input type="hidden" name="topic_id" value="${topic.id}" />	
+    <div class="reply_outer">
+        <div class="tit">快速回复<span>（回复：<span>${topic.title!''}</span>）</span></div>
+        <div class="con">
+            <div class="aside">
+            	 <#if (sessionUser.avatar?exists && sessionUser.avatar?length > 0)>
+								<#if (sessionUser.avatar?exists && sessionUser.avatar?length > 0) && sessionUser.isExternalAvatar() || sessionUser.avatar.startsWith("http://")>
+									<#if avatarAllowExternalUrl>
+										<img src="${sessionUser.avatar?html}"  class="avatar" border="0" alt="[Avatar]" />
+									</#if>
+								<#else>
+									<img class="avatar" src="${WZ_URL}/imgurl.html?userName=${sessionUser.username}&size=big" border="0" alt="[Avatar]" />
+								</#if>
+							<#else>
+									<img class="avatar" src="${WZ_URL}/imgurl.html?userName=${sessionUser.username}&size=big" border="0" alt="[Avatar]" />
+							</#if>
+            </div>
+            <div class="replay_main">
+                		<div class="info clearfix">
+                                <div class="f_l">
+                                 <textarea id="editor"  style="width:190%;height:150px;">
+									</textarea> 
+										<script type="text/javascript" >
+											UM.getEditor('editor');
+										</script>
+                                </div><input type="hidden" name="message" id="hideMsg">
+                        </div>
+                        <input class="btn_reply" type="submit" value="快速回复" onclick="getPlainTxt();">
+            </div>
+        </div>
+    </div>
+    </form>
+	</#if>
+</div>
+		
+
+	</section>
+<script type="text/javascript">
+ function getPlainTxt() {
+     	$("#hideMsg").val(UM.getEditor('editor').getContent());
+     	return true;
+    }
+ 
+//设置精华 
+function jhTopicFun(topicId,type){
+	if(confirm("您确定要设置该帖？")){
+		location.href="${JForumContext.encodeURL('/posts/setTopicType/"+topicId+"/"+type+"')}";
+		alert("操作成功！");
+	}
+} 
+
+$('#mainList .js_del').click(function(){
+	if(confirm("确定要删除吗？")){
+		alert("删除成功！");
+	}else{
+		return false;
+	}
+});
+
+function validatePostForm(){
+	if($("#hideMsg").val()==""){
+		alert("回复内容不能为空！");
+		return false;
+	}
+	return true;
+}
+ 
+</script>
+	<!--E 主体部分结束-->
+	<!--S 页脚-->
+	<#include "foot.htm"/>
+	<!--E 页脚-->
+	<#include "resource.htm"/>
+	<script src="${contextPath}/themes/bbs/templates/${templateName}/js/jquery.zclip.min.js"></script>
+	<script src="${contextPath}/themes/bbs/templates/${templateName}/js/sea.js"></script>
+	<script>
+	$("#copyLink").zclip({
+		path:'http://www.steamdev.com/zclip/js/ZeroClipboard.swf',
+		copy:''+location.href
+		
+	})
+	
+		function checkIsLogin(){
+			var isLogin = $("#isLogin").data("value");
+			if(isLogin == 0){
+				this.event.preventDefault();
+				alert("请先登录！");
+			}
+			
+		}
+	</script>
+	<script>
+		seajs.use("qianshare", function(QianShare) {
+	        var oShare = new QianShare('qianShare');
+	       
+	        oShare.set({
+	            'url': '${WZ_URL}/ti/detail.html?id=<#if borrow??>${borrow.id}</#if>',
+	            'title': '<#if borrow??>${borrow.name!''}</#if>',
+	            'content': '',
+	            'pic': ''
+	        });
+	    });
+	</script>
+</body>
+</html>

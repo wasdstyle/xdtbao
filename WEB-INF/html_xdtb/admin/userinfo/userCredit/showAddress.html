@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>根据兑换订单查询收货地址</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+
+<body>
+	<div class="module_add">
+		<div class="module_border">
+			<div class="s" style="width: auto; margin-left: 10px;">收货人:${model.username}</div>
+			<div class="h"></div>
+		</div>
+		<div class="module_border">
+			<div class="s" style="width: auto; margin-left: 10px;">联系方式:${model.phone}</div>
+			<div class="h"></div>
+		</div>
+		<div class="module_border">
+			<div class="s" style="width: auto; margin-left: 10px;">收货地址:${model.province!""}${model.city!""}${model.area!""}${model.address!""}</div>
+			<div class="h"></div>
+		</div>
+		<div class="module_border">
+			<div class="s" style="width: auto; margin-left: 10px;">邮政编码:${model.postcode}</div>
+			<div class="h"></div>
+		</div>
+	</div>
+
+</body>
+</html>

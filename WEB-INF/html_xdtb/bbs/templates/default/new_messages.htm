@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${webname!}</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<#include "head.htm"/>
+</head>
+
+<script type="text/javascript" src="${contextPath}/themes/bbs/templates/${templateName}/js/pagination.js?${startupTime}"></script>
+<style>
+.bbs-page .bbs-list-inner .table-list .posted-by {width:25%}
+.bbs-page .bbs-list-inner .table-list .title {width:25%}
+.bbs-page .bbs-list-inner .table-list .reply {width:20%}
+.bbs-page .bbs-list-inner .table-list .posted-by {width:10%}
+.bbs-page .bbs-list-inner .table-list .view {width:5%}
+.bbs-page .bbs-list-inner .table-list .last-post {width:15%}
+</style>
+<#import "../macros/pagination.ftl" as topicPagination>
+<#import "../macros/search_pagination.ftl" as pagination>
+<#import "../macros/presentation.ftl" as presentation/>
+
+<body class="full">
+	<!--S 快速导航开始-->
+	<!--S 快速导航开始-->
+	<#include "quickNav.htm"/>
+	<!--E 快速导航结束-->
+	    <!--S 主体部分开始-->
+	<section class="bd bbs_search mid m_t_10 m_b_10">
+		<div class="quick_nav">
+			<ul class="clearfix">
+				<li><a class="on" href="${JForumContext.encodeURL("/search/filters")}" title="搜索"><figure class="ico1"></figure>搜索</a></li>
+				<li><a href="${JForumContext.encodeURL("/forums/list")}" title="论坛首页"><figure class="ico4"></figure>论坛首页</a></li>
+				<li><a href="${JForumContext.encodeURL("/recentTopics/list")}" title="最新主题"><figure class="ico2"></figure>最新主题</a></li>
+				<li><a href="${JForumContext.encodeURL("/hottestTopics/list")}" title="热门主题"><figure class="ico3"></figure>热门主题</a></li>
+			</ul>
+		</div>
+		<div class="result_info">
+			${I18n.getMessage("Search.searchResults")}:${totalRecords}
+			<#if (totalRecords == 1)>
+	                       ${I18n.getMessage("Search.recordFound")}
+			<#else>
+				${I18n.getMessage("Search.recordsFound")}
+			</#if>
+		</div>
+		<div class="bbs-page m_t_0">
+			<div class="bbs-list-inner">
+	            <table class="table-list">
+	                <tbody>
+		                <tr class="head">
+		                	<td class="reply">板块</td>
+		                    <td class="title"><div class="c">主题</div></td>
+		                    <td class="reply">回复</td>
+		                    <td class="posted-by">发表人</td>
+		                    <td class="view">查看</td>
+		                    <td class="last-post"><div class="c">最后发表</div></td>
+		                </tr>
+		                <#list results as topic>
+		                <#assign forum = fr.getForum(topic.forumId)/>
+		                <tr>
+		                    <td >
+		                            <a href="${contextPath}/forums/show/${forum.id}${extension}">${forum.name}</a>
+		                    </td>
+		                    <td class="top-title title">
+		                        <div class="c">
+		                           <a href="${contextPath}/posts/list/${topic.id}${extension}" class="topictitle"><#if (topic.title?length == 0)>No Subject<#else>${topic.title?html}</#if></a>
+
+									<#if topic.paginate>
+										<span class="gensmall">
+											<br />
+											<@pagination.littlePostPagination topic.id, postsPerPage, topic.totalReplies/>
+										</span>
+									</#if>
+		                        </div>
+		                    </td>
+		                    <td class="reply">${topic.totalReplies}</td>
+		                    <td class="posted-by"><a href="${contextPath}/user/profile/${topic.postedBy.id}${extension}">${topic.postedBy.username}</a></td>
+		                    <td class="view">${topic.totalViews}</td>
+		                    <td class="last-post">
+		                        <div class="c">
+		                            <div class="time"><span><#if (topic.lastPostTime?length > 0)>${topic.lastPostTime}</#if></span></div>
+	                                <div class="reply-user">
+	                                	<#if (topic.lastPostTime?length > 0)>
+	                                	<a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
+            							<#assign startPage = ((topic.totalReplies / postsPerPage?number)?int * postsPerPage?number) +"/"/>
+            							<a href="${JForumContext.encodeURL("/posts/list/${startPage}${topic.id}")}#${topic.lastPostId}"><img src="${contextPath}/themes/bbs/templates/${templateName}/images/turn.png" border="0" alt="[Latest Reply]" /></a></span> </#if>
+	                                 </div>
+		                        </div>
+		                    </td>
+		                </tr>
+	                	</#list>
+	            	</tbody>
+	           </table>
+	        </div>
+		</div>
+	</section>
+	<!--E 主体部分结束-->
+	<!--S 页脚-->
+	<#include "foot.htm"/>
+	<!--E 页脚-->
+	<#include "resource.htm"/>
+</body>
+</html>

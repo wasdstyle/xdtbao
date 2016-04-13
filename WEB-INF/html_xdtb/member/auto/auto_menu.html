@@ -1,0 +1,7 @@
+<ul id="tab" class="list-tab clearfix">
+	<li class="cur"><a href="autoList.html">自动投标列表</a></li>
+	<#if !autoList?exists||autoList?size lt 1>
+	<li class="cur"><a href="addAuto.html">添加自动投标</a></li>
+	</#if>
+	<li class="cur" <#if tabType?exists&&tabType=="autoLog">class="cur"</#if>><a href="allSetAutoLog.html">自动投标修改日志</a></li>
+</ul>

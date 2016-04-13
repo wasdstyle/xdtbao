@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_message">
+<#assign msgid="msg_box">
+<#assign platform='${webname!}'>
+<#assign webname='${msg.name!} - 站内信息 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "message-list-tab.html"></div>
+			<div class="account-content">
+				<div class="view-operate cf">
+					<a href="javascript:" class="btn-back"><i></i>返回</a>
+					<a href="javascript:" class="btn-delete" id="${msg.id?c}"><i></i>删除</a>
+					<#if up_id gt 0><a href="/member/message/view.html?id=${up_id?c}" class="btn-next"><i></i>下一封</a></#if>
+					<#if down_id gt 0><a href="/member/message/view.html?id=${down_id?c}" class="btn-prev"><i></i>上一封</a></#if>
+				</div>
+				<ul class="message-info">
+					<li>
+						<div class="name"><#if msg.name?length lt 45>${msg.name!}<#else>${msg.name[0..40]}...</#if></div>
+					</li>
+					<li>
+						<label>发件人：</label>
+						<div class="sender"><#if msg.sent_user == 1>${platform}<#else>${msg.sent_username!}</#if></div>
+					</li>
+					<li>
+						<label>时&nbsp;&nbsp;&nbsp;间：</label>
+						<div class="time" title="${dateformat(msg.addtime!)}"></div>
+					</li>
+					<li>
+						<div class="content">${msg.content!}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>	
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-message.js"></script>
+</html>

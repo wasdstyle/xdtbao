@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_credit">
+<#assign cid="c_cashDetail">
+<#assign webname='积分兑换现金 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "log-list-tab.html"></div>
+			<div class="account-content">
+				<#if errormsg?exists&&errormsg!="">
+					<script type="text/javascript">$(function() {errorDialog('${errormsg}');});</script>
+				<#elseif msg?exists&&msg!="">
+					<script type="text/javascript">$(function() {okDialog('${msg}');});</script>
+				</#if>
+				<ul class="prompt">
+					<li>100积分可兑换1元钱，1000积分起兑换。</li>
+				</ul>
+				<form action="/credit/cash.html" method="post" id="form-cash" class="credit-exchange">
+					<ul>
+						<li class="cf">
+							<label>可用积分：</label>
+							<span>
+								${(credit.valid_value)!0}
+								<#if credit?? && credit.valid_value??><input type="hidden" id="valid-value" value="${credit.valid_value?c!0}"></#if>
+							</span>
+						</li>
+						<li class="cf">
+							<label>兑换积分：</label>
+							<input type="text" id="credit-value" name="creditConvert.credit_value" onlynumber="true" maxlength="8" />
+						</li>
+						<li class="cf">
+							<label>兑换备注：</label>
+							<textarea  type="text" id="remark" name="creditConvert.remark" maxlength="255"/></textarea>
+						</li>
+						<li>
+							<#if credit_cash_token?exists && credit_cash_token != "">
+								<input type="hidden" name="credit_cash_token" value="${credit_cash_token}" />
+							</#if>
+							<a href="javascript:" class="btn-confirm-exchange">确认兑换</a>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script>
+	$('.btn-confirm-exchange').click(function() {
+		if(!$('#credit-value').val()) {
+			errorDialog('请输入您需要兑换的积分！');
+			return false;
+		}else if(!parseInt($('#credit-value').val())) {
+			errorDialog('兑换的积分不能为0！');
+			return false;
+		}else if(parseInt($('#valid-value').val()) < parseInt($('#credit-value').val())) {
+			errorDialog('兑换的积分不能大于可用积分！');
+			return false;
+		}else {
+			$('#form-cash').submit();
+		}
+	});
+</script>
+</html>

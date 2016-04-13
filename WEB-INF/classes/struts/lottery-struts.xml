@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- v1.6.7.2 RDPROJECT-661 xx 2013-12-30 start -->
+<!-- 新增 -->
+<!-- v1.6.7.2 RDPROJECT-661 xx 2013-12-30 end -->
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="lottery" namespace="/lottery" extends="wzd-default">
+        <action name="initRandomNum" class="LotteryRandomnumAction" method="initRandomNum">
+            
+        </action>
+        <action name="listRandomNum" class="LotteryRandomnumAction" method="listRandomNum">
+            
+        </action> 
+    </package>
+</struts>

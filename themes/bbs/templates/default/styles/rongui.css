@@ -1,0 +1,87 @@
+/**
+ * 钱庄网Qian360
+ * @affect UI库
+ * @date 2013-12-2
+ * @version $V1.0$
+ */
+/*小图标*/
+.qui_sep{display: inline-block;vertical-align: top;font-style:normal;width:1px;overflow: hidden;background:url(../image/icon/base.png) no-repeat;}
+.qui_ico{display: inline-block;vertical-align:middle;}
+.qui_new{width: 9px;height: 14px;background:url(../image/qui_new.gif) no-repeat left top;}
+.qui_close{display: block; width: 22px; height: 22px; background: url(../image/pop_close.png) no-repeat center center; font-size: 0; line-height: 0;} 
+.qui_close:hover{background-color: #e9ecee;}
+.qui_more{display: inline-block;width: 41px;height: 16px;background:url(../image/icon/base.png) no-repeat -290px -52px}
+/*标种*/
+.qui_bid_ico{display: inline-block;width: 19px;height: 19px;background:url(../image/icon/base.png) no-repeat;}
+.qui_bid_ya{background-position:0 -72px}
+.qui_bid_xin{background-position:-24px -72px}
+.qui_bid_liu{background-position:-48px -72px}
+.qui_bid_miao{background-position:0 -96px}
+.qui_bid_bao{width: 21px;height: 21px;background-position:0 -120px}
+.qui_low_high{background:url(../image/icon/store_base.png) no-repeat 0 -96px;}
+.qui_low_middle{background:url(../image/icon/store_base.png) no-repeat 0 -120px;}
+.qui_low_low{background:url(../image/icon/store_base.png) no-repeat 0 -144px;}
+/*input单位*/
+.qui_unit{background:#fff url(../image/icon/form_base.png) no-repeat;}
+/*按钮*/
+.qui_btn{ display: inline-block;background:url(../image/icon/base.png) no-repeat; height: 36px;line-height: 36px; text-align: center; font-size: 16px;font-weight: bold; }
+.qui_btn_longred{width: 303px;background-position:0 -288px;color: #fff;}
+.qui_btn_longred:hover{background-position:0 -336px;color: #fff;}
+.qui_btn_longawait{background-position:0 -480px !important;overflow: hidden;text-indent:-9999px}
+.qui_btn_shortred{width:140px;background-position:0 -144px;color: #fff;}
+.qui_btn_shortred:hover{background-position:0 -192px;color: #fff;}
+.qui_btn_shortorange{width:140px;background-position:0 -384px;color: #fff;}
+.qui_btn_shortorange:hover{background-position:0 -432px;color: #fff;}
+.qui_btn_shortawait{background-position:0 -240px !important;overflow: hidden;text-indent:-9999px}
+/*信用等级&评价*/
+.qui_appraise_positive,.qui_appraise_moderate,.qui_appraise_negative{display: inline-block;width: 24px;height: 24px; background:url(../image/icon/store_base.png) no-repeat; }
+.qui_appraise_positive{background-position:0 -168px}
+.qui_appraise_moderate{background-position:0 -192px}
+.qui_appraise_negative{background-position:0 -216px}
+.qui_credit_rating { display:inline-block; width:85px; height:19px; background:url(../image/icon/rank.png) no-repeat; }
+.qui_credit_rating1 { background-position:0 -77px; }
+.qui_credit_rating2 { background-position:0 -54px; }
+.qui_credit_rating3 { background-position:0 -37px; }
+.qui_credit_rating4 { background-position:0 -18px; }
+.qui_credit_rating5 { background-position:0 0; }
+.qui_credit_rating6 { background-position:-117px -77px; }
+.qui_credit_rating7 { background-position:-117px -54px; }
+.qui_credit_rating8 { background-position:-117px -37px; }
+.qui_credit_rating9 { background-position:-117px -18px; }
+.qui_credit_rating10 { background-position:-117px 0; }
+.qui_credit_rating11 { background-position:0 -186px; }
+.qui_credit_rating12 { background-position:0 -168px; }
+.qui_credit_rating13 { background-position:0 -151px; }
+.qui_credit_rating14 { background-position:0 -132px; }
+.qui_credit_rating15 { background-position:0 -114px; }
+.qui_credit_rating16 { background-position:-242px -184px; }
+.qui_credit_rating17 { background-position:-242px -166px; }
+.qui_credit_rating18 { background-position:-242px -149px; }
+.qui_credit_rating19 { background-position:-242px -130px; }
+.qui_credit_rating20 { background-position:-242px -112px; }
+/*银行卡图标*/
+.qui_bank_ico{background:url(../image/icon/bank_ico.gif) no-repeat;}
+.qui_maxbank_icbc{background-position:0 0;}/*中国工商银行*/
+.qui_maxbank_abc{background-position:0 -48px;}/*中国农业银行*/
+.qui_maxbank_comm{background-position:0 -96px;}/*交通银行*/
+.qui_maxbank_boc{background-position:0 -144px;}/*中国银行*/
+.qui_maxbank_ceb{background-position:0 -192px;}/*中国光大银行*/
+.qui_maxbank_ecitic{background-position:0 -240px;}/*中信银行*/
+.qui_maxbank_hxb{background-position:-148px 0;}/*华夏银行*/
+.qui_maxbank_cmbc{background-position:-148px -48px;}/*中国民生银行*/
+.qui_maxbank_cqrcb{background-position:-148px -96px;}/*重庆农村发展银行*/
+.qui_maxbank_psbc{background-position:-148px -144px;}/*中国邮政储蓄银行*/
+.qui_maxbank_cib{background-position:-148px -192px;}/*兴业银行*/
+.qui_maxbank_cmb{background-position:-148px -240px;}/*招商银行*/
+.qui_minbank_icbc{background-position:-300px 0;}/*中国工商银行*/
+.qui_minbank_abc{background-position:-300px -32px;}/*中国农业银行*/
+.qui_minbank_comm{background-position:-300px -64px;}/*交通银行*/
+.qui_minbank_boc{background-position:-300px -96px;}/*中国银行*/
+.qui_minbank_ceb{background-position:-300px -128px;}/*中国光大银行*/
+.qui_minbank_ecitic{background-position:-300px -160px;}/*中信银行*/
+.qui_minbank_hxb{background-position:-332px 0;}/*华夏银行*/
+.qui_minbank_cmbc{background-position:-332px -32px;}/*中国民生银行*/
+.qui_minbank_cqrcb{background-position:-332px -64px;}/*重庆农村发展银行*/
+.qui_minbank_psbc{background-position:-332px -96px;}/*中国邮政储蓄银行*/
+.qui_minbank_cib{background-position:-332px -128px;}/*兴业银行*/
+.qui_minbank_cmb{background-position:-332px -160px;}/*招商银行*/

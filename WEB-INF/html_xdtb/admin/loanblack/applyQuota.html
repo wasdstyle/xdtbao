@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                           <#include "../userinfo/left.html">                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="黑名单配额申请">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                           <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="applyQuota.html" onsubmit="return check_form();" enctype="multipart/form-data">
+                                    <div class="valBox w750">
+                                        <div class="top">
+                                            <strong>申请配额原因</strong>
+                                        </div>
+                                        <div class="val clearfix">
+                                             <div class="v">
+                                             	<textarea rows="5" cols="100" name="reason" maxlength="500" style="font-size: 20px"></textarea>
+                                             </div>
+                                            <div class="other">
+                                            	 <input type="hidden" name="actionType" value="applyQuota" />
+                                                <input type="submit" name="reset" value="确定申请" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                            
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+      ${rsmsg!""}
+ </div>
+    </body>
+</html>
+<#include "../jsPage.html">

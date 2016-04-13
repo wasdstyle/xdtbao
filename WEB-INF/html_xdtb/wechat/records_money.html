@@ -1,0 +1,74 @@
+<#include "header/base_top.html">
+<#include "../common/function.html"> 
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="/themes/soonmes_huanandai/images/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;"><a class="menu" style="cursor:pointer;">资金记录<img style="margin-left:0px;float:none;width:18px;display:inline;" src="/themes/soonmes_huanandai/images/weixin/images/arrow_log_pup.png"></a>		</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="/themes/soonmes_huanandai/images/weixin/images/btn-refresh.png"></a></span>
+	</div>
+<style>
+	#main .current{		
+		margin-left:5px;
+		margin-top:-10px;
+		width:100%;
+	}
+	#main .current li{
+		float:left;
+		height:auto;
+		margin-bottom:15px;
+		color:#ABABAB;
+	}
+	#main .current.font li{
+		color:#222222;
+		height:auto;
+		margin-bottom:5px;
+		font-size:16px;
+	}
+</style>
+	<div id="main">
+	<style>
+	#pageitem .page_go input{
+		border:1px solid #9E9B9B;
+		width:50px;
+		text-align:center;
+	}
+	#pageitem .page_sure{
+		background: -webkit-gradient(linear, 0 0, 0 100%, from(#FAFCFD), to(#D1D3D5));
+		background:-moz-linear-gradient(top,#FAFCFD,#D1D3D5);
+	}
+	</style>
+		<ul class="menu-list hidden">
+			<li><a href="records_money.html">资金记录</a><img src="/themes/soonmes_huanandai/images/weixin/images/selected.png"></li>
+			<li><a href="records_recharge.html">充值记录</a></li>
+			<li><a href="records_cash.html">提现记录</a></li>
+			<li><a href="records_bid.html">投资记录</a></li>
+		</ul>
+		<div class="form-style-reg">
+			<ul class="current" style="background:#EEF3FA;">
+				<li style="width:60%;">交易用途/时间</li>
+				<li style="width:38%;text-align:right;padding-right:10px;">金额(元)</li>
+			</ul>
+			<#list log as item>
+				<ul class="current font" style="background:#FFFFFF;">
+					<li style="width:60%;">${(item.typename)!"错误类型!"}</li>
+					<li style="width:38%;text-align:right;padding-right:10px;">${ceil(item.money!0)}元</li>
+					<li style="width:100%;color:#ABABAB;font-size:12px;border-bottom:1px solid #E8E8E8;padding-bottom:10px;">${dateformat(item.addtime)}</li>					
+				</ul>
+			</#list>
+			<div class="page">
+				<#import "page.html" as pager>  
+				<@pager.pagination page=p url="records_money.html" map=param style="style1"  />
+			</div>	
+        </div>
+		
+<script>
+	$(".menu").click(function(){
+		if($(".menu-list").hasClass("hidden")){
+			$(".menu-list").removeClass("hidden");
+		}
+		else{
+			$(".menu-list").addClass("hidden");
+		}
+	});
+</script>
+<#include "header/footer.html">	

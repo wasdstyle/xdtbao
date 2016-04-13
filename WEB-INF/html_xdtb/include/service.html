@@ -1,0 +1,44 @@
+<div id="rightFix" style="display:none">
+    <div class="online-service cf">
+        <a href="/guide.html" class="service-1">新手指引</a>
+        <a href="/article/list.html?nid=cjwt" class="service-2">帮助中心</a>
+        <a href="mailto:kefu@xdtbao.com" class="service-3" title="发送邮件"></a>
+        <a href="/tools/interest.html" class="service-4"></a>
+        <div class="service-5">        
+            <div class="list-service1" style="display: none">
+                <h1>在线客服</h1>
+                <ul>
+                    <#if kefuList??>
+                    <#list kefuList as item>
+                       <li>
+                            <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${item.qq!}&site=qq&menu=yes">${item.realname!}</a>
+                       </li>
+                    </#list>
+                    </#if>
+                </ul>
+            </div>
+        </div>
+        <a href="javascript:void(0)" class="service-6" id="back-top"></a>  
+    </div>
+</div>
+
+<div class="help-center cf">
+    <a href="/article/list.html?nid=cjwt" class="service-2">帮助中心</a> 
+</div>
+
+<script type="text/javascript">
+$(".help-center").mouseenter(function(){
+    $("#rightFix").slideDown();
+    $(".help-center").css('display','none');
+})
+
+$("#rightFix").mouseleave(function(){
+    $(".help-center").slideDown();
+    $("#rightFix").slideUp();
+})
+
+
+    // 判断客服qq是否在线(需要qq号开通了'QQ通讯组件'才能判断 http://shang.qq.com)
+    var online = new Array();
+</script>
+<script src="http://webpresence.qq.com/getonline?Type=2&<#if kefuList??><#list kefuList as item><#if item.qq!="">${item.qq!}:</#if></#list></#if>" id="online"></script>

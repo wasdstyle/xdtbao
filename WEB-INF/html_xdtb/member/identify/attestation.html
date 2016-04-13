@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member"> 
+<#assign mid="m_setting">
+<#assign iid="i_attestation">
+<#assign webname='资料证明 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "setting-list-tab.html"></div>
+			<div class="account-content">
+				<ul class="prompt">
+					<li>上传的图片大小不能超过1M，图片格式为jpg或gif。</li>
+				</ul>
+				<form action="attestation.html" method="post" enctype="multipart/form-data" id="form-attestation">
+					<ul>
+						<li class="cf">
+							<label>资料图片：</label>
+							<input type="file" name="litpic"/>
+							<div class="btn-upload">上传图片</div>
+						</li>
+						<li class="cf">
+							<label>资料类型</label>
+							<@attestation name="type_id" id="type_id"></@attestation>
+							<div class="pseudo-select">
+								<span></span>
+								<dl></dl>
+							</div>
+						</li>
+						<li class="cf">
+							<label>备注：</label>
+							<textarea name="name" maxlength="150" autocomplete="off" id="textcon"></textarea>
+						</li>
+						<li class="cf">
+							<label>验证码：</label>
+							<input name="validcode" type="text"/>
+							<img src="/validimg.html" title="点击刷新" onclick="this.src='/validimg.html?t=' + Math.random();"/>
+						</li>
+						<a href="javascript:" class="btn-confirm-upload">确认上传</a>
+						<input type="hidden" name="type" value="1" />
+						<input type="hidden" name="actionType" value="attestation">
+					</ul>
+				</form>
+
+				<!-- 证明资料上传记录:begin -->
+				<div class="wp-attestation-record">
+					<h1>证明资料上传记录</h1>
+					<ul class="name cf">
+						<li>资料类型</li>
+						<li>上传时间</li>
+						<li>审核时间</li>
+						<li>积分</li>
+						<li>状态</li>
+						<li>操作</li>
+						<li>备注</li>
+					</ul>
+					<#list  attestations as item>
+						<ul class="item cf">
+							<li>${(item.type_name)?default("-")}</li>
+							<li class="upload-time" title="${dateformat(item.addtime)}">${(dateformat(item.addtime, "yyyy-MM-dd"))?default("-")}</li>
+							<li class="verify-time" <#if item.verify_time??>title="${dateformat(item.verify_time)}"</#if>>
+								${(dateformat(item.verify_time, "yyyy-MM-dd"))?default("--")}
+							</li>
+							<li><#if item.status==1>${(item.jifen)?default("0")} 分<#else>${(item.jifen)?default("0")} 分</#if></li>
+							<#if item.status==0>
+								<li style="color: #FF8000">正在审核</li>
+							<#elseif item.status=1>
+								<li style="color: #05bd33">已通过</li>
+							<#else>
+								<li style="color: #f20c00">未通过</li>
+							</#if>
+							<li><a href="/${item.litpic!}" class="detail">查看</a></li>
+							<#if item.name!="">
+								<#if item.name?length lt 12>
+									<li>${item.name}</li>
+								<#else>
+									<li title="${item.name}">${item.name[0..10]}...</li>
+								</#if>
+							<#else>
+								<li>--</li>
+							</#if>
+						</ul>
+					</#list>
+				</div>
+				<!-- 证明资料上传记录:end -->
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+
+</body>
+
+<link rel="stylesheet" type="text/css" href="${theme_dir}/plugin/fancybox-1.3.1/jquery.fancybox.css">
+<script type="text/javascript" src="${theme_dir}/plugin/fancybox-1.3.1/jquery.fancybox-1.3.1.min.js"></script>
+ 
+
+<script type="text/javascript">
+	$(function() {
+		/* 伪下拉列表 */
+		$('#form-attestation ul li .pseudo-select').pseudoSelect('type_id');
+
+		/* 转换日期格式 */
+		$('.upload-time, .verify-time').each(function() {
+			$(this).attr('title') ? $(this).dateTimeConvert() : '';
+		});
+
+		/* 上传图片校验 */
+		$('[name="litpic"]').change(function(e) {
+			var self = this;
+			if(!(this.value.match(/.*(.jpg|.gif|.JPG|.GIF)$/))) {
+				$(this).val('').siblings('.upload-ok').remove();
+				errorDialog('上传的图片类型必须是jpg或gif格式！');
+				return false;
+			}else{
+				$(this).parent().find('.upload-ok').remove();
+				$(this).parent().append('<div class="upload-ok"></div>');
+			}
+		});
+
+		/* 确认上传-表单校验 */
+		$('.btn-confirm-upload').click(function() {
+			var Reg = /<\/?[^>]*>/g;
+			var str = $('#textcon').val();
+			if(Reg.test(str)){
+				var Num = str.replace(Reg,'');	
+				$('#textcon').val(Num);
+				infoDialog('备注中有非法字符!');
+				return false;
+			}
+			if(!$('[name="litpic"]').val()) {
+				infoDialog('请上传资料图片');
+				return false;
+			}else if (!$('[name="validcode"]').val()) {
+				infoDialog('请输入验证码');
+				return false;	
+			}else {
+				$('#form-attestation').submit();
+			}
+		});
+
+		/* 查看图片 */
+	  $('.wp-attestation-record ul li a.detail').fancybox();
+		
+	});
+</script>
+</html>

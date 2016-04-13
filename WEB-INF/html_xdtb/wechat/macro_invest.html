@@ -1,0 +1,159 @@
+<#macro indexListItem item> 
+	<style type="text/css">
+		.current li a{float: left;}
+		.current li a.icon-bid{width: 18px; height: 18px;}
+		/* 标种图标:begin */
+		.icon-bid{background-image: url(/themes/soonmes_xdtb/bg/icons-bid-type.png);background-repeat: no-repeat;}
+		.icon-bid.second{background-position: 0 0;}
+		.icon-bid.mortgage{background-position: -20px 0;}
+		.icon-bid.credit{background-position: -40px 0;}
+		.icon-bid.flow{background-position: -60px 0;}
+		.icon-bid.networth{background-position: -80px 0;}
+		.icon-bid.vouch{background-position: -100px 0;}
+		.icon-bid.day{background-position: -120px 0;}
+		.icon-bid.award{background-position: -140px 0;}
+		.icon-bid.password{background-position: -160px 0;}
+		/* 标种图片:end */
+	</style> 
+	<#if item.is_flow??&&item.is_flow==1>
+		<ul class="current">
+			<li style="width:70%;border-bottom:1px solid #EDEDED;padding-bottom:5px;color:#222222;">
+				<a href="investdetail.html?borrowid=${item.id?c}" style="display:block;">
+					<#if item.name?length lt 13>${item.name}<#else>${item.name[0..12]}</#if>
+				</a>
+			</li>
+			<li style="width:30%;border-bottom:1px solid #EDEDED;padding-bottom:5px;">	
+				<@showBorrowIcon item=item/>
+                <#if item.borrowProperty??>
+               		<@showBorrowProperty borrowProperty=item.borrowProperty />
+               	</#if>
+			</li>
+			<a href="investdetail.html?borrowid=${item.id?c}" style="display:block;">
+			<li style="width:70%;">
+				<span style="text-align:left;">
+				<#if item.isday!=1>
+					年化收益
+				<#else>	
+					天化收益
+				</#if>							
+				</span>																								
+				<span>项目期限</span>
+				<span>项目规模</span>												
+			</li>				
+			<li style="width:70%;padding-bottom:21px;border-bottom:1px solid #EDEDED;">
+				<span style="color:#CA1119;font-size:18px;height:20px;text-align:left;">
+					<#if item.isday!=1>
+						${item.apr}
+					<#else>	
+						${format2(item.apr/360)}
+					</#if>	
+					<i style="margin-left:0px;font-style:normal;font-size:12px;">%</i>
+				</span>
+				<span style="color:#222222;font-size:14px;line-height:25px;height:20px;">					
+					<#if item.isday??&&item.isday==1>
+						${item.timeLimitDay!0}天
+                    <#elseif item.type==101>
+                    	满标自动还款
+                    <#else>${(item.timeLimit)!0}个月
+                    </#if>
+				</span>
+				<span style="color:#222222;font-size:14px;line-height:25px;height:20px;">${item.account/10000}万</span>
+			</li>
+			<li style="width:30%;height:auto;margin-top:-20px;border-bottom:1px solid #EDEDED;padding-bottom:6px;position:relative;">
+				<div class="process">
+					 <div class="process-hold hold1">
+						<#if item.accountYes/item.viewMoney lt 0.5>					
+							<div class="process-bar bar1" style="-o-transform:rotate(${(item.accountYes/item.viewMoney*360)}deg);-webkit-transform:rotate(${(item.accountYes/item.viewMoney*360)}deg);-moz-transform:rotate(${(item.accountYes/item.viewMoney*360)}deg); "></div>
+						<#else>
+							<div class="process-bar bar1" style="-o-transform:rotate(180deg);-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg); "></div>
+						</#if>					
+					</div>
+					<div class="process-hold hold2">
+						<#if item.accountYes/item.viewMoney gt 0.5>
+							<#if item.accountYes/item.viewMoney == 1>
+								<div class="process-bar bar2" style="-o-transform:rotate(180deg);-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg); "></div>
+							<#else>
+								<div class="process-bar bar2" style="-o-transform:rotate(${((item.accountYes/item.viewMoney)*180)}deg);-webkit-transform:rotate(${((item.accountYes/item.viewMoney)*180)}deg);-moz-transform:rotate(${((item.accountYes/item.viewMoney)*180)}deg); "></div>
+							</#if>	
+						<#else>
+							<div class="process-bar bar2"></div>
+						</#if>			
+					</div>		
+					<div class="bg"></div>
+					<div class="time">
+						<i>
+							${(item.accountYes/item.viewMoney)*100}%
+						</i>
+					</div>					
+				</div>
+			</li>
+			</a>
+		</ul>
+	<#else>	
+		<ul class="current">
+			<li style="width:70%;border-bottom:1px solid #EDEDED;padding-bottom:3px;color:#222222;">
+				<a href="investdetail.html?borrowid=${item.id?c}" style="display:block;">
+					<#if item.name?length lt 10>${item.name}<#else>${item.name[0..7]}...</#if>
+				</a>
+			</li>
+			<li style="width:30%;border-bottom:1px solid #EDEDED;padding-bottom:5px;">	
+				<@showBorrowIcon item=item/>
+			</li>
+
+			<a href="investdetail.html?borrowid=${item.id?c}" style="display:block;">
+			<li style="width:70%;">
+				<span style="text-align:left;">
+					年利率					
+				</span>																								
+				<span>借款期限</span>
+				<span>借款金额</span>												
+			</li>				
+			<li style="width:70%;padding-bottom:21px;border-bottom:1px solid #EDEDED;">
+				<span style="color:#CA1119;font-size:18px;height:20px;text-align:left;">
+					${item.apr}
+					<i style="margin-left:0px;font-style:normal;font-size:12px;">%</i>
+				</span>
+				<span style="color:#222222;font-size:14px;line-height:25px;height:20px;">					
+                    <#if item.isday??&&item.isday==1>
+                        ${item.time_limit_day!0}天
+                    <#elseif item.type==101>
+                        自动还款
+                    <#else>
+                        ${(item.time_limit)?default("0")}个月
+                    </#if>
+				</span>
+				<span style="color:#222222;font-size:14px;line-height:25px;height:20px;">${format2(item.account)?number}元
+				</span>
+			</li>
+			<li style="width:30%;height:auto;margin-top:-20px;border-bottom:1px solid #EDEDED;padding-bottom:6px;position:relative;">
+				<div class="process">
+					 <div class="process-hold hold1">
+						<#if item.scales lt 0.5>					
+							<div class="process-bar bar1" style="-o-transform:rotate(${(item.scales*360)}deg);-webkit-transform:rotate(${(item.scales*360)}deg);-moz-transform:rotate(${(item.scales*360)}deg);"></div>
+						<#else>
+							<div class="process-bar bar1" style="-o-transform:rotate(180deg);-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg); "></div>
+						</#if>					
+					</div>
+					<div class="process-hold hold2">
+						<#if item.scales gt 0.5>
+							<#if item.scales == 1>
+								<div class="process-bar bar2" style="-o-transform:rotate(180deg);-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg); "></div>
+							<#else>
+								<div class="process-bar bar2" style="-o-transform:rotate(${((item.scales)*180)}deg);-webkit-transform:rotate(${((item.scales)*180)}deg);-moz-transform:rotate(${((item.scales)*180)}deg); "></div>
+							</#if>	
+						<#else>
+							<div class="process-bar bar2"></div>
+						</#if>			
+					</div>		
+					<div class="bg"></div>
+					<div class="time">
+						<i>
+							${(item.scales*100)?string('##.##')}%
+						</i>
+					</div>					
+				</div>
+			</li>
+			</a>
+		</ul>
+	</#if>
+</#macro>

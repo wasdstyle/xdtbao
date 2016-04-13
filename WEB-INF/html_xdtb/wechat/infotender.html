@@ -1,0 +1,100 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;"><a class="menu" style="cursor:pointer;">投资记录<img style="margin-left:0px;float:none;width:18px;display:inline;" src="${theme_dir}/image/weixin/images/arrow_log_pup.png"></a>		</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+<style>
+<style>
+	#main .current{		
+		margin-left:5px;
+		margin-top:-10px;
+	}
+	#main .current li{
+		float:left;
+		height:auto;
+		margin-bottom:15px;
+		color:#ABABAB;
+	}
+	#main .current.font li{
+		color:#222222;
+		height:auto;
+		margin-bottom:5px;
+	}
+</style>
+	<div id="main">
+	<style>
+	#pageitem .page_go input{
+		border:1px solid #9E9B9B;
+		width:50px;
+		text-align:center;
+	}
+	#pageitem .page_sure{
+		background: -webkit-gradient(linear, 0 0, 0 100%, from(#FAFCFD), to(#D1D3D5));
+		background:-moz-linear-gradient(top,#FAFCFD,#D1D3D5);
+	}
+	</style>
+		<ul class="menu-list hidden">
+			<li><a href="record.html">资金记录</a></li>
+			<li><a href="inforecharge.html">充值记录</a></li>
+			<li><a href="infocash.html">提现记录</a></li>
+			<li><a href="infotender.html">投资记录</a><img src="${theme_dir}/image/weixin/images/selected.png"></li>
+		</ul>
+		<div class="form-style-reg">
+			<ul class="current" style="background:#EEF3FA;">
+				<li style="width:40%;">借款人</li>
+				<li style="width:28%;text-align:right">投标总额(元)</li>
+				<li style="width:31%;text-align:right;">收益总额(元)</li>
+			</ul>			
+			<#list tender as item>
+				<ul class="current font" style="background:#FFFFFF;">
+					<li style="width:40%;" class="subLenght">${item.op_username}</li>
+					<li style="width:27%;text-align:right;" class="ceil">${item.tender_account}</li>
+					<li style="width:31%;text-align:right;" class="ceil">${item.repayment_account!0}</li>
+					<li style="width:40%;color:#ABABAB;font-size:12px;border-bottom:1px solid #E8E8E8;">
+						${dateformat(item.addtime!0,"yyyy-MM-dd")}
+					</li>
+					<#assign account_process=0 >
+					<#if item.borrow_account_yes?exists>
+						<#assign account_process=(item.borrow_account_yes?number/item.borrow_account?number*100) >
+					</#if>
+					<li style="width:58%;color:#ABABAB;font-size:12px;text-align:right;border-bottom:1px solid #E8E8E8;">${account_process}%</li>
+				</ul>
+			</#list>	
+
+			<#import "page.html" as pager>  
+    		<@pager.pagination page=page url="/wx/infotender.html" map=param style="style1"  />	
+        </div>				
+<script>
+	$(".menu").click(function(){
+		if($(".menu-list").hasClass("hidden")){
+			$(".menu-list").removeClass("hidden");
+		}
+		else{
+			$(".menu-list").addClass("hidden");
+		}
+	});	
+	
+	$(".ceil").each(function(){
+		var that=$(this);
+		var num=that.html();
+		var temp=num;
+		var len=temp.indexOf(".");
+		if(len+3 > temp.length || len <0){
+			len=temp.length;		
+		}
+		else{
+			len=len+3;
+		}
+		temp=temp.substring(0,len);
+		that.html(temp);
+	});
+
+	$(".subLenght").each(function(){
+		var that=$(this);
+		var value=that.html();
+		that.html(value.substring(0,7));
+	});
+</script>
+<#include "header/footer.html">	

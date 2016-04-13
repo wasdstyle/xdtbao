@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${webname!}</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<#include "head.htm"/>
+</head>
+<#import "../macros/pagination.ftl" as pagination>
+<#import "../macros/presentation.ftl" as presentation/>
+<style>
+.bbs-page .bbs-list-inner .table-list .posted-by {width:25%}
+.bbs-page .bbs-list-inner .table-list .title {width:25%}
+.bbs-page .bbs-list-inner .table-list .reply {width:20%}
+.bbs-page .bbs-list-inner .table-list .posted-by {width:10%}
+.bbs-page .bbs-list-inner .table-list .view {width:5%}
+.bbs-page .bbs-list-inner .table-list .last-post {width:15%}
+</style>
+<script type="text/javascript" src="${contextPath}/themes/bbs/templates/${templateName}/js/pagination.js?${startupTime}"></script> 
+<#if logged> 
+<script type="text/javascript" src="${contextPath}/themes/bbs/templates/${templateName}/js/watch.js?${startupTime}"></script> 
+</#if>
+
+<#if moderator> 
+<script type="text/JavaScript" src="${JForumContext.encodeURL("/js/list/moderation")}"></script> 
+</#if>
+<body class="full">
+	<!--S 快速导航开始-->
+	<!--S 快速导航开始-->
+	<#include "quickNav.htm"/>
+	<!--E 快速导航结束-->
+	
+	<!--S 主体部分开始-->
+	<section class="bd mid clearfix">
+
+        <!--S 2014.3.19 add 论坛列表开始-->
+        <div class="bbs-page">
+
+            <div class="bbs-head">
+                <div class="bread-crumbs-nav">
+                    <ul>
+                        <li>
+                            <a  href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
+                        </li>
+                        <li class="v">
+                            <a  href="${JForumContext.encodeURL("/forums/show/${forum.id}")}">${forum.name?html}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mn-r">
+                	<div class="nv search-mini">
+                	<#if showTitle??&&logged>
+						<#if !readonly && !replyOnly>
+			              <!-- <a href="${JForumContext.encodeURL("/jforum${extension}?module=posts&amp;action=insert&amp;forum_id=${forum.id}", "")}" rel="nofollow" >
+			               <img src="${contextPath}/themes/bbs/templates/${templateName}/images/published_topic.jpg" class="published_topic" alt="回复" /> </a></td>
+			               -->
+			              <a href="${JForumContext.encodeURL("/jforum${extension}?module=posts&amp;action=insert&amp;forum_id=${forum.id}", "")}" class="search-btn">发帖</a>
+			              </#if>
+			          </#if>
+                        
+                    </div>
+                    <div class="nv">
+                         <a class="news-theme" href="${JForumContext.encodeURL("/recentTopics/list/${forum.id}")}">最新发表</a>
+                        <a class="hot-theme" href="${JForumContext.encodeURL("/hottestTopics/list/${forum.id}")}">热门贴</a>
+                    </div>
+
+                    <div class="search-mini">
+                     	<form action="${JForumContext.encodeURL("/jforum")}">
+                       	 	<input type="text" value="搜索主题 ..." data-val="搜索主题 ..." class="search-val input-focus">
+                   			<input type="hidden" name="module" value="search" />
+							<input type="hidden" name="action" value="search" />
+							<input type="hidden" name="match_type" value="all" />
+							<input type="hidden" name="sort_by" value="relevance" />
+                       		 <input type="submit" value="搜索" class="search-btn">
+                   		</form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bbs-list-inner">
+                <table class="table-list">
+                    <tr class="head">
+                        <td class="title"><div class="c">主题</div></td>
+                        <td class="reply">回复</td>
+                        <td class="posted-by">发表人</td>
+                        <td class="view">查看</td>
+                        <td class="last-post"><div class="c">最后发表</div></td>
+                    </tr>
+                     <#list topics as topic>
+                      <#if topic.forumId == forum.id>
+	                    <tr>
+	                     <!-- TOPICS LISTING --> 
+	                        <td class="top-title title">
+	                            <div class="c">
+		                           <#if topic.hasAttach() && attachmentsEnabled><img src="${contextPath}/themes/bbs/templates/${templateName}/images/notice_li.png" align="middle" alt="[Clip]" /></#if> <span class="topictitle"> <a href="${JForumContext.encodeURL("/posts/list/${topic.id}")}"> <#if topic.vote>${I18n.getMessage("ForumListing.pollLabel")}</#if>
+						            <#if (topic.title?length == 0)>
+						            No Subject
+						            <#else>
+						            ${topic.title?html}
+						            </#if> </a> </span> <#if topic.paginate> <span class="gensmall"> 
+						            <@pagination.littlePostPagination topic.id, postsPerPage, topic.totalReplies/>
+						            </span> </#if> 
+	                            </div>
+	                        </td>
+	                        <td class="reply">${topic.totalReplies}</td>
+	                        <td class="posted-by"><a href="${JForumContext.encodeURL("/user/profile/${topic.postedBy.id}")}">${topic.postedBy.username}</a></td>
+	                        <td class="view">${topic.totalViews}</td>
+	                        <td class="last-post">
+	                            <div class="c">
+	                                <div class="time"><span><#if (topic.lastPostTime?length > 0)>${topic.lastPostTime}</#if></span></div>
+	                                <div class="reply-user">
+	                                	<#if (topic.lastPostTime?length > 0)>
+	                                	<a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">${topic.lastPostBy.username}</a>
+            							<#assign startPage = ((topic.totalReplies / postsPerPage?number)?int * postsPerPage?number) +"/"/>
+            							<a href="${JForumContext.encodeURL("/posts/list/${startPage}${topic.id}")}#${topic.lastPostId}"></a></span> </#if>
+	                                 </div>
+	                            </div>
+	                        </td>
+	                    </tr>
+	                    </#if>
+	                </#list>
+                </table>
+            </div>
+            <#-- 
+				<#assign paginationData>
+                <@pagination.doPagination action, forum.id/>
+                </#assign>
+                
+            <div class="paging" id="paging">${paginationData}</div>
+	-->
+        </div>
+        <!--E 2014.3.19 add 论坛列表结束-->
+
+	</section>
+
+
+	<!--E 主体部分结束-->
+	<!--S 页脚-->
+	<!--S 页脚-->
+	<#include "foot.htm"/>
+	<!--E 页脚-->
+	<#include "resource.htm"/>
+</body>
+</html>

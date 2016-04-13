@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${webname!}</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<#include "head.htm"/>
+</head>
+
+<script type="text/javascript" src="${contextPath}/themes/bbs/templates/${templateName}/js/pagination.js?${startupTime}"></script>
+
+<#import "../macros/pagination.ftl" as topicPagination>
+<#import "../macros/search_pagination.ftl" as pagination>
+<#import "../macros/presentation.ftl" as presentation/>
+
+<body class="full">
+	<!--S 快速导航开始-->
+	<!--S 快速导航开始-->
+	<#include "quickNav.htm"/>
+	<!--E 快速导航结束-->
+	
+	 <!--S 主体部分开始-->
+	<section class="bd bbs_search mid m_t_10 m_b_10">
+		<div class="quick_nav">
+			<ul class="clearfix">
+				<li><a href="${JForumContext.encodeURL("/forums/list")}" title="论坛首页"><figure class="ico4"></figure>论坛首页</a></li>
+				<li><a href="${JForumContext.encodeURL("/recentTopics/list")}" title="最新主题"><figure class="ico2"></figure>最新主题</a></li>
+				<li><a href="${JForumContext.encodeURL("/hottestTopics/list")}" title="热门主题"><figure class="ico3"></figure>热门主题</a></li>
+			</ul>
+		</div>
+		
+		<div class="search_tit">${I18n.getMessage("Information")}</div>
+		
+			<ul class="search_list">
+				<li>
+					<div class="user_info"></div>
+					<div class="main t_a_c">${message?default("")}</div>
+					<div class="operation"></div>
+				</li>
+				
+			</ul>
+			
+		
+	</section>
+	<!--E 主体部分结束-->
+	<!--S 页脚-->
+	<!--S 页脚-->
+	<#include "foot.htm"/>
+	<!--E 页脚-->
+	<#include "resource.htm"/>
+</body>
+</html>

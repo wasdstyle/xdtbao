@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_borrow" >
+<#assign bid="b_repaymentdetail">
+<#assign webname='还款明细 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "borrow-list-tab.html"></div>
+			<div class="account-content">
+				<div class="wp-borrow-repaymentdetail wp-borrow">
+					<#if param?exists>
+						<#if param.get("repayment_time1")?exists><#assign repayment_time1=param.get("repayment_time1")></#if>
+						<#if param.get("repayment_time2")?exists><#assign repayment_time2=param.get("repayment_time2")></#if>
+						<#if param.get("keywords")?exists><#assign keywords=param.get("keywords")></#if>
+					</#if>
+					<div class="search cf">
+						<span>应还日期：</span>
+						<input type="text" name="repayment_time1" id="start-time" value="${repayment_time1?default("")}"/>
+						<span class="to">到</span>
+						<input type="text" name="repayment_time2" id="end-time" value="${repayment_time2?default("")}" />
+						<span class="keywords">关键字：</span>
+						<input type="text" name="keywords" id="keywords" value="${keywords?default("")}" />
+						<a href="javascript:" class="btn-search">搜索</a>
+					</div>
+					<ul class="name cf">
+						<li>标题</li>
+						<li>期数/总期数</li>
+						<li>应还日期</li>
+						<li>应还本息</li>
+						<li>利息</li>
+						<li>逾期利息</li>
+						<li>逾期天数</li>
+						<li>还款状态</li>
+						<li>操作</li>
+					</ul>
+					<#import "../../common/function.html" as func>  
+					<#list repay as item>
+						<ul class="item cf">
+							<li>
+								<a href="/invest/detail.html?borrowid=${(item.borrow_id)?c}" target="_blank" title="${item.borrow_name!}">
+									<#if item.borrow_name?length lt 25>${item.borrow_name}<#else>${item.borrow_name[0..22]}...</#if>
+								</a>
+							</li>
+							<li>${item.order+1} <#if item.borrow_style!='2'&&item.time_limit?exists>/ ${item.time_limit}<#else>/ ${item.order+1}</#if></li>
+							<li>${dateformat(item.repayment_time!0,"yyyy-MM-dd")}</li>
+							<li>
+								<#if item.repayment_time?number lte today?number+86400>
+									<#if item.borrow_style=='4'>
+										${(func.format2(item.repayment_account))?number-(func.format2(item.interest))?number}
+									<#else>
+										${func.format2(item.repayment_account)}
+									</#if>
+								<#else>
+									${func.format2(item.repayment_account)}
+								</#if>
+							</li>
+							<li>${func.format2(item.interest)}</li>
+							<li>${func.format2(item.late_interest)}</li>
+							<li>${item.late_days}<b>天</b></li>
+							<li><#if item.status==0>待还款<#elseif item.status==2>网站先垫付<#elseif item.status==1>已还款<#else>还款中</#if></li>
+							<#if item.type==110>
+								<li>--</li>
+							<#else>
+								<li>
+									<#if item.status==1>
+										--
+									<#else>
+										<a href="javascript:" class="repay" itemid='${item.id?c}'><i></i>还款</a>
+									</#if>
+								</li>
+							</#if>
+						</ul>
+					</#list>
+					<div class="account-page">
+						<#if page??>
+							<#import "../../common/page.html" as pager>  
+							<#if borrowId?? && borrowId?number gt 0>
+								<@pager.pagination page=page url="/member/borrow/repaymentdetail.html?borrowId=${borrowId?c}&" map=param! style="style-new"/> 
+							<#else>
+								<@pager.pagination page=page url="/member/borrow/repaymentdetail.html" map=param! style="style-new"/> 
+							</#if>
+						</#if>
+					</div>
+
+					<form action="/member/borrow/repay.html" method="post" id="form-repay">                
+						<h2>还款密码</h2>
+						<input type="password" style="display: none;">
+						<input type="password" name="paypassword" id="paypassword"/>
+						<input type="hidden"  name="id" id="item-id"/>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/plugin/laydate/laydate.js"></script>
+<script>
+	// 搜索
+	$('.search .btn-search').click(function() {
+		var url = ${borrowId} > 0 ? 'repaymentdetail.html?search=true&borrowId=${borrowId}' : 'repaymentdetail.html?search=true';
+		if($('#start-time').val()) {
+			url += '&repayment_time1=' + $('#start-time').val();
+		}
+		if($('#end-time').val()) {
+			url += '&repayment_time2=' + $('#end-time').val();
+		}
+		if($('#keywords').val()) {
+			url += '&keywords=' + $('#keywords').val();
+		}
+		location.href = url;
+	});
+
+	// 还款
+	$('.wp-borrow ul.item li .repay').click(function() {
+		$('#form-repay #item-id').val($(this).attr('itemid'));
+		art.dialog({
+			icon   : 'face-smile',
+			content: document.getElementById('form-repay'),
+			lock   : true,
+			opacity: .1,
+			fixed  : true,
+			ok     : function() {
+				if(!$('#paypassword').val()) {
+					$('#paypassword').focus();
+					return false;
+				}else {
+					$('#form-repay').submit();
+				}
+			},
+			cancel : function() {}
+		});
+	});
+</script>
+</html>

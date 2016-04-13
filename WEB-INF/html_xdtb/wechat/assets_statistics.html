@@ -1,0 +1,89 @@
+<#include "header/base_top.html">
+<#include "../common/function.html"> 
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">资产统计</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+<style>
+#main .current{
+	color:#9E9E9E;
+	margin-top:20px;
+	display:block;
+	float:right;
+	margin-right:5px;
+	font-style:normal;
+}
+#main .form-style-reg li{
+	border-bottom:1px solid #E4E4E4;
+}
+#main .form-style-reg li span{
+	margin-left:20px;
+}
+#main .form-style-reg li b{
+	float:right;
+	margin-right:20px;
+}
+</style>
+	<div id="main">
+		<div class="form-style-reg">
+			<ul style="margin-bottom:20px;">
+				<li>
+					<span>账户总额：</span><b class="current"><#if summary??>${ceil(summary.accountTotal!0)}</#if>元</b>
+				</li>
+				
+				<li>
+					<span>可用余额：</span><b class="current"><#if summary??>${ceil(summary.accountUseMoney!0)}</#if>元</b>
+				</li>	
+				<li>
+					<span>冻结余额：</span><b class="current"><#if summary??>${ceil(summary.accountNoUseMoney!0)}</#if>元</b>
+				</li>
+				<li>
+					<span>积分：</span><b class="current"><#if userCredit??>${ceil(userCredit.value!0)}</#if>分</b>
+				</li>
+				<li>
+					<span>净资产：</span><b class="current"><#if summary??>${ceil(summary.accountOwnMoney!0)}</#if>元</b>
+				</li>
+				<li>
+					<span>信用额度：</span><b class="current"><#if amount??>${ceil(amount.credit!0)}</#if></b>
+				</li>
+				<li>
+					<span>可用信用额度：</span><b class="current"><#if amount??>${ceil(amount.credit_use!0)}</#if></b>
+				</li>
+
+				<li>
+					<span>待收总额：</span><b class="current"><#if summary??>${((summary.collectTotal)!0)?string("##.##")}</#if>元</b>
+				</li>
+				<li>
+					<span>待收利息：</span><b class="current"><#if summary??>${(summary.collectInterest!0)?string("##.##")}</#if>元</b>
+				</li>												
+				<li>
+					<span>待还总额：</span><b class="current"><#if summary??>${ceil(summary.repayTotal!0)}</#if>元</b>
+				</li>
+				<li>
+					<span>最近待收金额：</span><b class="current"><#if summary??>${ceil(summary.newestCollectMoney!0)}</#if>元</b>
+				</li>
+				<li>
+					<span>最近待收时间：</span><b class="current"><#if summary??&&summary.newestCollectDate??>${dateformat(summary.newestCollectDate,"yyyy-MM-dd")}<#else>暂无收款</#if></b>
+				</li>
+
+				<li>
+					<span>已赚利息：</span><b class="current"><#if summary??>${ceil(summary.yes_interest!0)}</#if>元</b>
+				</li>
+				<li>
+					<span>已赚奖励：</span><b class="current"><#if summary??>${ceil(summary.awardTotal!0)}</#if>元</b>
+				</li>
+				<li>
+					<span>最近待还金额：</span><b class="current"><#if summary??>${ceil(summary.newestRepayMoney!0)}</#if>元</b>
+				</li>
+				<li>
+					<span>最近待还时间：</span><b class="current"><#if summary??&&summary.newestRepayDate??>${dateformat(summary.newestRepayDate,"yyyy-MM-dd")}<#else>暂无还款</#if></b>
+				</li>
+				<li>
+					<span>已还利息：</span><b class="current">${ceil(interest!0)}元</b>
+				</li>
+			</ul>	
+        </div>	
+<#include "header/footer.html">
+	

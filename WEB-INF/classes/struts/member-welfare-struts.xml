@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- v1.6.7.2 爱心公益 sj 2014-1-8  新增 -->
+	<package name="memberWelfare" namespace="/member/welfare" extends="wzd-default">
+
+        <action name="index"  class="memberWelfareAction" method="index">
+            <result name="success" type="ftl">/member/welfare/index.html</result>
+        </action>
+        <action name="detail"  class="memberWelfareAction" method="detail">
+            <result name="success" type="ftl">/member/welfare/detail.html</result>
+        </action>
+        <action name="welfareVedio"  class="memberWelfareAction" method="welfareVedio">
+            <result name="success" type="ftl">/member/welfare/welfare_vedio.html</result>
+        </action>
+        <action name="loveActivity"  class="memberWelfareAction" method="loveActivity">
+            <result name="success" type="ftl">/member/welfare/love_activity.html</result>
+        </action>
+        <action name="rescueCase"  class="memberWelfareAction" method="rescueCase">
+            <result name="success" type="ftl">/member/welfare/rescue_case.html</result>
+        </action>
+        <action name="needyStudent"  class="memberWelfareAction" method="needyStudent">
+            <result name="success" type="ftl">/member/welfare/needy_student.html</result>
+        </action>
+        <action name="applyFunding"  class="memberWelfareAction" method="applyFunding">
+            <result name="success" type="ftl">/member/welfare/apply_funding.html</result>
+        </action>
+        <action name="review"  class="memberWelfareAction" method="review">
+            <result name="success" type="ftl">/member/welfare/msg.html</result>
+        </action>
+        <action name="videoDisplay"  class="memberWelfareAction" method="videoDisplay">
+            <result name="success" type="ftl">/member/welfare/video_display.html</result>
+        </action>
+    </package>
+</struts>

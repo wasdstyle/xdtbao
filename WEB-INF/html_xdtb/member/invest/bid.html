@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member"> 
+<#assign mid="m_invest">
+<#assign iid="i_bid">
+<#assign webname='投资的项目 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "invest-list-tab.html"></div>
+			<div class="account-content">
+				<div class="wp-invest-bid">
+					<ul class="name cf">
+						<li>借款人</li>
+						<li>借款名称</li>
+						<li>借款招标进度</li>
+						<li>有效投标金额</li>
+						<li>时间</li>
+					</ul>
+					<#list tender as item>
+						<ul class="item cf">
+							<li>${item.op_username}</li>
+							<li>
+								<a href="/invest/detail.html?borrowid=${item.borrow_id?c}" target="_blank" title="${item.borrow_name}">
+									<#if item.borrow_name?length lt 30>${item.borrow_name}<#else>${item.borrow_name[0..27]}...</#if>
+								</a>
+							</li>
+							<li>
+								<#assign account_process=0 >
+								<#if item.borrow_account_yes?exists>
+									<#assign account_process=(item.borrow_account_yes?number/item.borrow_account?number*100) >
+								</#if>
+								<div class="process">
+									<div style="width: ${(account_process)?string('##.##')}%"></div>
+								</div>
+								<span class="percent">${(account_process)?string('##.##')}%</span>
+							</li>
+							<li>${item.tender_account}</li>
+							<li>${dateformat(item.addtime!0,"yyyy-MM-dd")}</li>
+						</ul>
+					</#list>
+					<!-- 此页面本来就没有分页代码，下面是新加入的分页，可能会出异常 -->
+					<div class="account-page">
+						<#import "../../common/page.html" as pager>  
+						<@pager.pagination page=page url="/member/invest/bid.html" map=param style="style-new"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+</html>

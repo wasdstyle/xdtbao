@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../borrow/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="债权初审">
+                              
+                        <#include "../borrow/banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                                <div class="toolbor-module">
+                                    <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="${request.getContextPath()}/admin/ca/verifyCa.html" enctype="multipart/form-data">
+                                    <div class="valBox mb15">
+                                        <div class="top">
+                                            <strong>债权基本信息</strong>
+                                        </div>
+                                        <div class="fp w349 clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">ID：</div>
+                                                    <div class="v">
+                                                       ${creditAssignment.id}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">债权名：</div>
+                                                    <div class="v">
+                                                    	<#if creditAssignment.name?length lt 10>${creditAssignment.name}<#else>${creditAssignment.name[0..7]}...</#if>
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">出售债权用户ID：</div>
+                                                    <div class="v">
+                                                    	${creditAssignment.sell_user_id}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">债权相关的借款标ID：</div>
+                                                    <div class="v">
+                                                    	${creditAssignment.related_borrow_id}
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">债权预期价值：</div>
+                                                    <div class="v">
+                                                    	${creditAssignment.credit_value}
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">债权发布价格：</div>
+                                                    <div class="v">
+                                                       	${creditAssignment.credit_price}
+                                                    </div>
+                                                </li>
+                                                 <li>
+                                                    <div class="title">债权转让手续费：</div>
+                                                    <div class="v">
+                                                       	${creditAssignment.sell_fee}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">债权转让截止期限：</div>
+                                                    <div class="v">
+                                                    	${dateformat(creditAssignment.buy_end_time?c)}
+                                                    </div>
+                                                </li>
+								                <li class="color">
+								                    <div class="title">债权状态：</div>
+								                    <div class="v">
+								                        	<#if creditAssignment.status??&&creditAssignment.status==0>
+																发布
+															<#elseif creditAssignment.status==1>
+																审核通过
+															<#elseif creditAssignment.status==2>
+																审核未通过
+															<#elseif creditAssignment.status==3>
+																复审通过
+															<#elseif creditAssignment.status==4>
+																复审未通过	
+															<#else>
+																撤回
+															</#if>
+								                    </div>
+								                </li>
+                                                <li class="color">
+                                                    <div class="title">发布时间：</div>
+                                                    <div class="v">
+                                                    	${dateformat(creditAssignment.addtime?c)}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">发布者IP：</div>
+                                                    <div class="v">
+                                                    	${creditAssignment.addip!""}
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="valBox mb15">
+                                        <div class="top">
+                                            <strong>转让的待收信息<#if (collectionList?exists)&&(collectionList?size>0)>:&nbsp;&nbsp;<font color="red">共有${collectionList.size()}条待收信息需要转出。</font></#if></strong>
+                                        </div>
+                                        <div class="fp w349 clearfix">
+                                            <ul>
+                                            <#if (collectionList?exists)&&(collectionList?size>0)>
+         										<#list collectionList as item>
+                                                <li>
+                                                    <div class="title">待收本金：</div>
+                                                    <div class="v">
+                                                       ${item.capital}元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">待收利息：</div>
+                                                    <div class="v">
+                                                      <#if borrow??&&borrow.style=='4'><font color="red">已还</font><#else>${item.interest}元</#if>
+                                                    </div>
+                                                </li>
+                                                 <li>
+                                                    <div class="title">待收奖励：</div>
+                                                    <div class="v">
+                                                      <#if item.repay_award_status==1><#else>${item.repay_award?c}元</#if>
+                                                    </div>
+                                                </li>
+                                                </#list>
+										         <#else><li>无待收信息，请核查！</li></#if>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div id="audit">
+                                        <div class="top">
+                                            <strong>审核此债权</strong>
+                                        </div>
+                                        <div class="v">
+                                            <div class="c">
+                                                <div class="choose">
+                                                    <label class="mr15"><input name="status" value="1" type="radio" class="radio">审核通过</label>
+                                                    <label><input name="status" type="radio" value="2" class="radio" checked="checked">审核不通过</label>
+                                                </div>
+                                                 <div class="choose">
+                                                    <label class="mr15"><input name="level" value="1" type="radio" class="radio">普通债权</label>
+                                                    <label><input name="level" type="radio" value="2" class="radio" checked="checked">优质债权</label>
+                                                </div>
+                                                <textarea  name="verifyRemark" class="remark" onfocus="if(value=='输入审核备注...'){value=''}"  onblur="if (value ==''){value='输入审核备注...'}">输入审核备注...</textarea>
+                                            </div>
+                                            <div class="other clearfix">
+                                                <input type="hidden" name="actionType" value="verify" />
+                                                <input type="hidden" name="caId" value="${creditAssignment.id}" />
+                                                <input type="submit"  name="reset" value="审核此债权" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                    </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+	<div class="msgClass">
+       ${rsmsg!""}
+    </div>
+    </body>
+</html>
+<#include "../jsPage.html">

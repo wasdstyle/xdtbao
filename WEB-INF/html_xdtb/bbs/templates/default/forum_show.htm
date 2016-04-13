@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${forum.name?html} - 国内首家开放型互联网金融交易平台 - ${webname!}</title>
+	<meta name="description" content="${forum.description?default("")}">
+	<meta name="keywords" content="<#if forum.id==4>${webname!},金融资讯,活动中心<#elseif forum.id==10>理财心得,投资指南,${webname!}<#elseif forum.id==13>${webname!},理财买卖<#elseif forum.id==14>${webname!},理财建议<#elseif forum.id==15>${webname!},灌水聊天<#else></#if>">
+	<#include "head.htm"/>
+</head>
+<#import "../macros/pagination.ftl" as pagination>
+<#import "../macros/presentation.ftl" as presentation/>
+<script type="text/javascript" src="${contextPath}/themes/bbs/templates/${templateName}/js/pagination.js?${startupTime}"></script> 
+<#if logged> 
+<script type="text/javascript" src="${contextPath}/themes/bbs/templates/${templateName}/js/watch.js?${startupTime}"></script> 
+</#if>
+
+<#if moderator> 
+<script type="text/JavaScript" src="${JForumContext.encodeURL("/js/list/moderation")}"></script> 
+</#if>
+<body class="full">
+	<!--S 快速导航开始-->
+	<!--S 快速导航开始-->
+	<#include "quickNav.htm"/>
+	<!--E 快速导航结束-->
+	
+	<!--S 主体部分开始-->
+	<section class="bd mid clearfix">
+		
+		<div class="bbs-page bbs-page-list home_product">
+        <div class="bbs-head">
+            <div class="bread-crumbs-nav clearfix">
+                <ul>
+                    <li>
+                        <a  href="${JForumContext.encodeURL("/forums/list")}">${I18n.getMessage("ForumListing.forumIndex")}</a>
+                    </li>
+                    <li class="v">
+                       <a  href="javascript:;">${forum.name?html}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="info-outer clearfix">
+                <div class="info-l clearfix">
+                    <div class="icon"><#if category.picPath!='null'><img alt="" src="${category.picPath!}" style="width:96px;height:92px;"><#else><img src="${contextPath}/data/avatar/noavatar_big.gif" style="width:96px;height:92px;"/></#if></div>
+                    <div class="f_l">
+                        <p class="tit">${category.name!''}</p> 
+                        <p class="more">目前本版帖子数有：<span>${topicCount!0}</span>个；回复数：<span>${postCount!0}</span>条；</p>
+                    </div>
+                </div>
+                <div style="float:left;margin-top:15px;width:1px;height:80px;background-color:#dedede;"></div>
+                <div class="info-r">
+                    <p class="des">${forum.description!''}</p>
+                </div>
+            </div>
+            <div class="mn-row clearfix">
+                <div class="mn-r">
+                    <div class="search-mini">
+                        <form action="${JForumContext.encodeURL("/jforum")}">
+                            <input type="text" value="搜索主题 ..." data-val="搜索主题 ..." class="search-val input-focus">
+                            <input type="hidden" name="module" value="search" />
+                            <input type="hidden" name="action" value="search" />
+                            <input type="hidden" name="match_type" value="all" />
+                            <input type="hidden" name="sort_by" value="relevance" />
+                            <input type="submit" value="搜索" class="search-btn btn">
+                         </form>
+                    </div>
+                </div>
+                <div class="mn-l">
+               
+                     <a class="btn btn-newpost" id="isLogin" data-value="<#if logged>1<#else>0</#if>" onclick="checkIsLogin();" href="${JForumContext.encodeURL("/jforum${extension}?module=posts&amp;action=insert&amp;forum_id=${forum.id}", "")}">发新帖</a>
+               
+                    <div class="nv">
+                        <a class="news-theme" href="${JForumContext.encodeURL("/recentTopics/list/${forum.id}")}">最新主题</a>
+                        <a class="hot-theme" href="${JForumContext.encodeURL("/hottestTopics/list/${forum.id}")}">热门主题</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bbs-list-inner">
+            <table class="table-list">
+                <tr class="head">
+                    <td class="title">
+                        <div class="c">主题</div>
+                    </td>
+                    <td class="posted-by">发表人</td>
+                    <!-- <td class="reply"></td> -->
+                    <td class="reply_view">回复/查看</td>
+                    <td class="last-post">
+                        <div class="c">最后发表</div>
+                    </td>
+                </tr>
+                
+                 <#list topics as topic>
+                <tr>
+                    <td <#if topic.type==2>class="top-title title"
+                    <#elseif topic.type==1>class="essential-title title"
+                    <#elseif (topic.totalViews gt 150) && (topic.totalReplies gt 10)>class="hot-title title"
+                    <#else>class="title"
+                    </#if>>
+                        <div class="c">
+                            <a class="list-tit" href="${JForumContext.encodeURL("/posts/list/${topic.id}")}"><#if (topic.title?length == 0)>No subject<#else><#if (topic.title?length gt 18)>${topic.title?substring(0,18)}...<#else>${topic.title}</#if></#if></a>
+                            <span class="feature">
+                            <#if topic.imgType==1>
+                                <img src="${contextPath}/themes/bbs/templates/${templateName}/images/bbs/img.gif" alt="">
+                            </#if>
+                            <#if topic.timeType==1>
+                                <img src="${contextPath}/themes/bbs/templates/${templateName}/images/bbs/new.gif" alt="">
+                            </#if>
+                            </span>
+                        </div>
+                    </td>
+                    <td class="posted-by">
+                    <#if topic.postedBy.username?length==11&&(topic.postedBy.username?substring(0,2)=="13"||topic.postedBy.username?substring(0,2)=="15"||topic.postedBy.username?substring(0,2)=="18")>
+                    	 ${topic.postedBy.username?substring(0,3)}****${topic.postedBy.username?substring(7,topic.postedBy.username?length)}
+                    <#else>
+                    	 ${topic.postedBy.username}
+                    </#if>
+                    </td>
+                    <td class="reply_view"><span class="highlight">${topic.totalReplies!0}</span>/${topic.totalViews!0}</td>
+                    <td class="last-post">
+                        <div class="c">
+                            <div class="time">
+                                <span><#if (topic.lastPostTime?length > 0)>${topic.lastPostTime}</#if></span>
+                            </div>
+                            <div class="reply-user">
+                            <#if (topic.lastPostTime?length > 0)>
+                                <a href="${JForumContext.encodeURL("/user/profile/${topic.lastPostBy.id}")}">
+                                <#if topic.lastPostBy.username?length==11&&(topic.lastPostBy.username?substring(0,2)=="13"||topic.lastPostBy.username?substring(0,2)=="15"||topic.lastPostBy.username?substring(0,2)=="18")>
+                                	 ${topic.lastPostBy.username?substring(0,3)}****${topic.lastPostBy.username?substring(7,topic.lastPostBy.username?length)}
+                                <#else>
+                                	 ${topic.lastPostBy.username}
+                                </#if>
+                                </a>
+                                <#assign startPage = ((topic.totalReplies / postsPerPage?number)?int * postsPerPage?number) +"/"/>
+            							<a href="${JForumContext.encodeURL("/posts/list/${startPage}${topic.id}")}#${topic.lastPostId}"></a></span> </#if>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </#list>
+             
+            </table>
+        </div>
+			<#assign paginationData>
+                <@pagination.doPagination action, forum.id/>
+                </#assign>
+                
+            <div class="paging" id="paging">${paginationData}</div>
+     
+    </div>
+    
+    <div class="home_aside" style="padding-top:79px;">
+            <div class="box app_download">
+                <div class="tit">
+                    <h3>${webname!}</h3>
+                    <figure class="iconfont"></figure>
+                </div>
+                <div class="cont">
+                        <img src="${contextPath}/themes/bbs/templates/${templateName}/image/wx.jpg" width=244 >
+                </div>
+            </div>
+            <div class="box news" id="notice">
+                <div class="tit">
+                    <h3>官方公告</h3>
+                    <a class="more" href="${WZ_URL}/article/list.html?code=notice" title="查看更多">更多&nbsp;&gt;</a>
+                    <figure class="iconfont"></figure>
+                </div>
+                <ul class="cont" id="con-notice">
+                </ul>
+            </div>
+            <div class="box new_invest" id="newInvest">
+                <div class="tit">
+                    <h3>最新投资</h3>
+                    <figure class="iconfont"></figure>
+                </div>
+                <div class="cont">
+                    <div class="view_wrap">
+                        <ul class="newTender">
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box ranking" id="ranking">
+                <div class="tit">
+                    <h3>理财风云榜</h3>
+                    <figure class="iconfont"></figure>
+                </div>
+                <div class="cont" id="rankList">
+                
+                </div>
+            </div>
+            <div class="box news" id="media">
+                <div class="tit">
+                    <h3>常见问题</h3>
+                    <a class="more" href="${WZ_URL}/article/detail.html?nid=ask" title="查看更多">更多&nbsp;&gt;</a>
+                    <figure class="iconfont"></figure>
+                </div>
+                <ul class="cont" id="con-cjwt">
+                </ul>
+            </div>
+            
+             <div class="banner_con">
+                <ul id="sidebarBanner">
+                    <li>
+                        <a href="${WZ_URL}/help/guide.html" title="新人理财好处多">
+                            <img src="${contextPath}/themes/bbs/templates/${templateName}/image/home_product_banner1.png" alt="新人理财好处多"></a>
+                    </li>
+                    <li>
+                        <a href="${WZ_URL}/safe.html" title="本金保障计划">
+                            <img src="${contextPath}/themes/bbs/templates/${templateName}/image/home_product_banner2.png" alt="本金保障计划"></a>
+                    </li>
+                </ul>
+            </div>
+               
+		</div>
+    
+    	
+	</section>
+
+
+	<!--E 主体部分结束-->
+	<!--S 页脚-->
+	<#include "foot.htm"/>
+	<!--E 页脚-->
+	<#include "resource.htm"/>
+	<script src="${contextPath}/themes/bbs/templates/${templateName}/js/bbsIndex.js"></script>
+	
+	<script>
+	//网站公告
+	$.ajax({
+		url:"${WZ_URL}/article/jsonList.html?nid=notice",
+		type:"get",
+		dataType:"json",
+		success:function(data){
+			var strs="";
+            var strlenght =data.data.length;
+            for(var i = 0; i<strlenght; i++){ 
+            	strs+="<li>"+"<a href='"+data.data[i].name+"' target='_blank'>"+data.data[i].name+"</a>"+"</li>";
+            }
+			$("#con-notice").html(strs);
+		}
+	})
+	
+	$.ajax({
+		url:"${WZ_URL}/article/jsonList.html?nid=cjwt",
+		type:"get",
+		dataType:"json",
+		success:function(data){
+			var strs="";
+            var strlenght =data.data.length;
+            for(var i = 0; i<strlenght; i++){ 
+            	strs+="<li>"+"<a href='"+data.data[i].name+"' target='_blank'>"+data.data[i].name+"</a>"+"</li>";
+            }
+			$("#con-cjwt").html(strs);
+		}
+	})
+	
+	
+   /* $.ajax({
+        url:"${WZ_URL}/index/newTender.html",
+        type:"get",
+        dataType:"json",
+        async:false,
+        success:function(data){
+            var strs="";
+            var strlenght =data.data.length;
+            for(var i = 0; i<strlenght; i++){ 
+                strs+="<li>"+"<div class='nowtime' style='display:none;'>"+data.data[i].nowTime+"</div>"+"<div class='time' data-time='1420374160000'>"+data.data[i].tenderTime+"</div>"+"<div class='conts'>"+"<p class='bid_tit'>"+"<span class='user_name'>"+data.data[i].userName+"</span>"
+                         +"<span class='behavior'>"+"投资"+"</span>"
+                         +"<a>"+data.data[i].borrowNameHide+"</a>"+
+                     "</p>"+"<p class='amount'>"+data.data[i].tenderMoney+"</p>"+"</div>"+"</li>"
+            }
+            $(".newTender").html(strs);
+        }
+    })
+    
+	
+	$.ajax({
+		url:"${WZ_URL}/index/rankList.html",
+		type:"get",
+		dataType:"json",
+		success:function(data){
+			var strs="";
+            var strlenght =data.data.length;
+            for(var i = 0; i<strlenght; i++){ 
+            	strs+="<li>"+"<span>"+"<figure class='ico"+(i+1)+"'>"+(i+1)+"</figure>"+"</span>"+"<b>"+data.data[i].username+"</b>"+"<em>"+data.data[i].tenderMoney+"</em>"+"</li>"
+            }
+			$("#rankList").html(strs);
+		}
+	})*/
+	
+		function checkIsLogin(){
+			var isLogin = $("#isLogin").data("value");
+			if(isLogin == 0){
+				this.event.preventDefault();
+				alert("请先登录！");
+			}
+			
+		}
+	</script>
+</body>
+</html>

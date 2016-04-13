@@ -1,0 +1,34 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="/themes/soonmes_xiangmu/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">好友推荐111</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="/themes/soonmes_xiangmu/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+<div id="main" style="background:#F0F0F0;">
+		<div class="form-style-reg" style="border:none;"> 
+			<ul class="prompt">
+				<li style="height:auto;">请不要发送邀请链接给不熟悉的人,避免给别人带来不必要的困扰;<br>
+				请把下边的邀请链接发给您的好友，好友在本网站注册之后您就成功邀请了一名用户。</li>
+			</ul>
+			<ul>
+				<li>
+					<input style="float:left;" type="text" id="invite-url" value="${weburl}/wx/regInvite.html?u=${userid}" />
+				</li>
+			</ul>						
+			<ul class="name">
+			<h1 style="margin-top:0px;;margin-left:5px;font-size:18px;">邀请记录</h1>
+				<li style="height:auto;">真实姓名</li>
+				<li style="height:auto;">用户名</li>
+				<li style="height:auto;">注册时间</li>
+			</ul>
+			<#list list as item>
+				<ul style="clear:both;" class="item">
+					<li style="height:auto;border:none;">${item.realname!""}</li>
+					<li style="height:auto;border:none;">${item.username}</li>
+					<li style="height:auto;border:none;">${dateformat(item.addtime)}</li>
+				</ul>
+			</#list>	
+				
+		</div>
+<#include "header/footer.html">	

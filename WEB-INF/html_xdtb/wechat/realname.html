@@ -1,0 +1,185 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">实名认证</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<style>
+		#main .form-style-reg label{
+			color:#222222;
+			width:36%;
+			float:left;
+		}
+		#main .form-style-reg li{
+			height:50px;
+		}
+		#main .form-style-reg li span{
+			margin-top:17px;
+			width:60%;
+		}
+		#main .form-style-reg li span i{
+			font-style:normal;
+			float:left;
+			margin-top:20px;
+		}
+		#nation{	
+			margin-top:20px;
+		}
+		#province{
+		}
+		#city{
+			margin-left:10px;
+		}
+		#area{
+			margin-left:10px;
+		}
+
+		#main .form-style-reg input{
+			margin-left:0;
+			margin-top:15px;
+		}
+
+		.preview{display:none!important;}
+		.btn-audit{margin-left: 3%;}
+	</style> 
+	<div id="main">
+		<div class="form-style-reg">
+			<#if msg?exists>
+				<p style="text-align:center;">${msg}</p>
+			<#else>
+				<#if errormsg?exists>
+					<p style="text-align:center;">${errormsg}</p>
+				</#if>
+			</#if>
+		
+			<#if user?exists&&user.real_status?exists&&user.real_status=="2">
+				<p style="text-align:center;">实名认证正在审核中!</p>
+			<#elseif user?exists&&user.real_status?exists&&user.real_status=="1">
+				<ul>
+					<li>
+						<span style="margin-left:3%; color:#000;">已认证</span>
+					</li>
+
+					<li>
+						<label>真实姓名：</label>
+						<span>${user.realname!}</span>
+					</li>
+
+					<li>
+						<label>身份证号码：</label>
+						<span>${user.card_id}</span>
+					</li>
+				</ul>
+			<#else>
+				<ul style="background:#EEF3FA;">
+					<li style="height:auto;">					
+						<label style="width:97%;">请认真填写以下的内容，一旦通过实名认证以下信息将不能修改</label>
+					</li>
+				</ul>
+				<form action="
+							<#if user.count?? && user.count<2>
+								/member/identify/ID5Result.html 
+							<#else>
+	                        /member/identify/realname.html 
+	                        </#if>
+		                    "
+							id="form-realname" method="post"  enctype="multipart/form-data">
+					<input type="hidden" id="count" value="${user.count}">
+					<ul>
+						<li>
+							<label>真实姓名：</label>
+							<input type="text" name="realname" id="realname" value="${user.realname!}" autocomplete="off"
+							placeholder="真实姓名" style="width:50%;"/>
+
+						</li>				
+						
+						<li>
+							<label>身份证号码：</label>
+							
+							<input type="text" name="card_id" id="card-id" maxlength="18" autocomplete="off"
+							placeholder="身份证号码"  style="width:50%;"/>
+						</li>
+
+						<li style="height:45px;">
+							<label>籍贯：</label>
+						</li>
+
+						<li style="height:35px;">
+							<div style="margin-left:3%;">
+								<@region name="province" id="province" pid="0"></@region>
+								<@region name="city" id="city" pid="-1"></@region>
+								<@region name="area" id="area" pid="-1"></@region>
+							</div>
+						</li>
+						
+						<#if user.count?? && user.count<2>
+						<#else>
+							<li style="height:100px;">
+								<label style="margin-bottom:0;">身份证正面照片：</label>
+								
+								<input type="file" name="card_pic1" id="card-pic1" class="card-pic"
+								style="margin-left:3%;" />
+								<!-- <div class="btn-upload">上传图片</div>
+								<div class="card-pic1-preview card-pic-preview"></div> -->
+							</li>
+							
+							<li style="height:100px;">
+								<label style="margin-bottom:0;">身份证背面照片：</label>
+								
+								<input type="file" name="card_pic2" id="card-pic2" class="card-pic"
+								style="margin-left:3%;"/>
+								<!-- <div class="btn-upload">上传图片</div>
+								<div class="card-pic2-preview card-pic-preview"></div> -->
+							</li>
+						</#if>
+						<li>
+							<label>验证码：</label>
+							
+							<input type="text" name="valicode" id="realname-validcode" maxlength="5" autocomplete="off"
+							class="helper" placeholder="验证码"/>
+
+							<img src="/validimg.html" class="validcode-img" title="点击刷新" onclick="this.src='/validimg.html?t=' + Math.random();"/>
+						</li>
+					</ul>
+
+					<div id="operator" style="margin-bottom:60px;">
+				        <a href="javascript:" id="btn-submit-realname" class="btn">确认提交</a>
+				    </div>
+				    <input type="hidden" name="type" value="1" />
+
+				    <!-- 无用字段:begin -->
+					<!-- 会员类型 -->
+					<select name="nature" style="display: none;">
+						<option value="1" selected="selected">自然人</option>
+					</select>
+					<!-- 性别 -->
+					<input type="radio" name="sex" value="" checked="checked" style="display:none;"/>
+					<!-- 出生日期 -->
+					<input type="text" name="birthday" value=" " style="display:none;"/> 
+					<!-- 民族 -->
+					<select name="nation" style="display: none;">
+						<option value="329" selected="selected">汉族</option>
+					</select>
+					<!-- 注册地址 -->
+					<input type="text" name="address" value=" " style="display:none;"/>
+					<!-- 证件类别 -->
+					<select name="card_type"  style="display:none;">
+						<option value="385" selected="selected">身份证</option>
+					</select>
+					<!-- 无用字段:end -->
+				</form>
+			</#if>		
+        </div>	
+
+<#include "header/footer.html">
+<script type="text/javascript">
+	var themeDir = '${theme_dir}';
+</script>
+<script type="text/javascript" src="${theme_dir}/plugin/LAB.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/account.js"></script>
+<script type="text/javascript" src="${webroot}${theme_dir}/js/layer.min.js"></script>	
+<script type="text/javascript" src="${theme_dir}/plugin/jquery.form.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/common.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/weixin/account-identify.js"></script>
+	

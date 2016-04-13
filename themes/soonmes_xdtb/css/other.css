@@ -1,0 +1,187 @@
+
+
+/*积分商城*/
+/*积分商城左侧*/
+.shop_left { width: 208px; float: left; border: 1px solid #e4e4e4; padding: 5px 0px 6px; background: #fff;}
+.shop .user_info { padding: 10px 8px 10px 25px; }
+.shop .user_info .user_img { float: left; }
+.shop .user_info .user_img img { display: block; float: left; width: 80px; height: 80px; padding: 1px; _display: inline; border: 1px solid #ccc; }
+.shop .user_info .user_con { float: left; margin: 6px 0 0 22px; _display: inline; }
+.shop .user_info .user_con dd { position: relative; }
+.shop .user_info .user_con dd span { color: #C60606; }
+.shop .user_info .user_con .credits { cursor: pointer; }
+.shop .user_info .user_con dt { font-weight: bold; font-size: 13px; }
+.shop .user_info .user_con dt a { color: #333; font-weight: normal; font-size: 12px; }
+.shop_category .title { font-size: 14px; font-weight: bold; }
+/*//积分商城左侧*/
+.shop_right { float: right; width: 732px;background: #fff; }
+.data_credits {display:none; position: absolute; left: 60px; top: -40px; width: 90px; height: 80px; line-height: 25px; background: #FFF; border: 1px solid #CCC; padding: 10px; }
+.shop_search_btn { width: 50px; background: #C60606; color: #fff; height: 22px; border: none; }
+.shop_category dl { border-bottom: 1px solid #e4e4e4; padding: 10px 0 10px 25px; }
+.shop_category dl:hover { background: #e4e4e4; }
+.shop_category dd a { float: left; width: 87px; height: 25px; display: block; line-height: 25px; }
+.shop_category dd a:hover { color: #c60606; }
+.shop_category .more { text-align: center; height: 50px; line-height: 50px; }
+.shop_category .more a:hover { color: #c60606; }
+.shop_banner { width: 732px; height: 190px; }
+.shop_search { border: 1px solid #ccc; padding: 5px 10px; margin: 0 0 10px; border-bottom: 2px solid #C60606; line-height: 25px; height: 25px; }
+.shop_search span { text-align: center; font-size: 14px; color: #FFF; display: inline-block; width: 80px; background: #C60606; }
+.shop_search a { padding: 0 15px; }
+.shop_search a:focus { color: #f00; }
+.shop_product { }
+.shop_product dl { border: 1px solid #e4e4e4; _display: inline; height: 210px; width: 130px; float: left; margin: 10px 11px 10px 10px; padding: 10px 15px; text-align: center; }
+.shop_product dl:hover { border: 1px solid #ccc; }
+.shop_product dl dd { line-height: 25px; height: 25px; }
+.shop_product dl dd.convert_btn { line-height: 30px; height: 30px; }
+.shop_product dl dd span { color: #C60606; }
+.shop_product dt img { border: 1px solid #ccc; padding: 1px; width: 130px; height: 120px; }
+.usedCreditDetail .title {padding-left: 10px; font-size: 15px;font-weight: bold;background: #E6566A;color: #fff;line-height: 35px;height: 35px;}
+.detail-content .title {line-height: 35px;font-size: 12px;background: #f5f5f5;padding: 0 5px;color: #666;}
+.detail-content span{float: left; width: 90px;}
+.detail-content ul li {height: 35px;line-height: 35px;border-bottom: 1px dotted #D2D2D2;overflow: hidden;padding: 5px 0;}
+.detail-content .sp1 { width: 40px;text-align: center;}
+.detail-content .sp2 { width: 60px;text-align: center;}
+.detail-content .sp3 { width: 40px;text-align: center;}
+.detail-content .sp4 { width: 221px;}
+.detail-content ul {padding: 0 5px;}
+/*//积分商城*/
+/*积分商城-详情*/
+.shop_details { }
+.shop_details .title { font-size: 15px; font-weight: bold; background: #E6566A; color: #fff; line-height: 35px; height: 35px; text-indent: 1em; margin: 0 0 10px; }
+.big_img_wrap { width: 322px; }
+.shop_details_img { float: left; width: 322px;padding-left: 15px; }
+.shop_details_img .big_img { width: 280px; height: 286px; padding: 20px; border: 1px solid #ccc; }
+.shop_details_img .big_img_wrap li { }
+.shop_details_img .small_img { float: left; cursor: pointer; padding: 0 2px; }
+.shop_details_img .small_img img { width: 70px; height: 70px; border: 1px solid #e4e4e4; padding: 2px; }
+.shop_details_img .small_img hover img { border: 1px solid #C60606; }
+.shop_details_intro { float: right; width: 370px;padding-right: 10px; }
+.shop_details_intro dt { font-weight: bold; font-size: 18px; line-height: 70px; color: #C60606; }
+.shop_details_intro dd { padding: 6px 0; }
+.shop_details_intro dd textarea { width: 360px; height: 65px; }
+.shop_details_intro dd input.piece { text-align: center; width: 30px; }
+.shop_details_intro dd input.mui-amount { cursor: pointer;  width: 20px; background: #faf3e5; border: 1px solid #d1ad23; }
+.shop_details_intro b { color: #333; }
+.shop_details_intro span { color: #C60606; }
+.showDetailList_con{display:none;}
+.shop_content .title { border-bottom: 2px solid #C60606; line-height: 35px; text-indent: 1em; margin: 10px 0; }
+.shop_content .title li { float: left; height: 28px; text-indent: 0px; width: 90px; line-height: 28px; text-align: center;cursor:pointer; }
+.shop_content .title li.hover { background:#C60606; color: #fff; }
+.shop_content .content { padding: 0 0 0 13px; }
+.shop_content .content li { float: left; width: 260px; line-height: 30px; height: 30px; }
+/*//积分商城-详情*/
+.user_right_menu { width: 100%; height: auto; line-height: 26px; border-bottom: 1px solid #CCCCCC; overflow: hidden; }
+.user_right_menu li { float: left; border-bottom: none; }
+.user_right_menu .current { background: url(../bg/user_right_menu_bg.jpg); }
+.user_right_menu a { color: #026CCF }
+.user_right_menu .current a { font-weight: bold }
+.user_right_menu .title { font-weight: bold; font-size: 15px; border: none; background: url(../bg/ico_6.gif) no-repeat 3px 5px; padding-left: 15px; }
+.user_right_main { border: 1px solid #CCCCCC; border-top: 0px; height: auto; text-align: center; overflow: hidden }
+.user_right_title { text-align: left; padding: 0 5px 0 5px; border-bottom: 1px solid #CCCCCC; line-height: 28px; color: #FFFFFF }
+.user_right_title a { color: #FFFFFF }
+.user_right_border { line-height: 25px; height: auto; width: 100%; text-align: left; font-size: 13px; overflow: hidden }
+.user_right_border input { display: inline-block; zoom: 1; *display:inline;}
+#ban table img { display: inline-block; zoom: 1; *display:inline;*float:none;}
+.user_right_border .l { float: left; width: 130px; padding: 4px 5px 0 0px; text-align: right }
+.user_right_border .linvest { float: left; width: 180px; padding: 4px 5px 0 0px; text-align: right; margin: auto 20px; }
+.user_right_border .d { float: left; width: 320px; padding: 4px 5px 0 0px; text-align: right }
+.user_right_border .e { float: left; width: 220px; padding: 4px 5px 0 0px; text-align: right }
+.user_right_border .c { padding: 4px 5px 3px 10px; float: left; }
+.user_right_border .r { padding: 4px 5px 3px 10px; float: left; width: 240px }
+.user_right_border .rb { padding: 4px 5px 3px 10px; float: left; width: 180px }
+.user_right_border b { color: #FF0000; font-weight: normal; margin-left: 5px; }
+.user_right_submit { text-align: center; margin-top: 6px; height: 30px; }
+.user_right_border .c img { float: right; }
+.user_right_info { border: 1px solid #6EB2E1; background-color: #EEF8FF; padding: 10px; padding-top: 0; }
+.user_right_info .title { border-bottom: 1px solid #CCCCCC; line-height: 34px; }
+.user_right_info li { line-height: 30px; border-bottom: 1px dashed #CCCCCC; }
+.user_right_info li span { float: right }
+.user_right_li { border: 1px solid #6EB2E1; /*overflow:hidden;*/ }
+.user_right_li .title { margin: 1px; background-color: #6EB2E1; line-height: 26px; padding-left: 10px; font-weight: bold; color: white }
+.user_right_li .content { margin-top: 0; }
+.user_right_li .content tr { height: 26px; margin-top: 0; background-color: white; }
+.user_right_li ul { width: 530px; }
+.user_right_li li { line-height: 28px; border-bottom: 1px dashed #CCCCCC; overflow: hidden }
+.user_right_li span { float: left; text-align: left }
+.user_right_li font { font-size: 13px; color: #FF0000 }
+.user_right_li a { font-size: 13px; color: #000000 }
+.user_button { width: 210px; margin-bottom: 10px; line-height: 20px; color: #666666; }
+.user_button_r { width: 169px; margin-bottom: 10px; line-height: 20px; color: #666666; }
+.user_button_r span { padding-top: 10px; margin-left: 5px; }
+.user_button_r strong { font-size: 14px; }
+
+/*债券转让*/
+#bond_release { margin: 10px auto; width: 980px; }
+#bond_release a { color: #000; }
+#bond_release a:hover { color: #F00; }
+#bond_release .borrow_details { margin: 0 0 10px; border: 1px solid #e2e2e4; }
+#bond_release .borrow_details .tit { height: 31px; line-height: 31px; font-size: 15px; font-weight: bold; color: #b1251d; border-bottom: 1px solid #e2e2e4; text-indent: 2em; background: url(../bg/bg_title.png) repeat-x; }
+#bond_release .borrow_details .con { padding: 20px 30px; }
+#bond_release .borrow_details .con li { width: 160px; float: left; }
+#bond_release .borrow_details .con li font { color: #ff0000; }
+#bond_release .borrow_details .con li.time { width: 219px; }
+#bond_release .bond_details { margin: 10px 0; border: 1px solid #e2e2e4; }
+#bond_release .bond_details .tit { height: 31px; line-height: 31px; font-size: 15px; font-weight: bold; color: #b1251d; border-bottom: 1px solid #e2e2e4; text-indent: 2em; background: url(../bg/bg_title.png) repeat-x; }
+#bond_release .bond_details .con { padding: 20px 15px; }
+#bond_release .bond_details .con table { text-align: center; width: 100%; }
+#bond_release .bond_details .con tr { height: 35px; line-height: 35px; border: 1px solid #dddddd; border-width: 1px 0; }
+#bond_release .bond_details .con th { font-weight: bolid; font-size: 15px; }
+#bond_release .release { margin: 10px 0; padding: 0 0 60px; border: 1px solid #E2E2E4; }
+#bond_release .release .tit { height: 31px; line-height: 31px; font-size: 15px; font-weight: bold; color: #b1251d; border-bottom: 1px solid #e2e2e4; text-indent: 2em; background: url(../bg/bg_title.png) repeat-x; }
+#bond_release .release .con { position: relative; border-bottom: 1px dashed #dbdbdb; padding: 20px 30px; }
+#bond_release .release .con li { float: left; width: 220px; height: 30px; line-height: 30px; }
+#bond_release .release .con li font { font-size: 24px; color: #b1251d; }
+#bond_release .release .con li input { width: 114px; text-align: center; vertical-align: middle; }
+#bond_release .release .con .btn_li { position: absolute; top: 80px; left: 400px; width: 120px; height: 38px; }
+#bond_release .bond_btn { display: block; width: 120px; height: 38px; line-height: 38px; background: url(../bg/bg_btn.png) no-repeat; color: #fff; font-size: 16px; font-weight: bold; text-align: center; }
+#bond_release .bond_btn:hover { background: url(../bg/bg_btn_hover.png) no-repeat; color: #FFF; }
+/*//债券转让*/
+
+/*债券列表*/
+#bond_list { margin: 10px auto; width: 980px; border: 1px solid #dbdbdb; }
+#bond_list a { color: #000; }
+#bond_list a:hover { color: #F00; }
+#bond_list .title { width: 980px; height: 31px; line-height: 31px; font-size: 15px; font-weight: bold; color: #b1251d; border-top: 3px solid #cc0000; border-bottom: 1px solid #e2e2e4; text-indent: 2em; background: url(../bg/bg_title.png) repeat-x; }
+#bond_list .title li { width: 126px; float: left; cursor: pointer; }
+#bond_list .title li.hover { color: #b1251d; border: 1px solid #e2e2e4; border-width: 0 1px; background: #fff; height: 32px; }
+#bond_list .title li.border_left { border-left: none; }
+#bond_list .con { display: none; }
+#bond_list .con .sort { padding: 15px 25px 0; color: #8e8e8e; }
+#bond_list .con .sort li { float: left; width: 87px; text-align: center; }
+#bond_list .con .release { padding: 15px 15px 15px; position: relative; }
+#bond_list .con .release .btn_li { position: absolute; width: 120px; height: 38px; right: 30px; top: 40px; }
+#bond_list .bond_btn { display: block; width: 120px; height: 38px; line-height: 38px; background: url(../bg/bg_btn.png) no-repeat; color: #fff; font-size: 16px; font-weight: bold; text-align: center; }
+#bond_list .bond_btn:hover { background: url(../bg/bg_btn_hover.png) no-repeat; color: #FFF; }
+#bond_list .con .release .tit { float: none; font-size: 15px; }
+#bond_list .con .release .tit font { color: #a40000; }
+#bond_list .con .release li { line-height: 30px; width: 228px; float: left; height: 30px; }
+#bond_list .con .release li span { color: #8e8e8e; }
+/*//债券列表*/
+
+/*债券购买*/
+#bond_buy { margin: 10px auto; width: 980px; }
+#bond_buy a { color: #000; }
+#bond_buy a:hover { color: #F00; }
+#bond_buy .borrow_details { margin: 0 0 10px; border: 1px solid #e2e2e4; }
+#bond_buy .borrow_details .tit { height: 31px; line-height: 31px; font-size: 15px; font-weight: bold; color: #b1251d; border-bottom: 1px solid #e2e2e4; text-indent: 2em; background: url(../bg/bg_title.png) repeat-x; }
+#bond_buy .borrow_details .con { padding: 20px 30px; }
+#bond_buy .borrow_details .con li { width: 160px; float: left; }
+#bond_buy .borrow_details .con li font { color: #ff0000; }
+#bond_buy .borrow_details .con li.time { width: 219px; }
+#bond_buy .bond_details { margin: 10px 0; border: 1px solid #e2e2e4; }
+#bond_buy .bond_details .tit { height: 31px; line-height: 31px; font-size: 15px; font-weight: bold; color: #b1251d; border-bottom: 1px solid #e2e2e4; text-indent: 2em; background: url(../bg/bg_title.png) repeat-x; }
+#bond_buy .bond_details .con { padding: 20px 15px; }
+#bond_buy .bond_details .con table { text-align: center; width: 100%; }
+#bond_buy .bond_details .con tr { height: 35px; line-height: 35px; border: 1px solid #dddddd; border-width: 1px 0; }
+#bond_buy .bond_details .con th { font-weight: bolid; font-size: 15px; }
+#bond_buy .buy { margin: 10px 0; padding: 0 0 70px; border: 1px solid #E2E2E4; }
+#bond_buy .buy .tit { height: 31px; line-height: 31px; font-size: 15px; font-weight: bold; color: #b1251d; border-bottom: 1px solid #e2e2e4; text-indent: 2em; background: url(../bg/bg_title.png) repeat-x; }
+#bond_buy .buy .con { position: relative; border-bottom: 1px dashed #dbdbdb; padding: 20px 100px; }
+#bond_buy .buy .con li { float: left; width: 250px; height: 40px; line-height: 40px; }
+#bond_buy .buy .con li.con_tit { float: none; }
+#bond_buy .buy .con li font { font-size: 24px; color: #b1251d; }
+#bond_buy .buy .con li input { width: 114px; text-align: center; vertical-align: middle; }
+#bond_buy .buy .con .btn_li { position: absolute; top: 180px; left: 400px; width: 120px; height: 38px; }
+#bond_buy .bond_btn { display: block; width: 120px; height: 38px; line-height: 38px; background: url(../bg/bg_btn.png) no-repeat; color: #fff; font-size: 16px; font-weight: bold; text-align: center; }
+#bond_buy .bond_btn:hover { background: url(../bg/bg_btn_hover.png) no-repeat; color: #FFF; }
+/*//债券购买*/

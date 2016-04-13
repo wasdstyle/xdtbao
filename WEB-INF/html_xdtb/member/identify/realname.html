@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member"> 
+<#assign mid="m_setting">
+<#assign iid="i_realname">
+<#assign webname='账户认证 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<script type="text/javascript">
+	// 判断页面中是否有iframe，如果有则是修改了投标规则之后跳转过来的，需要刷新父窗口
+	if(!(window.parent.document === window.document)) {
+		document.write('<style>#header, .container-account, #footer, .online-service, .calc{display: none;}</style>');
+		window.parent.location.reload();
+	}
+</script>
+<body>
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "setting-list-tab.html"></div>
+			<div class="account-content">
+				<#if msg?exists&&msg!="">
+					<div class="msg-text success"><h1>${msg}</h1></div>
+					<div class="btn-back-prev"><a href="javascript: window.location.href='/member/identify/realname.html?hand=1';">返回上一页</a></div>
+				<#elseif errormsg?exists&&errormsg!="">
+					<div class="msg-text failure"><h1>${errormsg}</h1></div>
+					<div class="btn-back-prev"><a href="javascript: window.location.href='/member/identify/realname.html?hand=1';">返回上一页</a></div>
+				<#else>
+					<ul class="prompt">
+						<li>实名认证信息请认证填写，一旦认证通过将无法修改；</li>
+						<li>实名认证的身份证号码中如果有X，X必须大写;</li>
+						<li>如需要视频认证和现场认证认证请点击申请认证按钮，网站管理员收到您的申请后将会联系您。</li>
+					</ul>
+					<ul class="wp-form-identify">
+						<!-- 实名认证:begin -->
+						<a name="realname-identify"></a>
+						<li>
+							<h1>实名认证</h1>
+							<form action="
+							<#if user.count?? && user.count<2>
+								/member/identify/ID5Result.html 
+								<#else>
+		                        /member/identify/realname.html 
+		                        </#if>"
+							" id="form-realname" method="post"  enctype="multipart/form-data">
+							<input type="hidden" id="count" value="${user.count}">
+								<#if user?exists&&user.real_status?exists&&user.real_status=="2">
+									<span class="btn-audit">审核中</span>
+								<#elseif user?exists&&user.real_status?exists&&user.real_status=="1">
+									<dl>
+										<dd>
+											<span class="btn-passed">已认证</span>
+											<label>真实姓名：</label>
+											<span>${user.realname!}</span>
+											<label>身份证号码：</label>
+											<span>${user.card_id}</span>
+										</dd>
+									</dl>
+								<#else>
+									<dl>
+										<dd>
+											<label>真实姓名：</label>
+											<input type="text" name="realname" id="realname" value="${user.realname!}" autocomplete="off"/>
+										</dd>
+										<dd>
+											<label>身份证号码：</label>
+											<input type="text" name="card_id" id="card-id" maxlength="18" autocomplete="off"/>
+										</dd>
+										<dd>
+											<label>籍贯：</label>
+											<@region name="province" id="province" pid="0"></@region>
+											<@region name="city" id="city" pid="-1"></@region>
+											<@region name="area" id="area" pid="-1"></@region>
+										</dd>
+										<#if user.count?? && user.count<2>
+										<#else>
+										<dd>
+											<label>身份证正面照片：</label>
+											<input type="file" name="card_pic1" id="card-pic1" class="card-pic"/>
+											<div class="btn-upload">上传图片</div>
+											<div class="card-pic1-preview card-pic-preview"></div>
+										</dd>
+										<dd>
+											<label>身份证背面照片：</label>
+											<input type="file" name="card_pic2" id="card-pic2" class="card-pic"/>
+											<div class="btn-upload">上传图片</div>
+											<div class="card-pic2-preview card-pic-preview"></div>
+										</dd>
+										</#if>
+										<dd>
+											<label>验证码：</label>
+											<input type="text" name="valicode" id="realname-validcode" maxlength="5" autocomplete="off"/>
+											<img src="/validimg.html" class="validcode-img" title="点击刷新" onclick="this.src='/validimg.html?t=' + Math.random();"/>
+										</dd>
+										<dd>
+											<a href="javascript:" id="btn-submit-realname">确认提交</a>
+										</dd>
+									</dl>
+									<input type="hidden" name="type" value="1" />
+							
+									<!-- 无用字段:begin -->
+									<!-- 会员类型 -->
+									<select name="nature" style="display: none;">
+										<option value="1" selected="selected">自然人</option>
+									</select>
+									<!-- 性别 -->
+									<input type="radio" name="sex" value="" checked="checked" style="display:none;"/>
+									<!-- 出生日期 -->
+									<input type="text" name="birthday" value=" " style="display:none;"/> 
+									<!-- 民族 -->
+									<select name="nation" style="display: none;">
+										<option value="329" selected="selected">汉族</option>
+									</select>
+									<!-- 注册地址 -->
+									<input type="text" name="address" value=" " style="display:none;"/>
+									<!-- 证件类别 -->
+									<select name="card_type"  style="display:none;">
+										<option value="385" selected="selected">身份证</option>
+									</select>
+									<!-- 无用字段:end -->
+								</#if>
+							</form>
+						</li>
+						<!-- 实名认证:end -->
+
+						<!-- 绑定手机:begin -->
+						<a name="phone-identify"></a>
+						<li>
+							<h1>绑定手机</h1>
+							<form action="/member/identify/phone.html" method="post" id="form-phone">
+								<!-- 发送手机校验码的时间间隔 -->
+								<input type="hidden" id="count-down" value="${countDown!60}">
+
+								<#if user?exists&&user.phone_status?exists&&user.phone_status=="2">
+									<span class="btn-audit">审核中</span>
+								<#elseif user?exists&&user.phone_status?exists&&user.phone_status=="1">
+									<span class="btn-passed">已绑定手机</span>
+									<span class="phone-number">${user.phone!}</span>
+									<a href="javascript:" id="edit-phone">修改手机号码</a>
+								<#else> 
+									<dl>
+										<dd>
+											<label>手机号码：</label>
+											<input type="text" name="phone" id="phone"  maxlength="11" onlynumber="true" autocomplete="off"/>
+											<span class="phone-prompt"></span>
+											<a href="javascript:" id="btn-manual">人工审核绑定</a>
+										</dd>
+										<dd>
+											<label>校验码：</label>
+											<input type="text" name="valicode" id="phone-validcode" maxlength="6" autocomplete="off"/>
+											<a href="javascript:" id="btn-get-validcode">获取校验码</a>
+										</dd>
+										<dd>
+											<a href="javascript:" id="btn-submit-phone">确认提交</a>
+										</dd>
+									</dl>
+									<input type="hidden"  name="phoneType" value="1" class="phoneType" />
+									<input type="hidden"  name="actionType" value="modifyPhone" class="subphone" />
+								</#if>
+							</form>
+						</li>
+						<!-- 绑定手机:end -->
+
+						<!-- 绑定邮箱:begin -->
+						<a name="email-identify"></a>
+						<li>
+							<h1>绑定邮箱</h1>
+							<form action="email.html" method="post" id="form-email">
+								<!-- 发送手机校验码的时间间隔 -->
+								<input type="hidden" id="email_count-down" value="${countDown!60}">
+
+								<#if user.email_status?exists&&user.email_status=="1">
+									<span class="btn-passed">已绑定邮箱</span>
+									<span class="email-string">${user.email!}</span>
+									<a href="javascript:" id="edit-email">修改邮箱</a>
+								<#else> 
+									<dl>
+										<dd>
+											<label>电子邮箱：</label>
+											<input type="text" name="email" id="email"  maxlength="30" value="${(user.email)?default("")}" autocomplete="off"/>
+										</dd>
+										<dd>
+											<label>校验码：</label>
+											<input type="text" name="valicode" id="email-validcode" maxlength="6" autocomplete="off"/>
+											<a href="javascript:" id="btn-email-validcode">获取校验码</a>
+										</dd>
+										<dd>
+											<a href="javascript:" id="btn-submit-email">确认提交</a>
+											<span class="email-prompt"></span>
+										</dd>
+									</dl>
+								</#if>
+							</form>
+						</li>
+						<!-- 绑定邮箱:end -->
+						
+						<!-- 视频认证:begin -->
+						<a name="video-identify"></a>
+						<li>
+							<h1>视频认证</h1>
+							<form action="/member/identify/video.html" method="post" id="form-video">
+								<#if user.video_status??&&user.video_status==2>
+									<span class="btn-audit">审核中</span>
+								<#elseif user.video_status??&&user.video_status==1>
+									<span class="btn-passed">已认证</span>
+								<#else>
+								
+									<input type="button" name="apply" id="btn-submit-video" value="申请认证" />
+									<input type="hidden" name="actionType" value="video" />
+								</#if>
+							</form>
+						</li>
+						<!-- 视频认证:end -->
+
+						<!-- 现场认证:begin -->
+						<a name="scene-identify"></a>
+						<li>
+							<h1>现场认证</h1>
+							<form action="/member/identify/scene.html" method="post" id="form-scene">
+								<#if user.scene_status??&&user.scene_status==2>
+									<span class="btn-audit">审核中</span>
+								<#elseif user.scene_status??&&user.scene_status==1>
+									<span class="btn-passed">已认证</span>
+								<#else>
+									<input type="button" name="apply" id="btn-submit-scene" value="申请认证"/>
+									<input type="hidden" name="actionType" value="scene" />
+								</#if>
+							</form>
+						</li>
+						<!-- 现场认证:end -->
+					</ul>
+				</#if>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-identify.js"></script>
+</html>

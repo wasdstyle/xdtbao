@@ -1,0 +1,31 @@
+<!-- 此页面为网站调用外部js文件统一管理页面，导入到footer.html中 -->
+
+<script type="text/javascript" src="${theme_dir}/plugin/LAB.min.js"></script>
+<#if nid??&&nid="member">
+	<script type="text/javascript" src="${theme_dir}/js/account.js"></script>
+</#if>
+<script type="text/javascript" src="${theme_dir}/plugin/jquery-ui-1.9.2.effects.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/artDialog-4.1.7/jquery.artDialog.js?skin=default"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/artDialog-4.1.7/plugins/iframeTools.js"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/jquery.easing-1.3.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/jquery.form.js"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/jquery.lazyload.min.js"></script>
+
+<!--[if lte IE 8]>
+	<script type="text/javascript" src="${theme_dir}/plugin/DOMAssistantCompressed-2.7.4.js"></script>
+	<script type="text/javascript" src="${theme_dir}/plugin/selectivizr-min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="${theme_dir}/js/common.js"></script>
+
+<script type="text/javascript">
+	if($('#jquery-cookie').length) {
+	    //第一次访问本站，cookie中没有footer的高度值，在footer加载之后改变footer-blank的高度
+	    if(!$.cookie('footerHeight')) {
+	        var justAllEleHeight = $(window).height() - $('#footer').outerHeight(true);
+	        footerBlankHeight();
+	    }
+
+	    // 把footer的高度写入cookie
+	    $.cookie('footerHeight', $('#footer').outerHeight(true), {expires: 30}); 
+    }
+</script>

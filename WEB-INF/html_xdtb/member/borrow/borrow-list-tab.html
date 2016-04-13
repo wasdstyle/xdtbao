@@ -1,0 +1,8 @@
+<ul class="cf">
+	<li <#if bid??&&bid=="b_unpublish">class="current"</#if>><a href="/member/borrow/borrow.html?type=unpublish">待审核项目</a></li>
+	<li <#if bid??&&bid=="b_publish">class="current"</#if>><a href="/member/borrow/borrow.html">募集中项目</a></li>
+	<li <#if bid??&&bid=="b_repayment">class="current"</#if>><a href="/member/borrow/borrow.html?type=repayment">还款中项目</a></li>
+	<li <#if bid??&&bid=="b_repaymentyes">class="current"</#if>><a href="/member/borrow/borrow.html?type=repaymentyes">已还款项目</a></li>
+	<li <#if bid??&&bid=="b_repaymentdetail">class="current"</#if>><a href="/member/borrow/repaymentdetail.html">还款明细</a></li>
+	<li <#if bid??&&bid=="b_limitapp">class="current"</#if>><a href="/member/borrow/limitapp.html">申请信用额度</a></li>
+</ul>

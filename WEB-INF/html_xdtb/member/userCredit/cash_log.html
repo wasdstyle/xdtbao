@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_credit">
+<#assign cid="c_cashLog">
+<#assign webname='积分兑换记录 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html">
+			<div class="title-list-tab"><#include "log-list-tab.html"></div>
+			<div class="account-content">
+				<div class="wp-credit-cashlog">
+					<div class="search cf">
+						<span>记录时间：</span>
+						<input type="text" name="dotime1" id="start-time" value="${dotime1?default("")}"/>
+						<span class="to">到</span>
+						<input type="text" name="dotime2" id="end-time" value="${dotime2?default("")}" />
+						<span class="type">兑换状态：</span>
+						<div class="pseudo-select">
+							<span></span>
+							<dl></dl>
+						</div>
+						<select name="status" id="status">
+							<option value="-1">全部</option>
+							<option value="0">待审核</option>
+							<option value="1">审核通过</option>
+							<option value="2">审核未通过</option>
+							<!-- <option value="3">无用数据</option> -->
+						</select>
+						<a href="javascript:" class="btn-search">搜索</a>
+					</div>
+					<ul class="name cf">
+						<li>兑换状态</li>
+						<li>兑换类型</li>
+						<li>兑换数值</li>
+						<li>兑换金额</li>
+						<li>兑换数</li>
+						<li>记录时间</li>
+					</ul>
+					<#list convertList as item>
+						<ul class="item cf">
+							<li><#if item.status == 0 >待审核<#elseif item.status == 1>审核通过<#elseif item.status == 2>审核未通过<#else>无用数据</#if></li>
+							<li>
+								<#if item.type?? && item.type == 'integral_convert'>积分兑换现金<#elseif item.type?? && item.type == 'integral_vip' >积分兑换VIP<#else>积分兑换</#if>
+							</li>
+							<li>${item.credit_value}</li>
+							<li>${item.money}元</li>
+							<li>
+								<#if item.type?? && item.type == 'integral_convert' >${item.convert_num}份<#elseif item.type?? && item.type == 'integral_vip' >${item.convert_num}月<#else>${item.convert_num}份</#if>
+							</li>
+							<li>${dateformat(item.addtime)}</li>
+						</ul>
+					</#list>
+					<div class="account-page">
+						<#import "../../common/page.html" as pager>  
+		         	 	<@pager.pagination page=page url="/credit/cashLog.html" map=params style="style-new" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/plugin/laydate/laydate.js"></script>
+<script type="text/javascript">
+	$(function() {
+		if(getQueryString('status')) {
+			$('[name="status"]').val(getQueryString('status'));
+		}else {
+			$('[name="status"]').val('全部');
+		}
+
+		$('.pseudo-select').pseudoSelect('status');
+
+		// 搜索功能
+		var url = '/credit/cashLog.html?search=true';
+		$('.search .btn-search').click(function() {
+			if($('#start-time').val()) {
+				url += '&dotime1=' + $('#start-time').val();
+			}
+			if($('#end-time').val()) {
+				url += '&dotime2=' + $('#end-time').val();
+			}
+			if($('#status').val()) {
+				url += '&status=' + $('#status').val();
+			}
+			location.href = url;
+		});
+	});
+
+	
+</script>
+</html>

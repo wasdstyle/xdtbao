@@ -1,0 +1,627 @@
+/*
+ * 钱庄网Qian360
+ * @affect 模块样式1
+ * @date 2013-12-13
+ * @version $V1.0$
+ */
+/* ---------------------general begin-------------------------- */
+/*base*/
+body .bd{background-color:#fff}
+/*.bg_gray{background-color:#ebebeb}*/
+/*通用标题*/
+.rong_tit{font-size:18px;height:40px;line-height:40px;color:#111;font-family:Arial,"Microsoft YaHei",simsun,sans-serif}
+.rong_more{display:inline-block;width:41px;height:16px;background:url(../image/icon/base.png) no-repeat -290px -52px}
+/*商铺信用卡片*/
+.store_score{width:248px;margin:0 auto;}
+.store_score th{width:50%;line-height:25px;text-align:left;}
+.store_score td{line-height:25px}
+.store_score b{color:#de0000}
+.store_score .qui_ico{width:29px;height:16px;margin-right:5px}
+/*面包屑*/
+.breadcrumb{padding:0 20px;height:40px;line-height:40px;color:#999;}
+.breadcrumb a{display: inline-block;margin:0 5px;color:#999;}
+.breadcrumb .current{color:#565656;}
+.breadcrumb a:hover,.breadcrumb .current:hover{color:#dd4040;}
+/*借款资料tab展示*/
+.pic_tab .tab_main{position: relative;margin-top: 10px;height:95px;background-color:#f3f3f3;border:1px solid #e0e0e0;overflow: hidden;}
+.pic_tab .tab a{display: inline-block;margin-right:15px;}
+.pic_tab .tab_con{position: absolute;left:17px;top: 13px;width: 750px;height:69px;}
+.pic_tab ul{overflow: hidden;}
+.pic_tab li{float:left;margin:0 16px 16px 0;border:1px solid #cacaca;font-size:0;line-height:0}
+.pic_tab li a{display: block;width: 67px;height: 67px;}
+.pic_tab li img{width: 67px;height: 67px;}
+.pic_tab .arrow{position: absolute;right:-25px;top:-5px;width: 15px;}
+.pic_tab .arrow a{display: block;width: 15px;height: 35px;background:no-repeat left top;}
+.pic_tab .arrow .back{background-image:url(../image/pic_tab_back.gif);}
+.pic_tab .arrow .noback{background-image:url(../image/pic_tab_noback.gif);}
+.pic_tab .arrow .next{margin-top: 10px;background-image:url(../image/pic_tab_next.gif);}
+.pic_tab .arrow .nonext{margin-top: 10px;background-image:url(../image/pic_tab_nonext.gif);}
+/* ---------------------general end-------------------------- */
+
+/* ---------------------首页频道页 begin-------------------------- */
+/*快速导航*/
+.loginbar{background-color:#920000;color:#cb998e;border-bottom:1px solid #ab0f0f}
+.loginbar .mid{height:36px;line-height:36px;position: relative;z-index:12;}
+.loginbar a{color:#fff}
+.loginbar .tool_kit .menu_tit a{color:#fff}
+.loginbar .myqian .menu_tit i span{border-color:#920000 transparent transparent transparent}
+.loginbar .myqian .menu_tit i em{border-color:#fff transparent transparent transparent}
+.loginbar .myqian:hover .menu_tit i span{border-color:#fff transparent transparent transparent}
+.loginbar .myqian:hover .menu_tit i em{border-color:#746e6f transparent transparent transparent}
+.loginbar .tool_kit .myqian:hover a{color:#746e6f}
+.loginbar .tool_kit .myqian:hover a:hover{color:#900000}
+/*头部*/
+.header{background-color:#ab0101}
+.header .mid{position:relative;height: 110px;}
+.header .logo{position:absolute;left:10px;top:33px;background:url(../image/icon/store_base.png) no-repeat left -51px;}
+.header .logo a{float: left;display:block;width:160px;height:36px;}
+.header .logo .home_link{width: 125px;margin-right:25px;}
+.header .logo .store_link{font:bold 20px/36px Arial,"Microsoft YaHei",simsun,sans-serif;color:#fff}
+.header .search_top{float:right;position:relative;left:0;top:0;margin-left:-247px;margin-top:45px;width:304px;height:30px;border: 3px solid #910000;background-color:#fff}
+.header .search_top .opt{position:relative;float:left;width:52px;padding:0 10px;text-align:center;background-color:#f2f2f2;border-right:1px solid #e5e5e5;cursor:pointer}
+.header .search_top .opt:hover{background-color:#fff}
+.header .search_top .opt:hover ul{display:list-item;}
+.header .search_top .opt a{float:left;display:inline-block;margin-right:5px;color:#8c8c8c;line-height:30px}
+.header .search_top .opt:hover i{-moz-transition:all .3s ease-in-out 0s;-webkit-transition:all .3s ease-in-out 0s;-moz-transform:rotate(180deg);-moz-transform-origin:50% 25%;-webkit-transform:rotate(180deg);-webkit-transform-origin:50% 25%;background-color:#fff}
+.header .search_top .opt i{position:absolute;display:inline-block;top: 0;right: 10px;margin-top:14px;width:6px;height:6px;overflow:hidden;color:#f5f5f5}
+.header .search_top .opt i em,.header .search_top .opt i span{display:inline-block;float:left}
+.header .search_top .opt i em{border:3px solid;border-color:#6c6c6c #f5f5f5 #f5f5f5 #f5f5f5}
+.header .search_top .opt i span{position:absolute;top:-1px;left:0;border:3px solid;border-color:#fff transparent transparent transparent}
+.header .search_top .opt ul{display: none;position:absolute;top:30px;left:0;z-index:20;width:61px;padding-right:10px;border:1px solid #e7e7e7;border-top:0 none;background-color:#fff}
+.header .search_top .opt li{height:30px;text-align:left;padding:0 10px;}
+.header .search_top .opt li a{display:inline;margin:0;float:none}
+.header .search_top input{border:0 none}
+.header .search_txt{float:left;width:216px;padding:7px 5px;outline:none}
+.header .search_btn{position:absolute;right:-3px;top:-3px;width:78px;height:36px;font:16px/36px tahoma,Arial,"Microsoft YaHei",simsun,sans-serif;background-color:#910000;color:#fff;cursor:pointer}
+.header .search_btn:hover{background-color:#630000}
+.header .slogan_roll{position:absolute;right:10px;top:45px;font-size:18px;height:36px;line-height:36px;overflow:hidden;color:#2d2d2d}
+.header .slogan_roll span{color:#db3335}
+/*导航条*/
+.nav{height:34px;background:#910000 none;border:0 none;position:relative;z-index:12}
+.nav .mid{position:relative;z-index:10;height:34px;line-height:34px;}
+.nav .main{margin-left:0}
+.nav .main li{float:left;text-align:center}
+.nav .main li a{display:block;width:105px;font-size:14px;color:#fff}
+.nav .main li a:hover{background-color:#f52a2d}
+.nav .main li.current a,.nav .main li.current a:hover{background-color:#630000}
+.nav .tool a{color:#fff}
+.nav .store_con,.nav .store_collect,.nav .store_ico{float:left;padding:0 15px;margin-left:-1px;border:solid #a40000;border-width:0 1px}
+.nav .store_con{position: relative;min-width:200px;}
+.nav .store_con em{font-style:normal;}
+.nav .store_con .tit{float: left;margin-right: 5px;}
+.nav .store_con .tit span{display: inline-block;margin-left:35px;width: 29px; height: 16px; margin-right: 5px; overflow: hidden;vertical-align:text-bottom;}
+.nav .store_con i{position:relative;display:inline-block;float:left;margin-top:16px;margin-left:10px;width:1px;height:1px;overflow: hidden;overflow:hidden;border: 3px solid;border-color: #c4b09f #910000 #910000 #910000;font-size:0;line-height:0;}
+.nav .store_con:hover i{ -moz-transition: all .3s ease-in-out 0s; -webkit-transition: all .3s ease-in-out 0s; -moz-transform: rotate(180deg); -moz-transform-origin: 50% 25%; -webkit-transform: rotate(180deg); -webkit-transform-origin: 50% 25%; }
+.nav .store_con:hover .content{display: block;}
+.nav .store_con .content{display: none;position: absolute;top:34px;right:0;padding:15px 0;border:1px solid #e42e30;border-top:0 none;width: 100%;background-color:#fff}
+.nav .store_con .content .store_score{width: 215px;}
+.nav .store_con .content .store_info{margin:5px 15px 0; border-top: 1px solid #dedede; padding-top: 10px; line-height: 20px; }
+.nav .store_con .content .store_btn{margin:10px 15px 0;padding-top: 10px;border-top: 1px solid #dedede;text-align: center;}
+.nav .store_con .content .store_btn a{color:#555;display: inline-block;width: 87px;height: 28px;line-height: 28px;border-radius:3px;border:1px solid #ac1c1c;color:#fff;font-size:14px;background-image: -webkit-linear-gradient(top,#db2626,#bd1414); background: -moz-linear-gradient(top,#db2626,#bd1414); background-image: -ms-linear-gradient(top,#db2626,#bd1414); filter: progid:DXImageTransform.Microsoft.gradient(enabled=true，GradientType:0,startColorstr='#db2626', endColorstr='#bd1414');}
+.nav .store_collect{height:34px;overflow:hidden}
+.nav .store_collect a{float:left;}
+.nav .store_collect figure{float: left;display:inline-block;margin:3px 3px 0 0;width:24px;height:24px;background:url(../image/icon/store_base.png) no-repeat -50px -212px}
+.nav .store_ico{font-size:0;line-height:0}
+.nav .store_ico figure{display:inline-block;width:32px;margin:0 3px;height:32px;background:url(../image/icon/store_base.png) no-repeat;}
+.nav .store_ico .ico_security{background-position:-48px -168px}
+.nav .store_ico .ico_yield{background-position:-96px -168px}
+/*焦点图*/
+.slide_con,.slide_img{position:relative}
+.slide_img,.slide_img li,.slide_img a{height:350px}
+.slide_img li{position:absolute;top:0;left:0;width:100%;background:no-repeat center top}
+.slide_img a{display:block}
+.slide_dian{position:absolute;_position:relative;bottom:15px;left:50%;z-index:3;margin-left:-595px;font-size:0;line-height:0;text-align:right}
+.slide_dian a{display:inline-block;width:18px;height:8px;background-color:#b9b9b9;margin-right:7px}
+.slide_dian a.current{background-color:#da282b}
+.slide_operate{position:absolute;right:0;top:70px;z-index: 11;height:120px}
+.slide_operate .btn{display:block;width:190px;height:60px;padding:20px 40px;color:#fff;font-family:Arial,"Microsoft YaHei",simsun,sans-serif}
+.slide_operate .btn span{font-size:28px;line-height:32px;vertical-align:top}
+.slide_operate .btn p{font-size:14px;margin-top:5px}
+.slide_operate .btn figure{display:inline-block;margin-right:5px;width:32px;height:32px;background:url(../image/icon/store_base.png) no-repeat;}
+.slide_operate .btn_invest{background-color:#dc7710}
+.slide_operate .btn_invest:hover{background-color:#ff9326}
+.slide_operate .btn_invest figure{background-position:-104px -127px}
+.slide_operate .btn_loans{background-color:#c0232b}
+.slide_operate .btn_loans:hover{background-color:#d6313a}
+.slide_operate .btn_loans figure{background-position:-56px -127px}
+/*产品推荐*/
+.full .product_list{width:896px}
+.product_list{float:left;width:980px;overflow:hidden;background-color:#fff}
+.product_list .con{border:1px solid #dedede;background-color:#fff;padding-bottom: 15px;}
+.product_list .tit{position: relative;height:70px;padding:0 15px;border-bottom:1px solid #dedede;}
+.product_list .tit h4{position: absolute;left:15px;top: 15px;font-size:18px;line-height: 48px;vertical-align: bottom;}
+.product_list .tit span{position: absolute;left:135px;top:27px;padding-left: 10px;border-left:1px solid #dadada;font-size:18px;line-height:27px;color:#989898;}
+.product_list .tit .qui_more{position: absolute;right: 15px;top:25px;}
+.product_list .tit figure{display: inline-block;margin-right:5px;width:48px;height:48px;background:no-repeat left top;vertical-align: bottom;}
+.product_list .cont{margin:0 10px 15px;border:1px solid #dedede;height: 215px;background-color:#fff;}
+.product_list .lqt_con .tit h4{color:#e21b38;}
+.product_list .lqt_con .tit figure{background-image:url(../image/lqt_contit_ico.png);}
+.product_list .qbb_con .tit h4{color:#18b160;}
+.product_list .qbb_con .tit figure{background-image:url(../image/qbb_contit_ico.png);}
+.product_list .mb_con .tit h4{color:#e4201f;}
+.product_list .mb_con .tit figure{background-image:url(../image/mb_contit_ico.png);}
+.product_list .cont .tits{padding:0 15px;height: 45px;font-size:16px;line-height: 45px;color:#525252;border-bottom:1px solid #dedede;background-color:#f9f9f9;border-radius: 5px 5px 0 0;}
+.product_list .cont .tits span{margin-left: 10px;position: relative;display: inline-block;height: 25px;background-color:#fff6db;border:1px solid #dadada;line-height: 25px;font-size:12px;padding:0 10px;border-radius:3px}
+.product_list .cont .tits span figure{position: absolute;left: -5px;top:10px;display: inline-block;width: 5px;height: 8px;background:url(../image/home_list_storebg.png) no-repeat left top;}
+.product_list .cont .tits>figure{display: inline-block;margin-right: 10px;width: 19px;height: 19px;background:no-repeat left top;vertical-align: middle;}
+.product_list .cont .tits .ico_qbb{background-image:url(../image/ico_qbb.png);}
+.product_list .cont .tits .ico_lqt{background-image:url(../image/ico_lqt.png);}
+.product_list .cont .tits .ico_hls{background-image:url(../image/ico_hls.png);}
+.product_list .cont .conts{position: relative;width: 100%;height: 170px;}
+.product_list .cont .main{position: absolute;left:25px;top:25px;width: 470px;height: 125px;}
+.product_list .cont .main table{width:430px;}
+.product_list .cont .main th{text-align:left;font-size:14px;height: 25px;line-height: 25px;}
+.product_list .cont .main td{font-size:18px;color:#e21b38;font-weight: bold}
+.product_list .cont .main td em{color:#999;font-size:24px;font-style:normal;padding-right: 5px;}
+.product_list .cont .main td span{font-size:24px;}
+.product_list .cont .main td i{color:#999;font-style:normal;padding-left: 5px;font-weight: normal;}
+.product_list .cont .main_info{margin-top: 20px;}
+.product_list .cont .main_info li{float: left;margin-right: 5px;padding:0 10px;height: 30px;border:1px solid #dedede;border-radius:5px;text-align: center;line-height: 30px;}
+.product_list .cont .main_info figure{margin-right: 3px;display: inline-block;width: 24px;height: 24px;background:url(../image/icon/loan_ico.png) no-repeat;vertical-align: middle;}
+.product_list .cont .main_info .ico_time{background-image:url(../image/ico_time.png)}
+.product_list .cont .main_info .ico_interest{background-image:url(../image/ico_interest.png)}
+.product_list .cont .main_info .ico_security{background-image:url(../image/ico_security2.png)}
+.product_list .cont .main_info .ico_manage{background-image:url(../image/ico_manage.png);}
+.product_list .cont .main_info .ico_purchase{background-position:0 -24px}
+.product_list .cont .main_info .ico_car{background-position:0 -48px}
+.product_list .cont .main_info .ico_omics{background-position:0 -120px}
+.product_list .cont .main_info .ico_business{background-position:0 0}
+.product_list .cont .main_info .ico_decorate{background-position:0 -98px}
+.product_list .cont .main_info .ico_emergency{background-position:0 -72px}
+.product_list .cont .main_info .ico_other{background-position:0 -144px}
+.product_list .cont .operation{position: absolute;right: 0;top:30px;width:255px;height: 160px;}
+.product_list .cont .progress_bar .bar{display: inline-block;width: 120px;height: 8px;overflow: hidden;background-color:#e3e4e8;font-size:0;line-height:0;border-radius:5px;} 
+.product_list .cont .progress_bar em{display: inline-block;width: 0;height: 8px;background-color:#18b160;border-radius:5px;}
+.product_list .cont .operation .info{margin-top: 5px;}
+.product_list .cont .operation .info span{font-size:18px;color:#ef6e00;padding:0 3px}
+.product_list .cont .operation .btn{margin-top: 5px;display: inline-block;width: 90px;height: 35px;background-color:#d84141;color:#fff;line-height: 35px;text-align: center;border-radius:7px;font-size:14px}
+.product_list .cont .operation .btn.red{background-color:#d84141}
+.product_list .cont .operation .btn.gray{background-color:#a7a7a7}
+.product_list .cont .operation .btn.brown{background-color:#c67c59}
+.product_list .cont .operation .ico_complete{display: block;position: absolute;right:25px;top:0;width: 112px;height: 112px;background:url(../image/ico_complete.png) no-repeat left top;}
+/*侧栏*/
+.home_aside{float:right;width:280px}
+.home_aside .aside_tit{padding:0 15px;height:40px;line-height:40px;border-bottom:2px solid #cecece;font-size:14px}
+.home_aside .notice{width:278px;height:129px;border:1px solid #dedede;font-family:simsun;background-color:#fff}
+.home_aside .notice .content{margin-top:10px;padding:0 15px}
+.home_aside .notice li{float:left;margin-right:10px;line-height:30px}
+.home_aside .notice li a{display:block;width:118px}
+.home_aside .store_info{width:278px;height:360px;border:1px solid #dedede;background-color:#fff}
+.home_aside .store_info em{font-style:normal;}
+.home_aside .store_info .content{position:relative;padding:15px 0}
+.home_aside .store_info .content span{color:#de0000}
+.home_aside .store_info .store_card{margin-bottom:15px;padding:0 15px}
+.home_aside .store_info .store_score{margin-top: 10px;border-top:1px solid #dedede;height: 110px;}
+.home_aside .store_info .store_score th{padding-top:7px}
+.home_aside .store_info .store_name{float: left;position: relative;left: -10px;padding:0 10px;height:30px;line-height:30px;font-size:14px;font-weight:bold;border:1px solid #fff;}
+.home_aside .store_info .store_name a{display: inline-block;float: left;margin-right:3px;color:#000;max-width:135px;height: 30px;overflow: hidden;}
+.home_aside .store_info .store_name .ico_qq{width: 70px;height: 20px;margin-top:3px;background:url(../image/icon/store_base.png) no-repeat -48px -96px;}
+.home_aside .store_info .icq_hover i{ position: relative; display: inline-block; float: left;margin-top:13px;width: 1px; height: 1px; overflow: hidden; overflow: hidden; border: 3px solid; border-color: #b2b2b2 #fff #fff #fff; font-size: 0; line-height: 0; }
+.home_aside .store_info .icq_hover ul{display: none;position: absolute;top:31px;left:-1px;background-color:#fff;width: 100%;border:solid #d3d3d3;border-width:0 1px 1px 1px}
+.home_aside .store_info .icq_hover li{padding:0 10px;font-size:12px;font-weight: normal;}
+.home_aside .store_info .icq_hover .ico_icq{display: inline-block;width: 24px;height: 24px;background: url(../image/icon/store_base.png) no-repeat -120px -94px;}
+.home_aside .store_info .icq_hover .icq_name{float: none;display: inline;height:auto;line-height:inherit;color:#6c6c6c;}
+.home_aside .store_info .icq_hover .icq_name:hover{color:#dd4040;}
+.home_aside .store_info .icq_hover:hover i{-moz-transition:all .3s ease-in-out 0s;-webkit-transition:all .3s ease-in-out 0s;-moz-transform:rotate(180deg);-moz-transform-origin:50% 25%;-webkit-transform:rotate(180deg);-webkit-transform-origin:50% 25%;}
+.home_aside .store_info .icq_hover:hover{border:1px solid #d3d3d3;}
+.home_aside .store_info .icq_hover:hover ul{display:list-item;}
+.home_aside .store_info .store_contact{margin:15px 15px 0;border-top:1px solid #dedede;padding-top:10px;line-height:22px}
+.home_aside .store_info .store_collect{display:block;margin:15px 15px 0;height:40px;line-height:40px;border-top:1px solid #dedede;text-align:center}
+.home_aside .new_bid{width:278px;height:331px;border:1px solid #dedede;background-color:#fff}
+.home_aside .new_bid li{margin-bottom:5px;overflow:hidden;padding:0 15px}
+.home_aside .new_bid .content{margin-top:10px}
+.home_aside .new_bid dl{line-height:21px;*line-height:25px;}
+.home_aside .new_bid .bid_name{float:left}
+.home_aside .new_bid .bid_name span{color:#e4201f;vertical-align:top;*vertical-align:middle}
+.home_aside .new_bid .bid_name a{display:inline-block;margin-left:5px;width:150px}
+.home_aside .new_bid .bid_amount{float:right;color:#e4201f}
+.home_aside .new_bid .bid_user{float:left;clear:both;color:#999}
+.home_aside .new_bid .bid_time{float:right;color:#999}
+/*本周给力标*/
+.reliable_bid{height:315px;clear:both;padding:18px;border:1px solid #dedede}
+.reliable_bid .content{margin-top:10px}
+.full .reliable_bid li{margin:0 92px 0 92px}
+.reliable_bid li{float:left;margin:0 57px 0 57px;_display:inline}
+.reliable_bid dl{position:relative;padding-top:215px}
+.reliable_bid dt{position:absolute;right:5px;top:0;z-index:1;background:url(../image/icon/store_base.png) no-repeat;width:47px;height:60px}
+.reliable_bid .top1{background-position:0 -96px}
+.reliable_bid .top2{background-position:0 -120px}
+.reliable_bid .top3{background-position:0 -144px}
+.reliable_bid .bid_name a{display:block;width:200px}
+.reliable_bid .bid_img{position:absolute;left:0;top:0}
+.reliable_bid .bid_img img{width:200px;height:200px}
+.reliable_bid b{font-size:14px;font-weight:bold;padding:0 4px}
+.reliable_bid .bid_rate{font-size:16px;color:#dd4040;font-weight:bold;line-height:22px}
+.reliable_bid .bid_amount{font-size:14px}
+/* ---------------------首页频道页 end-------------------------- */
+/* ---------------------我要投资选择页 begin-------------------------- */
+.invest_choose{margin-top:20px;padding:50px 20px;background-color:#fff}
+.invest_choose .con{position: relative;width: 520px;height: 320px;border:8px solid;border-radius:15px;font-size:14px;background-color:#fff}
+.invest_choose .con .tits{font-size:30px;padding:0 20px;height: 80px;line-height: 80px;border-bottom:2px solid #f1f1f1;background-color:#f7f7f7}
+.invest_choose .con .tits span{position: relative;left: 15px;top:5px;display: inline-block;width: 330px;font-size:14px;color:#b5b5b5;line-height:20px;}
+.invest_choose .con .content{position: relative;height:235px;}
+.invest_choose .con .rate{position: absolute;left: 40px;top: 30px;width: 155px;height: 95px;}
+.invest_choose .con .tits figure{display: inline-block;width:48px;height:48px;background:no-repeat left top;vertical-align:text-bottom}
+.invest_choose .con .rate .conts{font-size:36px;height: 70px;line-height: 70px;}
+.invest_choose .con .rate .conts span{font-size: 60px;}
+.invest_choose .con .info{position: absolute;top:30px;right: 15px;width: 250px;height: 125px;}
+.invest_choose .con .info li{padding-left:15px;background:no-repeat left center;height: 25px;line-height: 25px;}
+.invest_choose .con .operation{position: absolute;bottom: 0;left:15px;width: 480px;height: 70px;border-top:1px solid #e5e6ea;text-align: right;}
+.invest_choose .con .operation a{margin-top:15px;display: inline-block;width: 95px;height: 35px;text-align: center;line-height: 35px;color:#fff;border-radius:5px}
+.invest_choose .con .link_block{position:absolute;left:-8px;top:-8px;width: 536px;height: 336px;}
+.invest_choose .con1{border-color:#cbefdc;}
+.invest_choose .con1 .tits{color:#18b160;}
+.invest_choose .con1 .tits figure {position: relative;top:3px;margin-right: 10px;background-image:url(../image/qbb_contit_ico.png); }
+.invest_choose .con1 .rate .tit{color:#737373;}
+.invest_choose .con1 .rate .conts{color:#18b160;}
+.invest_choose .con1 .info li{background-image:url(../image/invest_choose_dian1.png)}
+.invest_choose .con1 .operation a{background-color:#18b160;}
+.invest_choose .con2{border-color:#f9e7d9;}
+.invest_choose .con2 .tits{color:#d84141;}
+.invest_choose .con2 .tits figure {position: relative;top:3px;margin-right: 10px;background-image:url(../image/lqt_contit_ico.png); }
+.invest_choose .con2 .rate .tit{color:#737373;}
+.invest_choose .con2 .rate .conts{color:#d84141;}
+.invest_choose .con2 .info li{background-image:url(../image/invest_choose_dian2.png)}
+.invest_choose .con2 .operation a{background-color:#d84141;}
+.invest_choose .security_con{padding:0;padding-top:50px;}
+.invest_choose .problem_con{margin-top: 50px;color:#333;}
+.invest_choose .problem_con .tit{font-size:14px;line-height: 35px;border-bottom:1px solid #efe3c5}
+.invest_choose .problem_con .tit h3{font-weight: bold;}
+.invest_choose .problem_con .conts{margin-top: 10px;line-height: 25px;}
+.invest_choose .problem_con .conts li{margin-bottom: 10px;}
+/* ---------------------我要投资选择页 end-------------------------- */
+/* ---------------------我要投资列表页 begin-------------------------- */
+.list_box{padding:25px 0;margin-top: 10px;border:1px solid #dadada;background-color:#fff}
+.list_box .filtrate_con{margin:0 30px;}
+.list_box .filtrate_con li{float: left;width:25%;padding:5px 0;border-right:1px solid #e0e0e0;margin-right:-2px;}
+.list_box .filtrate_con .tit,.list_box .filtrate_con .conts{margin:0 10px;}
+.list_box .filtrate_con .tit{font:14px/30px Arial,"Microsoft YaHei",simsun,sans-serif;color:#2b2b2b;}
+.list_box .filtrate_con .conts{font-size:0;line-height:0;}
+.list_box .filtrate_con a{display: inline-block;margin-right:5px;line-height:22px;font-size:12px;margin-bottom: 3px;padding:0 10px;text-align: center;}
+.list_box .filtrate_con a.current{background-color:#e12c2e;color:#fff;border:0 none;}
+.list_box .filtrate_con .color{height: 15px;line-height:15px;margin:4px 3px 4px 0;border-left:2px solid;}
+.list_box .filtrate_con .green{border-left-color:#8cc152;}
+.list_box .filtrate_con .blue{border-left-color:#5dc9e6;}
+.list_box .filtrate_con .orange{border-left-color:#ff944c;}
+.list_box .filtrate_con .pink{border-left-color:#ed5565;}
+.list_box .filtrate_con .color.current{border:0 none;height: 22px;line-height:22px;margin:0 5px 3px 0;}
+.list_box .filtrate_con .green.current{background-color:#8cc152;}
+.list_box .filtrate_con .blue.current{background-color:#5dc9e6;}
+.list_box .filtrate_con .orange.current{background-color:#ff944c;}
+.list_box .filtrate_con .pink.current{background-color:#ed5565;}
+.list_box .classify_con{padding:0 20px;}
+.list_box .classify_con .tit{float: left;width:5%;font-size:14px;color:#2b2b2b;}
+.list_box .classify_con ul{float: left;width: 95%;}
+.list_box .classify_con li{float:left;width: 14%;text-align: center;}
+.list_box .classify_con li a{display: block;}
+.list_box .classify_con li figure{display: inline-block;width: 64px;height: 64px;background:url(../image/loans_classify_ico.png) no-repeat;}
+.list_box .classify_con li p{color:#999;}
+.list_box .classify_con .current p{color:#333;}
+.list_box .classify_con li .ico_all{background-position:0 0;}
+.list_box .classify_con li .ico_house{background-position:0 -64px;}
+.list_box .classify_con li .ico_car{background-position:0 -128px;}
+.list_box .classify_con li .ico_speedy{background-position:0 -192px;}
+.list_box .classify_con li .ico_manage{background-position:0 -256px;}
+.list_box .classify_con li .ico_student{background-position:0 -384px;}
+.list_box .classify_con li .ico_renovation{background-position:0 -320px;}
+.list_box .classify_con .current .ico_all{background-position:-64px 0;}
+.list_box .classify_con .current .ico_house{background-position:-64px -64px;}
+.list_box .classify_con .current .ico_car{background-position:-64px -128px;}
+.list_box .classify_con .current .ico_speedy{background-position:-64px -192px;}
+.list_box .classify_con .current .ico_manage{background-position:-64px -256px;}
+.list_box .classify_con .current .ico_student{background-position:-64px -384px;}
+.list_box .classify_con .current .ico_renovation{background-position:-64px -320px;}
+.list_box .enter_con{margin: 15px 10px 0;padding:15px 0 15px 35px;border:1px solid #dadada;}
+.list_box .enter_con .tit,.list_box .enter_con ul{float: left;}
+.list_box .enter_con .tit{font:bold 12px/30px Arial,"Microsoft YaHei",simsun,sans-serif;color:#2b2b2b;text-align: center;}
+.list_box .enter_con li{float:left;font-size:0;line-height:0;border:1px solid #dadada;margin:0 5px 5px 0;}
+.list_box .enter_con img{width: 110px;height: 35px;}
+.list_box .screening_con{margin:0 10px 15px;border:1px solid #dadada;}
+.list_box .screening_con .mold_bar{padding:0 15px;height: 37px;line-height:37px;}
+.list_box .screening_con .mold_bar input{margin-right: 5px;}
+.list_box .screening_con .mold_bar label{color:#4e4e4e;margin-right: 10px;}
+.list_box .screening_con .sort_bar{padding:0 15px;height: 37px;background-color:#eee;}
+.list_box .screening_con .sort_main{margin:7px 35px 0 0;font-size:0;line-height:0;}
+.list_box .screening_con .sort_main a{display: inline-block;padding:0 12px;border:1px solid #ddd;background-color:#fff;font-size:12px;line-height:22px;margin-right: -1px;}
+.list_box .screening_con .sort_main figure{display: inline-block;margin-left: 5px;width: 8px;height: 8px;background:url(../image/sort_img1.png) no-repeat left top;}
+.list_box .screening_con .sort_main .current{background-color:#ffffe0;color:#ba1a16;}
+.list_box .screening_con .sort_main .current figure{background-image:url(../image/sort_img2.png);}
+.list_box .screening_con .site_con{position: relative;margin-top: 7px;border:1px solid #dbdbdb;background-color:#fff;width: 111px;line-height:22px;}
+.list_box .screening_con .site_con .title{display: inline-block;}
+.list_box .screening_con .site_con .title span{text-indent:10px;display: inline-block;height: 21px;background-color:#fff;}
+.list_box .screening_con .site_con .title i{font-style:normal;}
+.list_box .screening_con .site_con figure{position: absolute;right:5px;bottom:5px;display: inline-block;width: 8px;height: 8px;background:url(../image/sort_site.png) no-repeat left top;}
+.list_box .screening_con .hover figure{display: none;}
+.list_box .screening_con .site_con a:hover figure{background-image:url(../image/sort_site2.png);}
+.list_box .screening_con .site_con ul{position: absolute;top:22px;left:-1px;z-index: 1;display: none;padding:5px;background-color:#fff;border:1px solid #dbdbdb;border-top:0 none;width: 101px;}
+.list_box .screening_con .hover ul{display:block;}
+.list_box .screening_con .site_con li{float: left;margin: 0 5px;padding:0 5px;float: left;display: inline-block;}
+.list_box .screening_con .site_con .current{background-color:#dd4040;}
+.list_box .screening_con .site_con .current a{color:#fff;}
+.list_box .paging{margin:25px 15px 0 0;text-align:right;}
+/* ---------------------我要投资列表页 end-------------------------- */
+
+/* ---------------------借款申请 begin-------------------------- */
+/*general*/
+.loan_main{width: 880px;margin:10px auto 0;}
+/*借款类型提示*/
+.loan_info_pop{position: relative;top:-25px;margin:0 auto;width:580px;padding:0 10px;height: 25px;line-height:25px;border:1px solid #f9dfb2;background-color:#ffffe0;}
+.loan_info_pop b{padding:0 3px;color:#d14a00;font-weight:normal;}
+.loan_info_pop a{position: absolute;right:10px;top:0;}
+/*借款流程*/
+.loan_procedures{background:url(../image/loan_procedures_bg.png) no-repeat center 36px;}
+.loan_procedures li{float:left;width: 33%;text-align: center;color:#aeaeae;font:14px/40px "Microsoft YaHei",simsun,sans-serif}
+.loan_procedures figure{display:block;width: 72px;height: 72px;margin:0 auto;background:no-repeat left top;}
+.loan_procedures .on{color:#dd1111;}
+.loan_procedures .ico1{background-image:url(../image/loan_procedures_ico1a.png);}
+.loan_procedures .ico2{background-image:url(../image/loan_procedures_ico2b.png);}
+.loan_procedures .on .ico2{background-image:url(../image/loan_procedures_ico2a.png);}
+.loan_procedures .ico3{background-image:url(../image/loan_procedures_ico3b.png);}
+.loan_procedures .on .ico3{background-image:url(../image/loan_procedures_ico3a.png);}
+/*借款表单*/
+.loan_form .tit{font:16px/30px "Microsoft YaHei",simsun,sans-serif;color:#000;border-bottom:1px solid #edcb90;}
+.loan_form .tit p{font-size:12px;color:#999;}
+.loan_form .tit p span{color:#dd1111;}
+.loan_form .content{margin-top: 25px;}
+.loan_form .row{margin-top:20px;}
+.loan_form .text,.loan_form textarea{border:1px solid #cacaca;padding:9px 10px;outline:none;resize:none;}
+.loan_form input.error{border-color:red;}
+.loan_form .bid_info label{display:inline-block;width: 60px;}
+.loan_form .bid_info textarea{vertical-align:top;width:690px;height:57px;}
+.loan_form .bid_info .text{width: 220px;margin-right: 5px;}
+.loan_form .bid_info .text_w400{width: 400px;}
+.loan_form .bid_info .qui_unit{padding-right: 30px;width:200px}
+.loan_form .bid_info .qui_unit_yuan{background-position:200px -232px}
+.loan_form .bid_info .qui_unit_percent{background-position:200px -330px}
+.loan_form .bid_info .info{color:#999;}
+.loan_form .bid_info .info b{padding:0 3px;font-style:normal;color:#0a8906;}
+.loan_form .bid_info select{ width: 242px; margin-right: 80px; padding: 4px; border: 1px solid #cacaca; margin-top: 0; margin-bottom: 0; outline: none; }
+.loan_form .bid_security{padding:15px 60px 35px;background-color:#f1f1f1;border:1px solid #e0e0e0;}
+.loan_form .bid_security label{display: inline-block;width:80px;text-align: right;margin-right: 5px;}
+.loan_form .bid_security .text{padding:4px;width: 190px;}
+.loan_form .bid_security .text.qui_unit{padding-right: 30px;width: 167px;background-color:#fff}
+.loan_form .bid_security .text.qui_unit_day{background-position:160px -288px}
+.loan_form .bid_security select.short{width: 60px;}
+.loan_form .bid_security select.shortwa{width: 105px;}
+.loan_form .bid_security input.shortwa{width:79px;padding:4px;border: 1px solid #cacaca;}
+.loan_form .bid_security .shortwa.qui_unit{padding-right: 30px;width:57px;background-color:#fff}
+.loan_form .bid_security .shortwa.qui_unit_percent{background-position:50px -336px;}
+.loan_form .bid_security .shortwa.qui_unit_yuan{background-position:50px -240px}
+.loan_form .bid_security input.shortno{width: 60px;}
+.loan_form .bid_security input.short{width:124px;}
+.loan_form .bid_security select.shorton{width:134px;}
+.loan_form .bid_security select{width: 204px;margin-right: 80px;padding: 4px;border: 1px solid #cacaca;margin-top: 0;margin-bottom: 0;outline:none;}
+.loan_form .bid_source textarea{vertical-align:top;width:860px;height:81px;}
+.loan_form .bid_datum .row{position: relative;}
+.loan_form .bid_datum span{display: block;float:left}
+.loan_form .bid_datum ul{float:right;padding: 13px 13px 3px;width:790px;background-color:#ededed;border:1px solid #e0e0e0;}
+.loan_form .bid_datum li{position: relative;float:left;width: 67px;height: 67px;border:1px solid #cacaca;margin:0 10px 10px 0;cursor: pointer;background-color:#fff}
+.loan_form .bid_datum li a{position: absolute;right:0;bottom:0;display: inline-block;width:14px;height:14px;background-color:#d6001e;color:#fff;text-align: center;line-height: 14px}
+.loan_form .bid_datum li img{width: 67px;height: 67px}
+.loan_form .bid_datum .add_btn{overflow: hidden;}
+.loan_form .bid_datum .add_btn input{position: absolute;left:-152px;top:0;height: 67px;cursor: pointer;opacity:0;filter:alpha(opacity=0);}
+.loan_form .bid_datum .add_btn i{position: absolute;left: 50%;top: 50%;background-color:#a7a7a7}
+.loan_form .bid_datum .add_btn .a{margin-left:-11px;width:22px;height: 2px;}
+.loan_form .bid_datum .add_btn .b{margin-top:-11px;width:2px;height: 22px;}
+.loan_form .loan_operate{margin-top:35px;}
+.loan_form .loan_operate .btn{margin-top: 15px;border:0 none;width: 140px;height: 36px;background:url(../image/loan_operate_btn.png) no-repeat left top;cursor: pointer;text-align: center;font-size:16px;color:#fff;font-weight: bold;}
+/*借款确认*/
+.loan_confirm{width: 890px;}
+.loan_confirm .tit a{color:#858585;}
+.loan_confirm .tit a:hover{color:#dd4040;}
+.loan_confirm .content{ position: relative; margin-top: 10px; padding: 40px; border:1px solid #e5e5e5; background-color:#fff; -moz-box-shadow:0 0 10px rgba(0,0,0,.2); -webkit-box-shadow:0 0 10px rgba(0,0,0,.2); box-shadow:0 0 10px rgba(0,0,0,.2); }
+.loan_confirm .main .bottom_bg{display: block;width: 888px;height: 30px;position: absolute;left:0;bottom:-15px;background:url(../image/loan_confirm_bottom.png) no-repeat left top;}
+.loan_confirm .loan_operate{margin-top: 30px;}
+.loan_confirm .money_table{border-top:2px solid #d3d3d3;width: 810px;margin:0 auto;}
+.loan_confirm .money_table tr{border:1px solid #d3d3d3;}
+.loan_confirm .money_table th,.loan_confirm .money_table td{padding:0 10px;}
+.loan_confirm .money_table th{height: 33px;background-color:#f3f3f3;text-align:left}
+.loan_confirm .money_table .major{height: 50px;font:14px/50px "Microsoft YaHei",simsun,sans-serif;background-color:#ffffe0;color:#525252;}
+.loan_confirm .money_table .major span{font-size:18px}
+.loan_confirm .money_table .info{font:12px/40px "Microsoft YaHei",simsun,sans-serif;}
+.loan_confirm .money_table .info span{color:#999;}
+.loan_confirm .money_table .total{height: 44px;line-height:44px;background-color:#fcf2f2}
+.loan_confirm .money_table .total span{font-size: 24px;color:#e21b38;font-family:"Microsoft YaHei",simsun,sans-serif;}
+.loan_confirm .tit{margin-top: 15px;font:14px/30px "Microsoft YaHei",simsun,sans-serif;color:#000;}
+.loan_confirm .conts{margin-top: 10px;}
+.loan_confirm .info_table{width: 810px;height: 80px;border:1px solid #e4e4e4;}
+.loan_confirm .info_table th,.loan_confirm .info_table td{padding:0 15px;text-align:left}
+.loan_confirm .loan_operate{margin-top:60px;text-align: center;}
+.loan_confirm .loan_operate .btn{margin-top: 15px;border:0 none;width: 140px;height: 36px;background:url(../image/loan_operate_btn.png) no-repeat left top;cursor: pointer;text-align: center;font-size:16px;color:#fff;font-weight: bold;}
+/*审核中*/
+.loan_review .main{margin-top: 40px;width: 880px;height: 230px;border:1px solid #e0e0e0;text-align: center;font-size:14px;font-family:"Microsoft YaHei",simsun,sans-serif}
+.loan_review .tit{margin-top:40px;font-size:24px;line-height: 30px;color:#ff6600;}
+.loan_review .tit figure{position: relative;top:5px;display: inline-block;margin-right:10px;width: 28px;height: 28px;background:url(../image/loan_review_bg.gif) no-repeat left top;}
+.loan_review .content{margin-top:20px;}
+.loan_review .content .user_center{color:#ff6600;}
+/* ---------------------借款申请 end-------------------------- */
+
+/* ---------------------标种选择 begin-------------------------- */
+.loan_choose{width: 800px;margin:10px 0 0 100px;}
+.loan_choose dl{position: relative;height:590px;border-bottom:1px solid #edcb90}
+.loan_choose dt{position: absolute;top:70px;left:0;border-right:1px solid #e3e4e8;width:200px;height:500px;text-align: center;font:36px/240px "Microsoft YaHei",simsun,sans-serif;color:#4b4b4b;}
+.loan_choose dt .qui_bid_ico{position: absolute;left:155px;top:80px;overflow: hidden;}
+.loan_choose .tit{position: absolute;left:220px;top:145px;width:400px;font:24px/120% "Microsoft YaHei",simsun,sans-serif;color:#666;}
+.loan_choose .info{position: absolute;left:220px;top:190px;width: 450px;font:16px/150% "Microsoft YaHei",simsun,sans-serif;color:#4b4b4b;}
+.loan_choose .ico_con{position: absolute;left:220px;top:270px;}
+.loan_choose .btn{position: absolute;left:220px;top:450px;}
+.loan_choose .btn a{display: block;width: 104px;height: 30px;border:1px solid #dadada;text-align: center;line-height:30px;background-color: #e4201f; border-color: #e86741; color: #fff;}
+.loan_choose .btn a:hover{ background-color: #d4201f;}
+.loan_choose_confirm{position: absolute;top:455px;left:350px;float: left;padding: 0 10px;height: 25px;line-height: 25px;background-color: #ffffe0;border: 1px solid #fae5ba;}
+.loan_choose_confirm a{padding:0 3px;color:#005ea7;}
+.loan_choose_confirm figure{position: absolute;left:-7px;top:8px;display: block;width: 8px;height: 10px;background:url(../image/loan_choose_confirm_bg.png) no-repeat left top;}
+.loan_choose .main ul{overflow: hidden;}
+.loan_choose .main li{float:left;margin-right:25px;text-align: center;}
+.loan_choose .main li figure{display:block;width:88px;height:88px;background:no-repeat left top}
+.loan_choose .main li .green_startups{background-image:url(../image/loan_choose_ico1.png);}
+.loan_choose .main li .green_invest{background-image:url(../image/loan_choose_ico2.png);}
+.loan_choose .main li .green_turnover{background-image:url(../image/loan_choose_ico3.png);}
+.loan_choose .main li .blue_house{background-image:url(../image/loan_choose_ico4.png);}
+.loan_choose .main li .blue_car{background-image:url(../image/loan_choose_ico5.png);}
+.loan_choose .main li .blue_turnover{background-image:url(../image/loan_choose_ico6.png);}
+.loan_choose .main li .orange_urgent{background-image:url(../image/loan_choose_ico7.png);}
+.loan_choose .main li .pink_activities{background-image:url(../image/loan_choose_ico8.png);}
+.loan_choose .floor{position: absolute;right:0;top:0;padding:15px 0;width: 195px;border:1px solid #f9dfb2;background:#fff8ea url(../image/loan_choose_line.gif) repeat-y 54px 0;}
+.loan_choose .floor li{height: 45px;line-height: 45px;}
+.loan_choose .floor a{display: block;padding-left:80px;background:no-repeat 45px center;}
+.loan_choose .floor .current{background:url(../image/loan_choose_current.png) no-repeat 25px center;}
+.loan_choose .floor .green_pink{background-image:url(../image/loan_choose_green.png);}
+.loan_choose .floor .blue_pink{background-image:url(../image/loan_choose_blue.png);}
+.loan_choose .floor .orange_pink{background-image:url(../image/loan_choose_orange.png);}
+.loan_choose .floor .pink_pink{background-image:url(../image/loan_choose_pink.png);}
+.loan_choose .xin span{color:#8cc152;}
+.loan_choose .ya span{color:#5dc9e6;}
+.loan_choose .liu span{color:#ff944c;}
+.loan_choose .miao span{color:#ed5565;}
+/* ---------------------标种选择 end-------------------------- */
+
+/* ---------------------借款详情 begin-------------------------- */
+.loan_profile{padding:0 25px;}
+.loan_profile .bid_info{border:1px solid #e6e6e6;height:340px;width:480px;padding:0 15px;background-color:#fff}
+.full .loan_profile .bid_info{height: 285px;width: auto;}
+.loan_profile .bid_info .bid_tit{font:20px/70px "Microsoft YaHei",simsun,sans-serif;color: #444;}
+.loan_profile .bid_info .bid_tit .qui_bid_ico{position: relative;margin-right:5px;vertical-align:middle;}
+.loan_profile .bid_info .bid_tit .qui_sep{ height:50px; margin: 0 10px 0 5px;vertical-align:middle;background-position: -180px 20px; }
+.loan_profile .bid_info .main{width: 100%;height: 100px;border:solid #d9d9d9;border-width:1px 0;background-color:#f2f3f5;}
+.loan_profile .bid_info .main .con{float: left;width: 33%;margin-top:10px;border-right:1px solid #e3e4e8;}
+.loan_profile .bid_info .main .tit{padding-left:15px;font-size:14px;line-height:30px;color:#464646;text-align:left;}
+.loan_profile .bid_info .main .conts{padding-left:10px;font-size:18px;color:#e21b38;font-weight: bold}
+.loan_profile .bid_info .main .conts em{color:#999;font-size:30px;font-style:normal;padding-right: 5px;}
+.loan_profile .bid_info .main .conts span{font-size:28px;}
+.loan_profile .bid_info .main .conts i{color:#999;font-style:normal;padding-left: 5px;font-weight: normal;}
+.loan_profile .bid_info .info{margin-top: 10px;padding:10px 0;width:479px;height:61px;border:1px solid #e4e4e4;background-color:#fff;font-size:14px;}
+.full .loan_profile .bid_info .info{width: 523px;}
+.loan_profile .bid_info .info table{width: 100%;margin:0 auto}
+.loan_profile .bid_info .info th{font-weight: normal;color:#999;width:70px;}
+.loan_profile .bid_info .info td{color:#525252;}
+.loan_profile .bid_info .info th,.loan_profile .bid_con .info td{height:30px;padding:0 1%;width:16%;text-align:left;}
+.loan_profile .bid_con .main{position: relative;padding:20px;height:300px;width:365px;background-color:#fff2ec;border:1px solid #f9e1b7;}
+.full .loan_profile .bid_con .main{width: 530px;height:245px;}
+.loan_profile .bid_con .main div{margin-top:15px;}
+.loan_profile .bid_con .total b,.loan_profile .bid_con .rate b{font:24px/30px "Microsoft YaHei",simsun,sans-serif;color:#e21b38;}
+.loan_profile .bid_con .bets{position: relative;line-height:58px;vertical-align:middle;}
+.loan_profile .bid_con .bets em{color:#e21b38;font-style:normal;}
+.loan_profile .bid_con .bets b{color:#0a8906;font-size:12px;}
+.loan_profile .bid_con .bets input{font-size:18px;width:260px;padding:16px 10px;border:1px solid #b5b5b5;outline:none;color:#333;font-family:"Microsoft YaHei",simsun,sans-serif}
+.loan_profile .bid_con .bets .qui_unit{padding-right:35px;width:205px;background-color:#fff}
+.loan_profile .bid_con .bets .qui_unit_numbe{background-position:205px -45px}
+.loan_profile .bid_con .bets .qui_unit_amount{background-position:225px 3px}
+.loan_profile .bid_con .bets .error{border-color:#e21b38;}
+.loan_profile .bid_con .bets a{position: absolute;display: inline-block;width: 21px;height: 21px;background-color:#b0b0b0;}
+.loan_profile .bid_con .bets a:hover{background-color:#868686;}
+.loan_profile .bid_con .bets a.no_down{background-color:#dbdbdb;}
+.loan_profile .bid_con .bets a i{position: absolute;left:50%;top:50%;margin:-2px 0 0 -5px;width:10px;height:4px;background-color:#fff;}
+.loan_profile .bid_con .bets a b{position: absolute;left:50%;top:50%;margin:-5px 0 0 -2px;width:4px;height:10px;background-color:#fff;}
+.loan_profile .bid_con .bets .add{left:300px;top:0;}
+.loan_profile .bid_con .bets .minus{left:300px;top:35px;}
+.loan_profile .bid_con .time_con em{margin:0 10px;display: inline-block;width: 120px;height: 8px;background-color:#e3e4e8;border-radius:10px;font-size:0;line-height:0;}
+.loan_profile .bid_con .time_con i{display: inline-block;width:0;height: 8px;background-color:#18b160;border-radius:10px;}
+.loan_profile .bid_con .balance{padding:0 10px;height: 25px;line-height: 25px;background-color:#ffffe0;width: 264px;border:1px solid #fae5ba;}
+.loan_profile .bid_con .balance a,.loan_profile .bid_con .balance b{font-family:"Microsoft YaHei",simsun,sans-serif;font-weight:normal;color:#d11111;}
+.loan_profile .bid_con .btn a,.loan_profile .bid_con .btn input{border:0 none;cursor: pointer;margin-top:20px;display: block;width:303px;height: 36px;text-align: center;color:#fff;font:bold 16px/36px simsun,sans-serif;}
+.loan_profile .bid_con .btn .bid_btn{background-image:url(../image/loan_profile_btn.png)}
+.loan_profile .bid_con .btn .recharge_btn{background-image:url(../image/recharge_btn.png)}
+.loan_profile .bid_con .security_ico{position: absolute;right:-10px;top:30px;display: block;width: 162px;height: 38px;background:url(../image/security_ico.png) no-repeat left top;}
+.loan_details{background-color:#fff;padding:15px 25px}
+.loan_details .tit_con{height: 42px;border-bottom:1px solid #d21f1f;font-size:0;line-height:0;}
+.loan_details .tit_con a{display: inline-block;width: 140px;background-color:#f2f2f2;border:1px solid #e6e6e6;font-size:14px;color:#404040;line-height:40px;text-align: center;}
+.loan_details .tit_con .current{background:#d11111 url(../image/loan_details_tab_bg.gif) no-repeat center bottom;;border-bottom:0 none;height: 42px;color:#fff;font-weight: bold;border-color:#d11111;}
+.loan_details .content_con{margin:25px 0;}
+.loan_details .tit{padding-left:10px;font:14px/30px "Microsoft YaHei",simsun,sans-serif;color:#000;background-color:#f3f3f3;border-bottom:1px solid #c6c6c6;}
+.loan_details .tit span{margin-left:10px;font-size:12px;color:#525252;}
+.loan_details .tit figure{display: inline-block;margin-right: 5px;width: 16px;height: 16px;background:url(../image/loan_details_titico.png) no-repeat;vertical-align: middle;}
+.loan_details .tit .ico1{background-position:left 0}
+.loan_details .tit .ico2{background-position:left -24px}
+.loan_details .tit .ico3{background-position:left -48px}
+.loan_details .tit .ico4{background-position:left -72px}
+.loan_details .tit .ico5{background-position:left -96px}
+.loan_details .tit .ico6{background-position:left -120px}
+.loan_details .main{width:610px;}
+.full .loan_details .main{width:800px;}
+.loan_details .main .content{padding:0 10px;margin:10px auto;color:#525252;line-height:25px;}
+.loan_details .main .bg{background-color:#fff;}
+.loan_details .main .pic_tab{margin-bottom: 35px;}
+.loan_details .main .pic_tab .tab{margin-top:10px;}
+.loan_details .main .pic_tab .tab_con{left: 10px}
+.loan_details .user_con{padding:15px;width:500px;background-color:#fff;margin:10px 0;}
+.loan_details .user_con .certification{margin-left: 20px;}
+.loan_details .user_con .certification a{font-size:16px;}
+.loan_details .user_con img{ border-radius: 100%; border: 3px solid #fff; -moz-box-shadow: 0px 3px 5px rgba(0,0,0,.2); -webkit-box-shadow: 0px 3px 5px rgba(0,0,0,.2); box-shadow: 0px 3px 5px rgba(0,0,0,.2); }
+.loan_details .user_con .ico_con{margin-top:10px;font-size:0;line-height:0;}
+.loan_details .user_con .ico{display: inline-block;margin-right: 3px;width: 24px;height: 24px;background:no-repeat left top;}
+.loan_details .user_con .ico_sj{background-image:url(../image/ico_sj.png);}
+.loan_details .user_con .ico_sm{background-image:url(../image/ico_sm.png);}
+.loan_details .user_con .ico_yx{background-image:url(../image/ico_yx.png);} 
+.loan_details .user_info{border-left:1px solid #e3e4e8;padding-left:20px;}
+.loan_details .user_info th,.loan_profile .user_info td{height:30px;padding:0 10px;}
+.loan_details .user_info th{width:50px;text-align:left;font-weight: normal;color:#999;}
+.loan_details .user_info td{width:60px;}
+.loan_details .sidebar{width:300px;}
+.full .loan_details .sidebar{width:320px;}
+.loan_details .sidebar .approve_con{position: relative;}
+.loan_details .sidebar .approve_con .tit{border-bottom:0 none;}
+.loan_details .sidebar .approve_con .conts{position: relative;border:1px solid #e8e8e8;padding:25px 0 10px 160px;height:115px;background-color:#fff;font-family:"Microsoft YaHei",simsun,sans-serif;}
+.loan_details .sidebar .approve_con .portrait{position: absolute;left:10px;top:20px;}
+.loan_details .sidebar .approve_con p{font-size:14px;line-height:25px;color:#666;}
+.loan_details .sidebar .approve_con p span{color:#10a132;margin-left: 10px;}
+.loan_details .sidebar .fico_con{height: 118px;border:1px solid #e4e4e4;background:url(../image/sidebar_fico_img.png) no-repeat left top;}
+.loan_details .sidebar .fico_con p{margin:80px 0 0 25px;font-size:18px;color:#868686;}
+.loan_details .record_list{width:100%;}
+.loan_details .record_list th,.loan_details .record_list td{height:35px;line-height:35px;}
+.loan_details .record_list th{text-align:left;font-weight: normal;font-family:"Microsoft YaHei",simsun,sans-serif;}
+.loan_details .record_list td{border-bottom:1px solid #e6e6e6;}
+.loan_details .record_list .ger{position: relative;bottom:-5px;margin-right: 5px;display: inline-block;width: 16px;height: 16px;background:url(../image/record_list_ger.png) no-repeat center right;}
+.loan_details .record_list .user{width: 170px;}
+.loan_details .record_list .invest{width: 195px;}
+.loan_details .record_list .valid{width: 185px;}
+.loan_details .record_list .time{width: 175px;}
+.loan_details .paging{text-align: right;margin-top:25px;}
+.loan_message{clear:both;margin-bottom:30px;}
+.loan_message .content{position: relative;}
+.loan_message li{margin-top:5px;border-bottom:1px dashed #dfdfdf;padding-top:10px;margin-bottom:10px;}
+.loan_message .tit{font:14px/40px "Microsoft YaHei",simsun,sans-serif;color:#000;}
+.loan_message .info{color:#999;}
+.loan_message .conts{color:#666;margin-bottom: 5px;}
+.loan_message .banker .conts{color:#d24823;}
+.loan_message .btn_con .btn{position: absolute;right:100px;bottom:0;display: block;width: 104px;height: 30px;color:#666;text-align:center;line-height:30px;}
+.loan_message .btn_con .question{background-color:#eaf7de;border:1px solid #7eaf6b;}
+.loan_message .btn_con .close{background-color:#f7e9de;border:1px solid #f45f5c;}
+.loan_message .question,.loan_message .question_con{height: 120px;}
+.loan_message .question_con{margin-top:40px;}
+.loan_message .question{position: relative;display: none;width: auto;}
+.loan_message .question textarea{height: 100px;width: 100%;outline:none;resize:none;color:#525252;} 
+.loan_message .question input{float: right;width: 104px;height: 30px;border:1px solid #7eaf6b;color:#666;cursor: pointer;}
+/* ---------------------借款详情 end-------------------------- */
+/* ---------------------关于我们 begin-------------------------- */
+.content_bd{margin-top: 10px;padding:0 10px;overflow: hidden;}
+.content_bd .tab{margin-top: 10px;padding-left: 10px;height: 40px;border-bottom:1px solid #ccc}
+.content_bd .tab a{display: inline-block;text-align: center;line-height:39px;width: 138px;height: 39px;font-size:14px}
+.content_bd .tab .current{position: relative;top:1px;width: 138px;height: 39px;border:1px solid #ccc;border-bottom:0 none;background-color:#fff;color:#d52525;font-weight: bold;font-size:16px}
+.content_bd .tab_main .tits{margin-top: 20px;color:#4e4e4e;font-size:14px;padding-left:10px;font:24px/35px Arial,"Microsoft YaHei",simsun,sans-serif;color:#999;}
+.content_bd .tab_main .conts{margin-top: 20px;padding:0 60px 20px;font-size:12px;color:#888;line-height:250%;border-bottom:1px solid #dfdfdf;margin-bottom: 20px;}
+.content_bd .qualifications_img li{float:left;width: 120px;margin-right: 20px;}
+.content_bd .qualifications_img a{width: 120px;height: 120px;display: block;line-height: 0;background:url(../image/no_img.png) no-repeat left top;}
+.content_bd .qualifications_img p{text-align: center;line-height:30px;width: 120px;}
+.content_bd .qualifications_img img{width: 120px;height: 90px;}
+.content_bd .store_score{padding:20px 10px;border:1px solid #dedede;}
+.content_bd .store_score table{width: 100%;height:90px;margin-left:10px;}
+.content_bd .store_score th,.content_bd .store_score td{height: 25px;text-align: left;}
+.content_bd .store_score th{color:#666;font-weight: normal;}
+.content_bd .store_score em{font-style:normal;}
+.content_bd .score_table{width: 690px;}
+.content_bd .score_table table{width: 100%;height: 130px;}
+.content_bd .score_table th,.content_bd .score_table td{border:1px solid #dadada;}
+.content_bd .score_table th{background-color:#f5f5f5}
+.content_bd .score_table figure{margin-right:5px;vertical-align:middle;}
+.content_bd .score_table td{text-align: center;}
+.content_bd .score_table a{color:#005ea7;}
+.content_bd .score_table a:hover{text-decoration: underline;}
+.content_bd .comments_con .classify{padding:0 20px;height: 40px;line-height: 40px;border-top:2px solid #ccc;border-bottom:1px solid #cdcdcd}
+.content_bd .comments_con .comments_list table{width: 100%;}
+.content_bd .comments_con .comments_list td{height: 85px;vertical-align:middle;border-bottom:1px solid #dedede}
+.content_bd .comments_con .comments_list .ico{width: 130px;text-align: center;}
+.content_bd .comments_con .comments_list .content{width:900px;}
+.content_bd .comments_con .comments_list .content p{width: 660px;}
+.content_bd .comments_con .comments_list .info{color:#919191;}
+.content_bd .comments_con .comments_list .paging{margin-top: 20px;text-align: center;}
+/* ---------------------关于我们 end-------------------------- 

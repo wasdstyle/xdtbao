@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- v1.6.7.2 爱心公益 sj 2014-1-7  新增 -->
+	<package name="welfare" namespace="/admin/welfare" extends="wzd-default">
+
+        <action name="welfareList"  class="welfareAction" method="welfareList">
+            <result name="success" type="ftl">/admin/welfare/welfare_list.html</result>
+        </action>
+        <action name="addWelfare"  class="welfareAction" method="addWelfare">
+            <result name="success" type="ftl">/admin/welfare/add_welfare.html</result>
+        </action>
+        <action name="modifyWelfare"  class="welfareAction" method="modifyWelfare">
+            <result name="success" type="ftl">/admin/welfare/modify_welfare.html</result>
+        </action>
+    </package>
+</struts>

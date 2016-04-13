@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<#assign webname='幸运大抽奖 - ${webname!}'>
+<#include "../include/style.html">
+<link rel="stylesheet" type="text/css" href="${theme_dir}/css/award.css">
+<body>
+	<#include "../include/header.html">
+	<div class="wp-award-main">
+		<div class="award-main">
+			<a href="/" class="back-home"></a>
+			<!-- 中奖名单:begin -->
+			<div class="prize-list">
+				<ul id="prize-list-ul">
+					
+				</ul>
+			</div>
+			<!-- 中奖名单:end -->
+		
+			<!-- 登录框:begin -->
+			<div class="login-wrap">
+				<#if session_user?exists>
+					<div class="user-info clearfix">
+						<img src="${webroot}/imgurl.html?userid=${session_user.user_id?c}&size=middle" title="${session_user.username!}"/>
+						<p>
+							您当前的积分：<br/>
+							<b>500</b>分<br/>
+							<#-- <b>${detailuser.valid_value}</b>分<br/> --><!-- freemarker此处报错 -->
+							<!--可抽奖的次数：<br/>  -->
+							<#-- <b>${(detailuser.valid_value/(rule.base_point?number)?number)?string("##0")}</b>次 -->
+						</p>
+					</div>
+		        <#else>
+		       		<a href="/user/login.html" class="btn-award-login"></a>
+		        </#if>
+		        <p class="tip">登录后点击"立即抽奖"即可参与抽奖，抽奖一次将会消耗用户的一定积分！</p>
+			</div>
+			<!-- 登录框:end -->
+		
+			<!-- 抽奖转盘:begin -->
+			<div class="lottery-wrap">
+		    	<div class="award-level">
+		            <div class="lottery-start">
+		            	<img src="${theme_dir}/image/turntable-pointer.png"  id="lotteryBtn" data-val="0">
+		            </div>
+		        </div>
+		    </div>
+			<!-- 抽奖转盘:end -->
+		</div>
+	</div>
+	<div class="award-rule">
+		<div class="rule-wrap">
+			<h1>2014年6月20号——2014年7月20日</h1>
+			<div class="rule-content">
+				<p style="font-size:18px;">一、活动规则：</p>
+				<p>1.注册完成所有步骤（包括实名认证、邮箱认证、银行卡认证、手机认证），可获6分。</p>		
+				<p>3.每10积分抽一次奖励，抽奖完成后会扣除相应积分分值。</p>		
+				<p>4.奖项设置如下：</p>
+				<p>特等奖：苹果5S一台</p>
+				<p>一等奖：现金红包1088元</p>  
+				<p>二等奖：现金红包588元</p>   
+				<p>三等奖：现金红包288元</p>    
+				<p>四等奖：现金红包88元</p>
+				<p>五等奖：现金红包38元</p>
+				<p>六等奖：现金红包8元</p>
+				<p>5.开奖时间：即抽即开奖，奖金系统自动发放，每天公布获奖名单。</p>
+				<p>6.活动时间：6月20日至7月20日</p>
+				<br/>
+				<p style="font-size:18px;">二、活动注意事项：</p>
+				<p>1.每人只要成功注册成会员，即可享受1年的VIP会员服务。</p>
+				<p>2.非实名绑定用户不享受积分.</p>
+				<p>3.积分不可相互流通，不可套现，可长期累积。</p>
+				<p>4.积分可用于抽奖兑换礼品，礼品商城即将开放，敬请期待。</p>
+				<p>5.活动期间如发现通过作弊获得奖励，我们有权将其奖励取消。</p>
+
+				<#-- <#if rule??>
+					{rule.content!}
+				</#if> -->
+			</div>
+		</div>
+	</div>
+	<form action="">
+		<input type="hidden" name="id" value="<#if rule??>${(rule.id!0)?c}</#if>" id="id" />
+	</form>
+	<#include "../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/award.js"></script>
+</html>
+

@@ -1,0 +1,66 @@
+<#include "header/base_top.html">
+<style type="text/css">
+	.mail-list{display:none;}
+	#edit-email{display:block; text-align:center; margin-top: 10px;}
+	.aui_close{background-color:#fff; outline:none!important;}
+</style>
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">邮箱认证</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg">
+		<#if msg?exists>
+			<p style="text-align:center;">${msg}</p>
+		</div>
+		<#elseif errormsg?exists>
+			<p style="text-align:center;" class="error">${errormsg}</p>
+		</div>
+		<#else>
+			<#if user.email_status?exists&&user.email_status=="1">
+				<p style="text-align:center;">已绑定邮箱！邮箱地址:${user.email!}</p>
+				<a href="javascript:" id="edit-email">修改邮箱</a>
+			<#else> 
+				<ul style="background:#EEF3FA;">
+					<li style="height:auto;">					
+						<label>请确保输入的邮箱能够接收邮件</label>
+					</li>
+				</ul>
+				<form action="email.html" method="post" id="form-email">
+					<!-- 发送手机校验码的时间间隔 -->
+					<input type="hidden" id="email_count-down" value="${countDown!60}">
+					<ul>
+						<li>
+							<input type="text" name="email" id="email"  maxlength="30" value="${(user.email)?default("")}" autocomplete="off" placeholder="邮箱地址"/>
+						</li>
+
+						<li>
+							<input type="text" name="valicode" id="email-validcode" maxlength="6" autocomplete="off"
+							style="width:40%;" placeholder="校验码"/>
+							<a href="javascript:" id="btn-email-validcode">获取校验码</a>
+						</li>
+					</ul>
+				</form>
+				</div>
+				<div id="operator" style="margin-bottom:60px;">
+					<a href="javascript:" id="btn-submit-email" class="btn">确认提交</a>
+					<!-- <span class="email-prompt"></span> -->
+				</div>
+			</#if>	
+		</#if>
+
+<#include "header/footer.html">
+
+<script type="text/javascript">
+	var themeDir = '${theme_dir}';
+</script>
+<script type="text/javascript" src="${theme_dir}/plugin/LAB.min.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/account.js"></script>
+<script type="text/javascript" src="${webroot}${theme_dir}/js/layer.min.js"></script>	
+<script type="text/javascript" src="${theme_dir}/plugin/jquery.form.js"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/artDialog-4.1.7/jquery.artDialog.js?skin=default"></script>
+<script type="text/javascript" src="${theme_dir}/plugin/artDialog-4.1.7/plugins/iframeTools.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/common.js"></script>
+<script type="text/javascript" src="${theme_dir}/js/weixin/account-identify.js"></script>

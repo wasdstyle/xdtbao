@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${webname!}</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<#include "head.htm"/>
+</head>
+<script type="text/javascript">
+<#include "js/bbcode_help.js"/>
+<#include "js/utils.js"/>
+<#include "js/attachments.js"/>
+</script>
+<#assign preview = preview?exists && preview/>
+<#assign isNewPost = isNewPost?exists && isNewPost/>
+<#assign isEdit = isEdit?if_exists/>
+<#assign isNewTopic = (!topic?exists || topic.id == -1)/>
+<#assign attachmentsEnabled = attachmentsEnabled?exists && attachmentsEnabled/>
+
+<#if !maxAttachments?exists>
+	<#assign maxAttachments = 0/>
+</#if>
+
+<#assign htmlChecked = "checked=\"checked\""/>
+<#assign bbChecked = ""/>
+<#assign signatureChecked = "checked=\"checked\""/>
+<#assign repliesChecked = "checked=\"checked\""/>
+<#assign smiliesChecked = ""/>
+
+<#if isNewPost && !preview && !post?exists>
+	<#if user.isHtmlEnabled()><#assign htmlChecked = ""/></#if>
+	<#if !user.isBbCodeEnabled()><#assign bbChecked = "checked=\"checked\""/></#if>
+	<#if !user.isSmiliesEnabled()><#assign smiliesChecked = "checked=\"checked\""/></#if>
+	<#if !user.getAttachSignatureEnabled()><#assign signatureChecked = ""/></#if>
+<#elseif post?exists>
+	<#if post.isHtmlEnabled()><#assign htmlChecked = ""/></#if>
+	<#if !post.isBbCodeEnabled()><#assign bbChecked = "checked=\"checked\""/></#if>
+	<#if !post.isSmiliesEnabled()><#assign smiliesChecked = "checked=\"checked\""/></#if>
+	<#if !post.isSignatureEnabled()><#assign signatureChecked = ""/></#if>
+</#if>
+
+<#if !user.isNotifyOnMessagesEnabled()><#assign repliesChecked = ""/></#if>
+<body class="full">
+	<!--S 快速导航开始-->
+	<#include "quickNav.htm"/>
+	<!--E 快速导航结束-->
+    <!--S 主体部分开始-->
+	<section class="bd reply_main">
+        <div class="mid clearfix" id="equalCon">
+        	<aside class="sidebar f_l">
+        		<div class="user-info w-1">
+                    <div class="user-name">${user.username}</div>
+                    <#if (user.avatar?exists && user.avatar?length > 0)>
+								<#if (user.avatar?exists && user.avatar?length > 0) && user.isExternalAvatar() || user.avatar.startsWith("http://")>
+									<#if avatarAllowExternalUrl>
+										<img src="${user.avatar?html}"  class="avatar" border="0" alt="[Avatar]" />
+									</#if>
+								<#else>
+									<img class="avatar" src="${WZ_URL}/imgurl.html?userName=${user.username}&size=big" border="0" alt="[Avatar]" />
+								</#if>
+							<#else>
+									<img class="avatar" src="${WZ_URL}/imgurl.html?userName=${user.username}&size=big" border="0" alt="[Avatar]" />
+								
+							</#if>
+                    <ul>
+                        <li>用户等级：${rank.getRankTitle(user.rankId, user.totalPosts)}</li>
+                        <li>注册时间：${user.registrationDate?string}</li>
+                        <li>发表文章：${user.totalPosts}</li>
+                        <#if user.isOnline()>
+								<li>用户状态：<span class="offline-color">${I18n.getMessage("PostShow.userOnline")}</span></li>
+						<#else>
+								<li>用户状态：<span class="offline-color">${I18n.getMessage("PostShow.userOffline")}</span></li>
+						</#if>
+                    </ul>
+                    <s></s>
+                </div>
+        	</aside>
+        	<article class="main_con">
+        		<form action="${JForumContext.encodeURL("/jforum")}" enctype="multipart/form-data" name="post" method="post" id="post" onsubmit="return validatePostForm();">
+        			<input type="hidden" name="action" value="${action}" />
+        		<input type="hidden" name="module" value="${moduleName}" />
+        		<input type="hidden" name="preview" value="0"/>
+        		<#if forum?exists><input type="hidden" name="forum_id" value="${forum.id}" /></#if>
+        		<input type="hidden" name="start" value="${start?default("")}" />
+        		<#if isEdit><input type="hidden" name="post_id" value="${post.id}" /></#if>
+        		<#if !isNewTopic><input type="hidden" name="topic_id" value="${topic.id}" /></#if>	
+        		<div class="reply_tits">
+        			<#if topic??>
+        				<#if action??&&action=="editSave" && session?exists && session.isAdmin() && topic.firstPostId==post.id>
+        					编辑主题
+        				<#else>
+	        				回复主题：“${topic.title}”
+	        			</#if>
+	        		<#else>
+	        			发布主题
+	        		</#if>
+	        		
+	        	</div>
+	        		<#if topic??&&action??&&action=="editSave"&&session?exists && session.isAdmin() && topic.firstPostId==post.id>
+	        		<div class="reply_tit">
+	    				<p class="tit">主题：</p>
+	    				<p class="cont"><input class="subject" type="text" name="title" value="<#if topic.title??>${topic.title}</#if>" /></p>
+	    			</div>
+	    			</#if>
+	    			
+	        		<#if !topic??>
+	    			<div class="reply_tit">
+	    				<p class="tit">主题：</p>
+	    				<p class="cont"><input class="subject" type="text" name="subject" value="${subject?default("")}" /></p>
+	    				<#if setType?default(true) && forum?exists && canCreateStickyOrAnnouncementTopics?default(false)>
+								<#if session?exists && session.isAdmin()>
+								${I18n.getMessage("PostForm.setTopicAs")}:
+									<input type="radio" checked="checked" value="0" id="topic_type0" name="topic_type"/><label for="topic_type0">${I18n.getMessage("PostForm.setTopicAsNormal")}</label>&nbsp;&nbsp;
+									<input type="radio" value="2" id="topic_type2" name="topic_type" <#if topic?exists && topic.type == 2>checked="checked"</#if> /><label for="topic_type2">${I18n.getMessage("PostForm.setTopicAsSticky")}</label>&nbsp;&nbsp;
+									<input type="radio" value="1" id="topic_type1" name="topic_type" <#if topic?exists && topic.type == 1>checked="checked"</#if> /><label for="topic_type1">精华</label>&nbsp;&nbsp;
+								<#elseif topic?exists>
+									<input type="hidden" name="topic_type" value="${topic.type}" />
+								</#if>
+						</#if>
+	    			</div>
+	    			<#else>
+	    			<div class="reply_tit">
+	    				<input class="subject" hidden="true" type="hidden" name="subject" value="${topic.title}" />
+	    				<#if setType?default(true) && forum?exists && canCreateStickyOrAnnouncementTopics?default(false)>
+								<#if session?exists && session.isAdmin()>
+								${I18n.getMessage("PostForm.setTopicAs")}:
+									<input type="radio" value="0" id="topic_type0" name="topic_type" <#if topic?exists && topic.type == 0>checked="checked"</#if> /><label for="topic_type0">${I18n.getMessage("PostForm.setTopicAsNormal")}</label>&nbsp;&nbsp;
+									<input type="radio" value="2" id="topic_type2" name="topic_type" <#if topic?exists && topic.type == 2>checked="checked"</#if> /><label for="topic_type2">${I18n.getMessage("PostForm.setTopicAsSticky")}</label>&nbsp;&nbsp;
+									<input type="radio" value="1" id="topic_type1" name="topic_type" <#if topic?exists && topic.type == 1>checked="checked"</#if> /><label for="topic_type1">精华</label>&nbsp;&nbsp;
+								<#elseif topic?exists>
+									<input type="hidden" name="topic_type" value="${topic.type}" />
+								</#if>
+						</#if>
+	    			</div>
+	    			</#if>
+	        		<div class="reply_content">
+	        			<div class="tits">内容：</div>
+	        			<div class="conts">        				
+	        				<#include "umeditor.htm"> 
+	        				<#assign content=""/>
+	        				<#if post?exists>
+	        					<#if quote?exists && quoteUser??>
+	        						<#assign content="【引用  ${quoteUser}：${post.text}】"/>
+	        					<#else>
+	        						<#assign content="${post.text}"/>
+	        					</#if>
+	        				</#if>
+							<@showUeditor width=940 heigth=300 id="message" name="" content="${content}" />
+							<input type="hidden" name="message" id="hideMsg">
+							
+	        			</div>
+	        		</div>
+	        		
+		        	<div class="operation_con t_a_r m_t_10">
+		        	<!-- 
+		        		<a class="cancel_btn m_r_20" href="#" title="取消">取消</a>
+		        		<a class="submit_btn" href="#" title="发布">发布</a> -->
+		        		<input class="submit_btn" id="btnSubmit" accesskey="s"  type="submit" value="${I18n.getMessage("PostForm.submit")}" name="post" onclick="getPlainTxt();"/>
+		        	</div>
+			        	<input type="hidden" name="lastPostTime" id="lastPostTime" value="${lastPostTime!''}">
+        		</form>
+        		
+        	</article>
+        </div>
+	</section>
+	<!--E 主体部分结束-->
+	<!--S 页脚-->
+	<#include "foot.htm"/>
+	<!--E 页脚-->
+	<script src="${contextPath}/themes/bbs/templates/${templateName}/js/jquery.qian360.js"></script>
+<script src="${contextPath}/themes/bbs/templates/${templateName}/js/common.js"></script>
+<script src="${contextPath}/themes/bbs/templates/${templateName}/js/bbs.js"></script>
+<script type="text/javascript">
+ function getPlainTxt() {
+     	$("#hideMsg").val(UM.getEditor('message').getContent());
+    }
+ 
+ function validatePostForm(){
+	 var lastTime = $("#lastPostTime").val(),
+	 	iTime=(new Date()).getTime();
+	 if(lastTime !="" && (iTime-lastTime)/1000<15){
+		 alert('请15秒后再次操作');
+		 return false;
+	 }
+	 return true;
+ }
+</script>
+</body>
+</html>

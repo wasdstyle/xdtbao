@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="VIP用户">
+                        <#include "banner.html">
+                        <!-- v1.6.7.1 RDPROJECT-384 wcw 2013-11-21 start -->
+                         <#if params?exists>		
+                                   <#if params.get("username")?exists><#assign username=params.get("username")></#if>
+				                    <#if params.get("kefu_username")?exists><#assign kefu_name=params.get("kefu_username")></#if>                   
+  				                    <#if params.get("verify_type")?exists><#assign verify_type=params.get("verify_type")?number><#else><#assign verify_type=0></#if>
+  				                    <#if params.get("verify_start_time")?exists><#assign verify_start_time=params.get("verify_start_time")></#if>
+  				                    <#if params.get("verify_end_time")?exists><#assign verify_end_time=params.get("verify_end_time")></#if>
+  				                    <#if params.get("type")?exists><#assign vip_type=params.get("type")></#if>
+				                  </#if> 
+				                  <!-- v1.6.7.1 RDPROJECT-384 wcw 2013-11-21 end -->
+                            <!--面包屑导航---}-->
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                            	<form action="vip.html" method="post">
+                            	<!-- v1.6.7.1  RDPROJECT-384 wcw 2013-11-05 start -->
+                                   	<div class="toolbor-module export">
+                                    <input type="button" onClick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                </div>
+									<div class="toolbor-module search">    
+                                        <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                                    </div>   
+                                    
+				                     <!-- v1.6.7.1  RDPROJECT-384 wcw 2013-11-05 end -->
+                                	<div class="toolbor-module search">
+                                        <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名"  class="search-value">
+                                     </div>
+                                 	<div class="toolbor-module search">       
+                                        <input type="text" name="kefu_name" id="kefu_name" value="请输入客服用户名"  data-value="请输入客服用户名" class="search-value">
+                                 	</div>
+                                 	<div class="toolbor-module search">   
+                                 	<select id="vip_type">
+                                          <option value=""  <#if vip_type==''>selected="selected"</#if>>全部</option>
+                                          <option value="0" <#if vip_type=='0'>selected="selected"</#if>>非终身vip</option>
+                                          <option value="3" <#if vip_type=='3'>selected="selected"</#if>>终身vip</option>
+                                        </select>
+                                    </div>
+                                    </form>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>用户名</td>
+                                            <td>客服名称</td>
+                                            <td>添加时间</td>
+                                            <td>用户类型</td>
+                                            <!-- v1.6.7.1 RDPROJECT-384 wcw 2013-11-21 start -->
+                                            <!-- <td>vip有效期限</td> -->
+                                            <td>vip截止时间</td>
+                                            <td>vip剩余期限</td>
+                                            <td>vip审核时间</td>
+                                            <!-- v1.6.7.1 RDPROJECT-384 wcw 2013-11-21 end -->
+                                            
+                                            <td>操作</td>
+                                        </tr>
+                                        <#if vipinfo??> <#list vipinfo as obj>
+                                            <#assign vipStatus=obj.vip_status!(0)>
+                                                <tr class="s">
+                                                    <td>${obj.user_id!"-"}</td>
+                                                    <td>${obj.username!"-"}</td>
+                                                    <td>${obj.kefu_name!"-"}</td>
+                                                    <td><#if obj.kefu_addtime??&&obj.kefu_addtime!="0">${dateformat(obj.kefu_addtime)}<#else>-</#if></td>
+                                                    <td><#if obj.type_id??>${Typet(obj.type_id,"usertype")}<#else>-</#if></td>
+                                                     <!-- v1.6.7.1 RDPROJECT-384 wcw 2013-11-21 start -->
+<!--                                                      <td id="valid_vip_time">${(obj.valid_vip_time!)}天</td>
+ -->                                                    <td id="vip_end_time"><#if obj.vip_end_time??&&obj.vip_end_time!="0">${dateformat((obj.vip_end_time))}<#else>-</#if>
+                                                    </td>
+                                                    <td id="last_vip_time">${obj.last_vip_time!0}天</td>
+                                                    <td><#if obj.vip_verify_time??&&obj.vip_verify_time!="0">${dateformat(obj.vip_verify_time)}<#else>-</#if></td>     
+                                                    <!-- v1.6.7.1 RDPROJECT-384 wcw 2013-11-21 end -->
+                                                    <td><#if obj.type!=3><a href="${request.getContextPath()}/admin/attestation/viewVipUsers.html?user_id=${obj.user_id?c}">审核查看</a><#else>已设置终身vip</#if></td>
+                                                </tr>
+                                        </#list> </#if>
+                                    </table>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager> <@pager.pagination page=page
+                                            url="/admin/attestation/vipUsers.html?status=${status}" map=params
+                                            style="style1" />
+
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+								<script type="text/javascript">
+                                <!-- v1.6.7.1  RDPROJECT-384 wcw 2013-11-05 start -->
+								 var url = 'vipUsers.html?search=true';
+								 var xlsurl = 'vipUsers.html?actionType=export';
+								  function sousuo(){
+                                      var sou = "";
+                                      var username = $("#username").val();
+                                      //var type = $("#vip_type").find(".open-selected").attr("data-value");
+                                      var type=$("#vip_type").val();
+                                      var kefu_name = $("#kefu_name").val();
+                                      if (username!=""&&username!="请输入用户名"){
+                                          sou += "&username="+username;
+                                      }
+                                      if (kefu_name!=""&&kefu_name!="请输入客服用户名"){
+                                          sou += "&kefu_name="+kefu_name;
+                                      }
+                                      <!-- v1.6.7.1 RDPROJECT-384 wcw 2013-11-21 start -->
+                                      var verify_start_time = $("#verify_start_time").val();
+                                      var verify_end_time = $("#verify_end_time").val();
+                                      if (verify_start_time!=null){
+                                          sou += "&verify_start_time="+verify_start_time;
+                                      }
+                                      if (verify_end_time!=null){
+                                          sou += "&verify_end_time="+verify_end_time;
+                                      }
+                                      <!-- v1.6.7.1 RDPROJECT-384 wcw 2013-11-21 end -->
+                                      sou+="&type="+type;
+                                      if (sou!=""){
+                                          location.href=url+sou;
+                                      }
+                                  }
+								  function exportxls(){
+									  var sou = "";
+									  var type = $("#vip_type").find(".open-selected").attr("data-value");
+                                      var username = $("#username").val();
+                                       var kefu_name = $("#kefu_name").val();
+                                      if (username!=""&&username!="请输入用户名"){
+                                          sou += "&username="+username;
+                                      }
+                                      if (kefu_name!=""&&kefu_name!="请输入客服用户名"){
+                                          sou += "&kefu_name="+kefu_name;
+                                      }
+                                      <!-- v1.6.7.1 RDPROJECT-384 wcw 2013-11-21 start -->
+                                      var verify_start_time = $("#verify_start_time").val();
+                                      var verify_end_time = $("#verify_end_time").val();
+                                      if (verify_start_time!=null){
+                                          sou += "&verify_start_time="+verify_start_time;
+                                      }
+                                      if (verify_end_time!=null){
+                                          sou += "&verify_end_time="+verify_end_time;
+                                      }
+                                      <!-- v1.6.7.1 RDPROJECT-384 wcw 2013-11-21 end -->
+                                    	sou+="&type="+type;
+							            if (sou!=""){
+							                location.href=xlsurl+sou;
+							            }else{
+							                location.href=xlsurl;
+							            }
+							        }
+                                  <!-- v1.6.7.1  RDPROJECT-384 wcw 2013-11-05 end -->
+								</script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

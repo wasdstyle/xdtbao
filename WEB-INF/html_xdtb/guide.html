@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="guide">
+<#include "include/style.html">
+<head>
+<meta charset="UTF-8">
+<title>${webname}--新手指引</title>
+</head>
+<body>
+<#include "include/header.html">
+<div class="guide-banner"></div>
+<div class="wrap guide-content">
+
+   <div class="guide"></div>
+	<!--<div class="guide-1"></div>
+	<div class="guide-2"></div>
+	<div class="guide-3"></div>
+	<div class="guide-4"></div>
+	<div class="guide-5"></div>-->
+	<#if session_user?exists >
+    <#else>
+        <a href="/user/register.html">马上加入${webname}</a>         
+    </#if>
+</div>
+<#include "include/footer.html">
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_account" >
+<#assign aid="a_accountStatistics">
+<#assign webname='账户统计 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+		 	<#include "../menu.html">
+		 	<div class="title-list-tab"><#include "account-list-tab.html"></div>
+		 	<div class="account-content">
+		 	<div class="account-statistics">
+		 	<ul class="clearfix">
+		 		<li class="title">充值</li>
+		 		<li>
+		 		<span><font>充值总额：</font>￥<#if statistics??>${statistics.rechargeTotal}</#if></span>
+		 		<span><font>线上充值总额：</font>￥<#if statistics??>${statistics.onlineRechargeTotal}</#if></span>
+		 		<span><font>线下充值总额：</font>￥<#if statistics??>${statistics.offlineRechargeTotal}</#if></span>
+		 		</li>
+		 	</ul>
+		 	<ul class="clearfix">
+		 		<li class="title">奖励</li>
+		 		<li>
+		 			<span><font>投标奖励：</font>￥<#if statistics??>${statistics.tenderAwardTotal}</#if></span>
+		 			<span><font>回款续投奖励：</font>￥<#if statistics??>${statistics.huikuanAwardTotal}</#if></span>
+		 			<span><font>线下充值奖励：</font>￥<#if statistics??>${statistics.offlineRechargeAwardTotal}</#if></span>
+		 			<span><font>好友邀请奖励：</font>￥<#if statistics??>${statistics.inviteAwardTotal}</#if></span>
+		 		</li>
+		 	</ul>
+		 	<ul class="clearfix">
+		 		<li class="title">利息</li>
+		 		<li>
+		 			<span><font>待收利息：</font>￥<#if statistics??>${statistics.waitCollectInterestTotal}</#if></span>
+		 			<span><font>已赚利息：</font>￥<#if statistics??>${statistics.earnedInterestTotal}</#if></span>
+		 		</li>
+		 	</ul>
+		 	<ul class="clearfix">
+		 		<li class="title">付出</li>
+		 		<li >
+			 		<span><font>借款手续费：</font>￥<#if statistics??>${statistics.borrowFeeTotal}</#if></span>
+			 		<span><font>借款付出奖励：</font>￥<#if statistics??>${statistics.borrowToPayAwardTotal}</#if></span>
+		 		</li>
+		 	</ul>
+		 	<#-- 
+			账户总额   :<#if summary??>${ceil(summary.accountTotal!0)}</#if>
+			可用余额   :<#if summary??>${ceil(summary.accountUseMoney!0)}</#if>
+			冻结总额   :<#if summary??>${ceil(summary.accountNoUseMoney!0)}</#if>
+			净资产    :<#if summary??>${ceil(summary.accountOwnMoney!0)}</#if>
+			待收总额   :<#if summary??>${((summary.collectTotal)!0)?string("##.##")}</#if>
+
+			待收利息   :<#if summary??>￥${(summary.collectInterest!0)?string("##.##")}</#if>
+			最近待收金额 :<#if summary??>${ceil(summary.newestCollectMoney!0)}</#if>
+			最近待收时间 :<#if summary??&&summary.newestCollectDate??>${dateformat(summary.newestCollectDate,"yyyy-MM-dd")}<#else>暂无收款</#if>
+			<a href ="${webroot}/member/invest/collect.html?status=0"></a>
+
+			已赚利息   :<#if summary??>￥${ceil(summary.yes_interest!0)}</#if>
+			已赚奖励   :<#if summary??>￥${ceil(summary.awardTotal!0)}</#if>
+			已赚还款时奖励:<#if summary??>￥${summary.repayYesAward}</#if>
+			未收还款时奖励:<#if summary??>￥${summary.repayAward}</#if>
+			借出总额   :<#if summary??>${ceil(summary.lendTotal!0)}</#if>
+			已收总额   :<#if summary??>${ceil(summary.acceptSum!0)}</#if> 
+			借款总额   :<#if summary??>￥${ceil(summary.borrowTotal!0)}</#if>
+			
+			待还总额   :<#if summary??>￥${ceil(summary.repayTotal!0)}</#if> 
+			最近待还金额 :<#if summary??>￥${ceil(summary.newestRepayMoney!0)}</#if>
+			最近待还时间 :<#if summary??&&summary.newestRepayDate??>${dateformat(summary.newestRepayDate,"yyyy-MM-dd")}<#else>暂无还款</#if>
+			<a href="${webroot}/member/borrow/repaymentdetail.html"></a>
+		 	 -->
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+</html>

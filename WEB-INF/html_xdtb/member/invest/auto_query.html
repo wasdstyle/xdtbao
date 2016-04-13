@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#include "../../include/style.html">
+<body>
+	<ul class="list-rule-edit">
+		<form method="post" action="auto.html">
+			<!-- 启用规则 -->
+			<li>
+				<label for="status">启用规则</label>
+				<input type="checkbox" name="status" id="status" value="1" <#if (ba.status)?? && (ba.status==1)>checked="checked"</#if> />
+			</li>
+			<li>
+				<label for="tender_type">每次投资金额：</label>
+				<input type="radio" name="tender_type" id="tender_type" value="1" style="display: none;" <#if (ba.tender_type)?? && (ba.tender_type==1)>checked="checked"</#if>/>
+				<input type="text" name="tender_account" id="tender_account" value="${auto.tender_account?c}" onlynumber="true" autocomplete="off" maxlength="8"/>
+			</li>
+			<!-- 年利率 -->
+			<li>
+				<label for="apr_status">年利率范围：</label>
+				<input type="checkbox" name="apr_status" id="apr_status" value="1"  <#if ba.apr_status==1>checked="checked"</#if> />
+				<#if ba.apr_first??>
+					<@linkage name="apr_first" id="apr_first" nid="borrow_auto_apr_first" default=ba.apr_first type="value" />  
+				<#else>
+				  <@linkage name="apr_first" id="apr_first" nid="borrow_auto_apr_first"/>  
+				</#if>
+				  ~  
+				<#if ba.apr_last??>
+					<@linkage name="apr_last" id="apr_last" nid="borrow_auto_apr_last" default=ba.apr_last type="value" />  
+				<#else>
+					<@linkage name="apr_last" id="apr_last" nid="borrow_auto_apr_last"/>  
+				</#if>
+				<span style="display: none;"></span>
+			</li>
+			<!-- 借款期限 -->
+			<li class="borrow-limit">
+				<label for="timelimit_status">借款期限范围：</label>
+				<input type="checkbox" id="timelimit_status" <#if ba.timelimit_status==1>checked="checked"</#if> />
+				<input type="radio" name="timelimit_status" value="0" style="display: none;" <#if ba.timelimit_status==0>checked</#if> />
+                <input type="radio" name="timelimit_status" value="1" style="display: none;" <#if ba.timelimit_status==1>checked</#if> />
+				<dl>
+					<dd>
+						月标：
+						<#if ba.timelimit_month_first??>
+							<@linkage name="timelimit_month_first" id="timelimit_month_first" nid="borrow_time_limit" default=ba.timelimit_month_first type="value"  noselect="不投月标"/>  
+						<#else>
+							<@linkage name="timelimit_month_first" id="timelimit_month_first" nid="borrow_time_limit" noselect="不投月标"/>  
+						</#if>             
+						  ~  
+						<#if ba.timelimit_month_last??>
+							<@linkage name="timelimit_month_last" id="timelimit_month_last" nid="borrow_time_limit" default=ba.timelimit_month_last type="value"  noselect="不投月标"/>  
+						<#else>
+							<@linkage name="timelimit_month_last" id="timelimit_month_last" nid="borrow_time_limit" noselect="不投月标"/>  
+						</#if>
+						<span style="display: none;"></span>
+					</dd>
+					<dd>
+						天标：
+						<#if ba.timelimit_day_first??>
+							<@linkage name="timelimit_day_first" id="timelimit_day_first" nid="borrow_time_limit_day" default=ba.timelimit_day_first type="value"  noselect="不投天标"/>  
+						<#else>
+							<@linkage name="timelimit_day_first" id="timelimit_day_first" nid="borrow_time_limit_day" noselect="不投天标"/>  
+						</#if>               
+						  ~  
+						<#if ba.timelimit_day_last??>
+							<@linkage name="timelimit_day_last" id="timelimit_day_last" nid="borrow_time_limit_day" default=ba.timelimit_day_last type="value"  noselect="不投天标"/><#else>
+							<@linkage name="timelimit_day_last" id="timelimit_day_last" nid="borrow_time_limit_day" noselect="不投天标"/>  
+						</#if>
+						<span style="display: none;"></span>
+					</dd>
+				</dl>
+			</li>
+			<!-- 还款方式 -->
+			<li>
+				<label for="borrow_style_status">还款方式： </label>
+				<input type="checkbox" id="borrow_style_status" name="borrow_style_status" value="1" <#if ba.borrow_style_status==1>checked="checked"</#if> />
+				<select name="borrow_style" id="borrow_style" >
+					<#list linkAgeList as item>
+						<option value=" ${item.value!}"  <#if ba.borrow_style??&&ba.borrow_style==item.value?eval> selected="selected"</#if> >${item.name!}</option> 
+					</#list>
+				</select>
+			</li>
+			<!-- 奖励 -->
+			<li>
+				<label for="award_status">奖励范围</label>
+				<input  type="checkbox" name="award_status" id="award_status" value="1" <#if ba.award_status==1>checked</#if>  /> 
+				奖励 >= 
+				<#if ba.award_first??>
+					<@linkage name="award_first" id="award_first" nid="borrow_auto_award" default=ba.award_first?c type="value" />  
+				<#else>
+					<@linkage name="award_first" id="award_first" nid="borrow_auto_award"/>  
+				</#if>&nbsp;若标奖励为固定金额，则转化为比例计算
+			</li>
+			<!-- 投标类型 -->
+			<li class="invest-type">
+				<label>投资类型：</label>
+				<dl class="cf">
+					<dd>
+						<label for="fast_status">抵押标</label>
+						<input type="checkbox" id="fast_status" name="fast_status" value="1" <#if ba.fast_status==1>checked</#if> />
+					</dd>
+					<dd>
+						<label for="xin_status">信用标</label>
+						<input type="checkbox" id="xin_status" name="xin_status" value="1" <#if ba.xin_status==1>checked</#if> />
+					</dd>
+					<!-- <dd>
+						<label for="jin_status">净值标</label>
+						<input type="checkbox" id="jin_status" name="jin_status" value="1" <#if ba.jin_status==1>checked</#if> />
+					</dd> -->
+					<dd>
+						<label for="vouch_status">担保标</label>
+						<input type="checkbox" id="vouch_status" name="vouch_status" value="1" <#if ba.vouch_status==1>checked</#if> />
+					</dd>
+					<dd>
+						<label for="flow_status">流转标</label>
+						<input type="checkbox" id="flow_status" name="flow_status" value="1" <#if ba.flow_status==1>checked</#if> />
+					</dd>
+				</dl>
+			</li>
+			<li>
+				<input type="submit" class="btn-confirm-edit" name="" value="修改" />
+				<#assign _type="add">
+				<#if type?exists&&(type=="add")>
+					<#assign _type=type>
+				</#if>
+				<#if type?exists&&(type=="showAuto")>
+					<#assign _type="modify">
+				</#if>
+				<input type="hidden" name="id" value="${((auto.id)?default(0))?c}" />
+				<input type="hidden" name="user_id" value="${((auto.user_id)?default(0))?c}" />
+				<input type="hidden" name="type" value="${_type}" />
+			</li>
+		</form>
+	</ul>
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-auto.js"></script>
+</html>

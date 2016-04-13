@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- v1.6.7.2 RDPROJECT-820[1] zza 2014-09-23 add -->
+	<package name="auto" namespace="/member/auto" extends="wzd-default">
+		<action name="autoList" class="borrowSetAutoAction" method="autoList">
+			<result name="success" type="ftl">/member/auto/autoList.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="addAuto" class="borrowSetAutoAction" method="addAuto">
+			<result name="success" type="ftl">/member/auto/autoList.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="viewAuto" class="borrowSetAutoAction" method="viewAuto">
+			<result name="success" type="ftl">/member/auto/viewAuto.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="delAuto" class="borrowSetAutoAction" method="delAuto">
+			<result name="success" type="ftl">/member/auto/autoList.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="modifyAuto" class="borrowSetAutoAction" method="modifyAuto">
+			<result name="success" type="ftl">/member/auto/autoList.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="allSetAutoLog" class="borrowSetAutoAction" method="allSetAutoLog">
+			<result name="success" type="ftl">/member/auto/allSetAutoLog.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="viewBorrowAutoList" class="borrowSetAutoAction" method="viewBorrowAutoList">
+			<result name="success" type="ftl">/member/auto/viewBorrowAutoList.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+	</package>
+</struts>

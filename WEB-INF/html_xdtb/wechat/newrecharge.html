@@ -1,0 +1,117 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="/themes/soonmes_huanandai/images/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">充值</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="/themes/soonmes_huanandai/images/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg">
+			<ul style="background:#EEF3FA;">
+				<li style="height:auto;">					
+					<label style="width:97%;">* 温馨提示：网上银行充值过程中请等待,充值成功后，请不要关闭浏览器,充值成功后返回${webname},
+                    充值金额才能打入您的帐号。</label>
+				</li>
+			</ul>
+			<style>
+				#main .form-style-reg label{
+					color:#868686;
+					float:left;
+					width:30%;
+				}
+				#main .form-style-reg li span{
+					color:#868686;
+					margin-top:15px;
+					margin-left:10px;
+				}
+			</style>
+			<form action="" method="post" name="form1" id="form1">
+				<ul>
+					<li>
+						<label>真实姓名:</label><span>${session_user.realname!""}</span>
+					</li>
+					<li>
+						<label>充值金额</label>
+						<input type="text" id="money" name="money" placeholder="请输入充值金额" maxlength="30"  style="width:50%;margin-top:13px;margin-left:10px;" />
+					</li>
+					<#if enable_online_recharge?? && enable_online_recharge=="1">
+						<li style="height:auto;">
+							<label>充值类型:</label>
+							<dl style="width:60%;float:left;margin-top:10px;margin-left:5px;">
+								<#if onlineBankList??>
+									<#list onlineBankList as item>
+										<dd style="float:left;margin-right:2px;margin-top:2px;">
+											<input style="margin-top:2px;float:left;width:auto;" type="radio" name="payment1" value="${item.bank_value}">
+											<div class="bg-bank" style="background: url(${item.bank_logo}) no-repeat center center;margin-left:20px;"></div>										    
+											<div class="icon-bank-selectd"></div>
+										</dd>
+								    </#list>
+								</#if>							
+							</dl>							
+						</li>
+						<li style="height:auto;">
+							<label>&nbsp;</label>
+							<dl style="width:60%;float:left;margin-top:10px;margin-left:5px;">
+							<#if interfaceList??>
+								<#list interfaceList as item>
+									<dt style="height:2px;">&nbsp;</dt>
+										<dd style="margin-right:2px;margin-top:2px;">
+											<input style="margin-top:-4px;float:left;width:auto;margin-left:3px;" type="radio" name="payment1" id="payment1" value="${item.interface_value}">
+											<#if item.interface_value='gopay'>
+												<div class="bg-bank" style="background: url(/data/bank/guofubao.jpg) no-repeat center center;margin-left:20px;"></div>
+											<#elseif item.interface_value='ecpsspay'>
+												<div class="bg-bank" style="background: url(/data/bank/huichao.jpg) no-repeat center center;margin-left:20px;"></div>
+											<#elseif item.interface_value='baofoo_pay'>
+												<div class="bg-bank" style="background: url(/data/bank/baofu.jpg) no-repeat center center;margin-left:20px;"></div>
+											<#elseif item.interface_value='newBaofoo_pay'>
+												<div class="bg-bank" style="background: url(/data/bank/baofu.jpg) no-repeat center center;margin-left:20px;"></div>
+											<#elseif item.interface_value='ecpsschina_pay'>
+												<div class="bg-bank" style="background: url(/data/bank/ecpsschina.jpg) no-repeat center center;margin-left:20px;"></div>
+											<#elseif item.interface_value='chinabank_pay'>
+												<div class="bg-bank" style="background: url(/data/bank/wyzx.jpg) no-repeat center center;margin-left:20px;"></div>
+											</#if>	
+											<input type="hidden" name="payname13" value="${item.name}">
+										</dd>
+								</#list>
+							</#if>
+							</dl>	
+						</li>
+					</#if>
+					<li>
+						<input class="helper" type="text" name="valicode" id="valicode" maxlength="5" placeholder="验证码" />
+						<img src="/validimg.html" alt="点击刷新" onclick="this.src='/validimg.html?t=' + Math.random();" align="absmiddle" >
+					</li>
+					<input type="hidden" name="name" value="确认提交">
+					<input type="hidden" name="type" value="1">
+				</ul>				
+			</form>
+			<div id="operator">
+				<a class="btn">提交</a>
+			</div>		
+        </div>
+
+<script>	
+	$('.form-style-reg dl dd:first').find("input[name='payment1']").attr({checked: true});				
+	$(".btn").click(function(){
+		var valicode_val = $("input[name='valicode']").val();	
+		var money=$("#money").val();
+		var	value=money;
+		if(value==""){
+			okDialog("请输入充值金额");
+		}
+		else if(isNaN(value)){
+			okDialog("请输入正确的金额格式");
+		}
+		else if(value<=0){
+			okDialog("请输入正确的金额格式");
+		}
+		else if(valicode_val==""){
+			okDialog("请输入验证码");
+		}
+		else{
+			$("#form1").submit();
+		}
+	});					
+</script>												
+<#include "header/footer.html">	
+	

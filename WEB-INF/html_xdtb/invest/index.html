@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="invest">
+<#assign webname="投资列表- ${webname!}">
+<#include "../include/style.html"> 
+<body>
+    <#include "../include/header.html">
+    <#include "../common/function.html"> 
+    <#include "../common/macro-invest.html">
+    <div class="filter-content">
+        <div class="wrap">
+            <div class="filter-invest">
+                <h3 class="filter-invest-h3">筛选投资项目</h3>
+                <ul id="sType" class="cf">
+                    <label>投资类型：</label>
+                    <li data-value="100">全部</li>
+                    <li data-value="103">抵押标</li>
+                    <li data-value="102">信用标</li>
+                    <!-- v1.9.u2 删除平台净值标 zza 2015-03-26 start -->
+                    <!-- <li data-value="104">净值标</li> -->
+                    <!-- v1.9.u2 删除平台净值标 zza 2015-03-26 end -->
+                    <li data-value="110">流转标</li>
+                    <li data-value="101">秒还标</li>
+                    <li data-value="112">担保标</li>
+                    <li data-value="104">净值标</li>
+                </ul>
+                <ul id="status" class="cf">
+                    <label>招标状态：</label>
+                    <li data-value="14">全部</li>
+                    <li data-value="1">招标中</li>
+                    <li data-value="10">还款中</li>
+                    <li data-value="12">已完成</li>
+                </ul> 
+                <ul id="sAccount" class="cf">
+                    <label>借款金额：</label>
+                    <li data-value="all">全部</li>
+                    <li data-value="5">5万以下</li>
+                    <li data-value="5-10">5-10万</li>
+                    <li data-value="10-20">10-20万</li>
+                    <li data-value="20-30">20-30万</li>
+                    <li data-value="30">30万以上</li>
+                </ul> 
+                <ul id="sApr" class="cf">
+                    <label>年利率：</label>
+                    <li data-value="all">全部</li>
+                    <li data-value="0-12">0-12%</li>
+                    <li data-value="12-18">12-18%</li>
+                    <li data-value="18">18%以上</li>
+                </ul>
+                <ul id="sLimit" class="cf">
+                    <label>借款期限：</label>
+                    <li data-value="all">全部</li>
+                    <li data-value="1-3">1-3个月</li>
+                    <li data-value="3-6">3-6个月</li>
+                    <li data-value="6-9">6-9个月</li>
+                    <li data-value="9-12">9-12个月</li>
+                    <li data-value="12">12个月以上</li>
+                </ul>
+                <div class="more-filter"><a href="javascript:"><i></i>更多筛选条件</a></div>
+            </div>
+
+        </div>
+    </div>
+    <div id="container" class="invest-list">
+        <div class="wrap index-invest">
+            <div class="list-invest list">
+                <ul class="title cf">
+                    <li class="name" style="width: 187px; text-indent: 0px; text-align: center">项目列表</li>
+                    <li style="width: 187px;">项目名称</li>
+                    <li style="width: 196px;">借款金额</li>
+                    <li style="width: 195px;">年化利率</li>
+                    <li style="width: 186px;">借款期限</li>
+                    <li style="width: 123px;">投资进度</li>
+                    <li style="border-right: none; width: 108px;">状态</li>                                                               
+                </ul>
+                <#if (borrowList?exists) && (borrowList?size>0)>
+                    <#list borrowList as item>
+                        <@indexListItem item=item />
+                    </#list>
+                    <div class="page">
+                        <#import "../common/page.html" as pager>
+                        <@pager.pagination page=p url="/invest/index.html?status="+status! map=map style="style-new"/>
+                    </div>
+                <#else>
+                    <div class="no-data" style="text-align: center;">没有符合条件的项目</div>
+                </#if>
+            </div>
+        </div>
+    </div>
+    <#include "../include/footer.html"> 
+</body>
+<script src="${theme_dir}/js/invest-filter.js"></script>
+<script>
+    $(".list-invest ul.item").each(function(){
+        $(this).mouseover(function(){
+            $(this).find(".item-detail").css('display','block'); 
+        });
+        $(this).mouseout(function(){
+            $(this).find(".item-detail").css('display','none'); 
+        });
+    });
+</script>
+</html>

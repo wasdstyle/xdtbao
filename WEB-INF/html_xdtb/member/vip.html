@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_vip">
+<#include "../include/style.html">
+<#include "../common/function.html">
+<body>
+    <#if !userCache?exists||!userCache.vip_status?exists||userCache.vip_status==0||userCache.vip_status==-1||userCache.vip_status==3>
+        <div class="account-content vip-apply" style="float: left">
+            <ul class="prompt">
+                <li>VIP申请费用为${vip_fee!0}一年;</li>
+                <li>本网站非VIP会员投标不享有本网站的垫付保障权益!</li>
+            </ul>
+            <div id="form-vip">
+<!--             <form action="/member/vip.html" method="post" id="form-vip"> -->
+                <h1>选择客服人员</h1>
+                <ul class="cf">
+                        <#if onlyKefuUser??>
+                            <li>
+                                <input type="hidden" name="kefu_userid"  value="${onlyKefuUser.user_id?c}" />
+                                <img src="/imgurl.html?userid=${onlyKefuUser.user_id?c}&size=middle" class="selected"/>
+                                <span>${onlyKefuUser.username!}</span>
+                            </li>  
+                        <#else>
+                            <#if kflist?exists>
+                            <#list kflist as item>
+                                <li <#if item_index%5==4>style="margin-right: 0;"</#if>>
+                                    <input type="radio" name="kefu_userid" value="${item.user_id?c}" />
+                                    <img src="/imgurl.html?userid=${item.user_id?c}&size=middle" />
+                                    <span>${item.username!}</span>
+                                </li>
+                            </#list>
+                            </#if>
+                        </#if>
+                    
+                </ul>
+                <div class="validcode cf">
+                    <span class="">验证码</span>
+                    <input type="text" name="valicode"  id="validcode" class="validcode input-box" autocomplete="off" maxlength="5" style="margin:0px;">
+                    <img src="/validimg.html" title="点击刷新" class="validcode-img" id="imgCode" onclick="this.src='/validimg.html?t=' + Math.random();" />
+                    <a href="javascript:" class="btn-confirm-apply">确认申请</a>
+                    <span class="vip-prompt"></span>
+                    <input type="hidden" name="type" value="apply" />
+                </div>
+<!--             </form> -->
+               </div>
+            <#if act?exists&&act.use_money?exists><#assign use_money=act.use_money></#if>
+            <input type="hidden" id="remain-money" value="${(use_money)?c}">
+            <input type="hidden" id="vip-fee" value="${vip_fee!0}">
+    <#else>
+    	<h1>您的VIP信息</h1>
+    	<ul class="ul_li_1">
+           <li>您的状态是：<#if userCache.vip_status==0>普通会员<#elseif userCache.vip_status==2||userCache.vip_status==-1>VIP申请中<#else>VIP会员</#if></li>
+           <li>用户名：${detailUser.username!}</li>
+           <li>姓 名 ：${detailUser.realname!}</li>
+           <li>邮 箱 ：${detailUser.email!}</li>
+       </ul>
+        </div>
+    </#if>
+    <#include "../include/script.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/js/account-vip.js"></script>
+</html>

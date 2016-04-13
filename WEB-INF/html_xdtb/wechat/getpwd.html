@@ -1,0 +1,108 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<style type="text/css">
+		.btn-get-pwd{
+		  width: 94%;
+		  background: #C8050E;
+		  margin:0 auto;
+		  margin-top:30px!important;
+		  border-radius: 5px;
+		  text-align: center;
+		  color: white;
+		  font-size: 18px!important;
+		  height:50px;
+		}
+	</style>
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">找回登录密码</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg">
+            <form action="" method="post">
+                <ul>
+                    <li>
+						<input type="text" name="username" id="username" maxlength="25" autocomplete="off" 
+						placeholder="用户名/手机号/邮箱">
+                    </li>
+                    <li>
+						<input type="text" name="validcode" id="validcode" maxlength="5" autocomplete="off" style="width:30%;" placeholder="验证码" />
+						<a href="javascript:" id="btn-get-validcode">获取校验码</a>
+                    </li>
+                </ul>
+				<input type="submit" class="btn-get-pwd" <#if getpwdtype == "paypwd">value="找回交易密码"<#else>value="找回登录密码"</#if>/>
+
+				<input type="hidden" name="getpwdtype" value="${getpwdtype}">
+                <input type="hidden" value="getpwd" name="actionType"/>
+                <input type="hidden" value="wxurl" name="wxurl"/>
+            </form>
+        </div>
+        
+		<!-- <div id="operator" style="margin-bottom:60px;">
+			<a class="btn btn-setpwd" onclick="submit();">重置登录密码</a>
+		</div> -->
+
+<script type="text/javascript" src="${theme_dir}/js/layer.min.js"></script>
+<script type="text/javascript">
+    $('.wp-form-getpwd ul li input').each(function() {
+        if($.browser.msie) {
+            this.onpropertychange = function() {
+                if(this.value) {
+                    $(this).siblings('label').hide();
+                }
+            };
+        }else {
+            this.addEventListener('input',function() {
+                $(this).siblings('label').hide();
+            },false);
+        }
+    });
+
+    $('.wp-form-getpwd ul li input').blur(function() {
+        if(!$(this).val()) {
+            $(this).siblings('label').show();
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(".login-weix").mouseenter(function(){
+        $(".login-weix img").css('display','block')
+    }).mouseleave(function(){
+         $(".login-weix img").css('display','none')
+    })
+
+
+    $('#btn-get-validcode').live('click', function() {
+    var self = this;
+    var countDown = 120;
+      $.ajax({
+        url     : '/user/getCode.html?phone=' + $('#username').val(),
+        type    : 'post',
+        cache   : false,
+        dataType: 'json',
+/*        data    : {name: $('#phone').val()},*/
+        // 重新发送倒计时
+        success: function(data){
+          if(data.data == "true"){
+            $(self).attr({id: 'resend-time'}).text(countDown + '秒后重新发送');
+            timer = setInterval(function() {
+              countDown--;
+              if(countDown) {
+                $(self).text(countDown + '秒后重新发送');
+              }else {
+                clearInterval(timer);
+                countDown = parseInt($('#count-down').val());
+                $(self).attr({id: 'btn-get-validcode'}).text('获取校验码');
+              }
+            }, 1000);
+          }else{
+            layer.alert(data.data);
+          }
+          
+        }
+      });
+  });
+</script>
+<#include "header/footer.html">
+	

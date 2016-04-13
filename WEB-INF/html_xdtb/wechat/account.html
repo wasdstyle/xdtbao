@@ -1,0 +1,118 @@
+<#include "header/base_top.html">
+<#include "../common/function.html"> 
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">个人中心</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+<style>
+	#main .account{
+		background:#FFFFFF;
+		height:65px;
+		border:1px solid #EEEEEE;
+	}
+	#main .account ul{
+		margin-left:10px;
+		margin-top:10px;
+	}
+	#main .account ul li{
+		height:auto;
+		float:left;
+	}
+	#main .account ul li img{
+		/*width:45px;*/
+		height:45px;
+	}
+	#main .money ul{
+		background:#F0F0F0;
+	}
+	#main .money ul li{
+		height:auto;
+		float:left;
+		width:50%;
+		text-align:center;
+		color:#222222;
+		padding-top:10px;
+		background:#F0F0F0;
+	}
+	#main .assets li{
+		border-bottom:1px solid #DEDEDE;
+	}
+
+	#main .assets li a{
+		display:block;
+		float:left;
+		width:100%;
+		height:60px;
+	}
+	
+
+	#main .assets img{
+		float:right;
+		margin-top:22px;
+		width:10px;
+		margin-right:10px;
+	}
+	.recharge{
+		display: block;
+		float: left;
+		width: 45%;
+		text-align: center;
+		background: #C8050E;
+		margin-top: 10px;
+		margin-left: 3%;
+		padding: 10px 0 10px 0;
+		border-radius: 5px;
+		color:white;
+		margin-bottom:20px;
+	}
+	.withdraw{
+		display: block;
+		float: left;
+		width: 45%;
+		text-align: center;
+		background: #C8050E;
+		margin-top: 10px;
+		margin-left: 3%;
+		padding: 10px 0 10px 0;
+		border-radius: 5px;
+		color:white;
+		margin-bottom:20px;
+	}
+</style>
+	<div id="main">
+		<div class="form-style-reg">
+			<div class="account">
+				<ul>
+					<!-- <li style="width:8%; height:45px;"><img src="${theme_dir}/bg/logo.png"></li> -->
+					<li style="color:#6D6D6D;line-height:45px;">Hi，<span style="color:#C91018;margin-top:0px;float:right;">${session_user.username!}</span></li>
+				</ul>
+			</div>
+			<div class="money">
+				<ul>
+					<!-- <li style="color:#C9C9C9;background:#FFFFFF;">资产总额(元)</li>
+					<li style="color:#C9C9C9;background:#FFFFFF;">账户余额(元)</li>
+					<li style="color:#C8050E;background:#FFFFFF;font-size:18px;padding-bottom:10px;"><#if summary??>${ceil(summary.accountTotal!0)}</#if></li>
+					<li style="color:#C8050E;background:#FFFFFF;font-size:18px;padding-bottom:10px;"><#if summary??><#if (summary.accountUseMoney!0) lt 0.01>0<#else>${ceil(summary.accountUseMoney!0)}</#if></#if></li> -->
+					<li style="color:#606060;padding-bottom:10px;border-right:1px solid #DEDEDE;">账户总额(元)</li>
+					<li style="color:#606060;padding-bottom:10px;">待到账收益(元)</li>
+					<li style="color:#696A6A;font-size:18px;padding-bottom:10px;padding-top:0px;border-right:1px solid #DEDEDE;"><#if summary??>${ceil(summary.accountTotal!0)}</#if></li>
+					<li style="color:#696A6A;font-size:18px;padding-bottom:10px;padding-top:0px;"><#if summary??>${(summary.collectInterest!0)?string("##.##")}</#if></li>
+					<li style="color:#606060;padding-bottom:10px;border-right:1px solid #DEDEDE;">已到账收益(元)</li>
+					<li style="color:#606060;padding-bottom:10px;">可用余额(元)</li>
+					<li style="color:#696A6A;font-size:18px;padding-bottom:10px;padding-top:0px;border-right:1px solid #DEDEDE;"><#if summary??>${ceil(summary.yes_interest!0)}</#if></li>
+					<li style="color:#696A6A;font-size:18px;padding-bottom:10px;padding-top:0px;"><#if summary??>${ceil(summary.accountUseMoney!0)}</#if></li>
+				</ul>				
+			</div>
+			<ul class="assets">
+				<li><a href="assets_statistics.html"><span>资产统计</span><img src="${theme_dir}/image/weixin/images/small_arrow.png"></a></li>
+				<li><a href="record.html"><span>交易记录</span><img src="${theme_dir}/image/weixin/images/small_arrow.png"></a></li>
+				<li><a href="safe.html"><span>安全中心</span><img src="${theme_dir}/image/weixin/images/small_arrow.png"></a></li>
+				<li><a href="bank.html"><span>银行卡绑定</span><img src="${theme_dir}/image/weixin/images/small_arrow.png"></a></li>
+			</ul>
+        </div>	
+		<span class="recharge" style="margin-bottom:60px;"><a href="recharge.html" style="color:white;display:block;">充值</a></span>
+		<span class="withdraw" style="margin-bottom:60px;"><a href="withdraw.html" style="color:white;display:block;">提现</a></span>	
+<#include "header/footer.html">				
+	

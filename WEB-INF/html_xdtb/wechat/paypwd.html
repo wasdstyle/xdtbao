@@ -1,0 +1,59 @@
+<#include "header/base_top.html">
+<body style="background:#EEF3FA;">
+	<div id="header">
+		<span class="left"><a href="javascript:history.go(-1)"><img src="${theme_dir}/image/weixin/images/btn-back.png"></a></span>
+		<span style="width:70%;">重置交易密码</span>
+		<span class="right"><a href="javascript:location.reload()"><img src="${theme_dir}/image/weixin/images/btn-refresh.png"></a></span>
+	</div>
+	<div id="main">
+		<div class="form-style-reg">
+			<#if msg?exists>
+				<p style="text-align:center;">${msg}</p>
+			<#else>
+				<#if errormsg?exists>
+					<p style="text-align:center;">${errormsg}</p>
+				</#if>
+			</#if>
+			<!-- <ul style="background:#EEF3FA;">
+				<li style="height:auto;">					
+					<label>初始交易密码与您注册时的登录密码一致</label>
+				</li>
+			</ul> -->
+			<!-- <form action="" method="post" id="form1" name="form1"> -->
+			<form action="" method="post" id="form-modify-pwd" class="modify-pay-pwd">
+				<ul>
+					<li>
+						<label style="display:none;">交易密码：</label>
+						
+						<input type="password" name="oldpassword" id="oldpassword" onpaste="return false;" tabindex="1"
+						placeholder="原始交易密码">
+					</li>
+					<li>
+						
+						<input type="password" name="newpassword" id="newpassword" onpaste="return false;" onKeyUp="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')" tabindex="2"
+						placeholder="新交易密码">
+					</li>
+					<li>
+						<input type="password" name="newpassword1" id="newpassword1" onpaste="return false;" onKeyUp="value=value.replace(/(\s*)/g,'')"  onblur="value=value.replace(/(\s*)/g,'')" tabindex="3"
+						placeholder="确认交易密码">
+					</li>
+					<li>
+						<input type="text" name="valicode" id="validcode" class="helper" maxlength="5" autocomplete="off" tabindex="4" placeholder="验证码">
+						
+
+						<img src="/validimg.html" class="validcode-img" title="点击刷新" onclick="this.src='/validimg.html?t=' + Math.random();" />
+					</li>
+				</ul>				
+			</form>
+			<div id="operator" style="margin-bottom:60px;">
+				<a class="btn btn-modify-pwd">确认修改</a>
+			</div>			
+        </div>
+<script type="text/javascript">
+	var themeDir = '${theme_dir}';
+</script>
+<script type="text/javascript" src="${theme_dir}/plugin/LAB.min.js"></script>
+<script type="text/javascript" src="${webroot}${theme_dir}/js/layer.min.js"></script>	
+<script type="text/javascript" src="${theme_dir}/js/weixin/account-security.js"></script>
+<#include "header/footer.html">
+	

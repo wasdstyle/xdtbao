@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign mid="m_account" >
+<#assign aid="a_log">
+<#assign webname='资金记录 - 账户中心 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	<div id="container-account">
+		<div class="wrap cf">
+			<#include "../menu.html"> 
+			<div class="title-list-tab"><#include "account-list-tab.html"></div>
+			<div class="account-content">
+				<div class="wp-account-log">
+					<#if param?exists>
+						<#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if>
+						<#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if>
+						<#if param.get("account_type")?exists><#assign account_type=param.get("account_type")></#if>
+					</#if>
+					<div class="search cf">
+						<span>记录日期：</span>
+						<input type="text" name="dotime1" id="start-time" value="${dotime1?default("")}"/>
+						<span class="to">到</span>
+						<input type="text" name="dotime2" id="end-time" value="${dotime2?default("")}"/>
+						<span class="type">类型</span>
+						<div class="pseudo-select">
+							<span></span>
+							<dl></dl>
+						</div>
+						<#if account_type?exists>
+							<@linkage name="account_type" nid="account_type" type="value" default=account_type noselect="全部"/>
+						<#else>
+							<@linkage name="account_type" nid="account_type" type="value" noselect="全部"/>
+						</#if>
+						<a href="javascript:" class="btn-search">搜索</a>
+					</div>
+					<ul class="name cf">
+						<li>操作类型/备注信息</li>
+						<li>操作金额</li>
+						<li>可用金额</li>
+						<li>冻结金额</li>
+						<li>待收金额</li>
+						<li>记录时间</li>
+					</ul>
+					<#list log as item>
+						<ul class="item cf">
+							<li>${(item.typename)!"错误类型!"}</li>
+							<li>${ceil(item.money!0)}</li>
+							<li>${ceil(item.use_money!0)}</li>
+							<li>${ceil(item.no_use_money!0)}</li>
+							<li>${ceil(item.collection!0)}</li>
+							<li class="time" title="${dateformat(item.addtime)}">${dateformat(item.addtime,"yyyy-MM-dd")}</li>
+							<li class="remark">${item.remark?default("")}</li>
+						</ul>
+					</#list>
+					<div class="account-page">
+						<#import "../../common/page.html" as pager>  
+						<@pager.pagination page=p url="/member/account/log.html" map=param style="style-new"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include "../../include/footer.html">
+</body>
+<script type="text/javascript" src="${theme_dir}/plugin/laydate/laydate.js"></script>
+<script>
+	$(function() {
+		/* 数据列表中的日期时间格式转换 */
+		$('.wp-account-log ul.item li.time').dateTimeConvert();
+
+		$('.pseudo-select').pseudoSelect('account_type');
+
+		// 搜索功能
+		var url = 'log.html?search=true';
+		$('.search .btn-search').click(function() {
+			if($('#start-time').val()) {
+				url += '&dotime1=' + $('#start-time').val();
+			}
+			if($('#end-time').val()) {
+				url += '&dotime2=' + $('#end-time').val();
+			}
+			if($('[name="account_type"]').val()) {
+				url += '&account_type=' + $('[name="account_type"]').val();
+			}
+			location.href = url;
+		});
+
+	});
+</script>
+</html>

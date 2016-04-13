@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/style.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix">
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+	<#assign mid="m_info" >
+		<#include "../menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<#if msg?exists>
+		<div id="msg24">
+			<p class="ok"> ${msg} </p>
+		</div>
+		<#else>
+			<#if errormsg?exists>
+				<div id="msg25">
+					<p class="error"> ${errormsg} </p>
+				</div>
+			</#if>
+		</#if>
+		<div class="user_right_menu">
+			<#assign userinfo_type="userinfo" >
+			<#include "userinfo_menu.html"> 
+		</div>
+		
+		<div class="user_right_main">
+		
+		<form action="" name="form1" method="post" >
+				<!--个人资料 开始-->
+			<div class="user_right_border">
+				<div class="l">帐户：</div>
+				<div class="c">
+				<#if (session_user?exists) >
+					${session_user.username!""}
+				</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">婚姻状况：</div>
+				<div class="c">
+					<#if info?exists&&info.marry?exists>
+						<@linkage name="marry" id="marry" typeid=1 default=info.marry></@linkage>
+					<#else>
+						<@linkage name="marry" id="marry" typeid=1></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">子 女：</div>
+				<div class="c">
+					<#if info?exists&&info.child?exists>
+						<@linkage name="child" id="child"  typeid=2 default=info.child></@linkage>
+					<#else>
+						<@linkage name="child" id="child"  typeid=2></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">学 历：</div>
+				<div class="c">
+					<#if info?exists&&info.education?exists>
+						<@linkage name="education" id="education" typeid=3 default=info.education></@linkage>
+					<#else>
+						<@linkage name="education" id="education" typeid=3></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">月收入：</div>
+				<div class="c">
+					<#if info?exists&&info.income?exists>
+						<@linkage name="income" id="income" typeid=4 default=info.income></@linkage>
+					<#else>
+						<@linkage name="income" id="income" typeid=4></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">社 保：</div>
+				<div class="c">
+					<#if info?exists&&info.income?exists>
+						<@linkage name="shebao" id="shebao" typeid=5 default=info.shebao></@linkage>
+					<#else>
+						<@linkage name="shebao" id="shebao" typeid=5></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">社保电脑号：</div>
+				<div class="c">
+					<input type="text" size="30" name="shebaoid" value="<#if info?exists&&info.shebaoid?exists>${info.shebaoid}</#if>" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">住房条件：</div>
+				<div class="c">
+					<#if info?exists&&info.housing?exists>
+						<@linkage name="housing" id="housing" typeid=6 default=info.housing></@linkage>
+					<#else>
+						<@linkage name="housing" id="housing" typeid=6></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">是否购车：</div>
+				<div class="c">
+					<#if info?exists&&info.car?exists>
+						<@linkage name="car" id="car" typeid=7 default=info.car></@linkage>
+					<#else>
+						<@linkage name="car" id="car" typeid=7></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">逾期记录：</div>
+				<div class="c">
+					<#if info?exists&&info.late?exists>
+						<@linkage name="late" id="late" typeid=8 default=info.late></@linkage>
+					<#else>
+						<@linkage name="late" id="late" typeid=8></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+			<div class="l"></div>
+			<div class="c">
+				<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+			</div>
+                        </div>
+		<!--个人资料 结束-->
+		<!--账号充值 开始-->
+				<input type="hidden" name="type" value="1" />
+		</form>
+	</div>
+  </div>
+	<!--右边的内容 结束-->
+</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<#include "../../include/footer.html"> 
+</body>
+</html>

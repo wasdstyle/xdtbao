@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<#include "head.html">
+<!--  v1.6.7.2 RDPROJECT-711 lx 2014-02-18 start -->
+<head>
+<style type="text/css">
+.ci li{ height:25px; line-height:25px; overflow:hidden; }
+</style>
+</head>
+<!--  v1.6.7.2 RDPROJECT-711 lx 2014-02-18 end -->
+<body>
+	<table class="mc">
+		<tr>
+			<td class="mc-l">
+				<!--左侧导航---{-->
+				<div id="navPanelContainer">
+					<div class="system-logo cd"></div>
+					<!--管理员信息---{-->
+					<#include "adminInfo.html">
+					<!--管理员信息---}-->
+					<div class="nav-wrap"></div>
+				</div> <!--左侧导航---}-->
+			</td>
+			<td class="mc-m">
+				<div class="navToggle"></div>
+			</td>
+			<td class="mc-r">
+				<!--顶部导航---{--> <#include "topNav.html"> <!--顶部导航---}--> <!--面包屑导航---{-->
+				<div id="breadcrumbNav">
+					<div class="home-icon"></div>
+					<ul>
+						<li>管理首页</li>
+						<li class="v">待办事宜</li>
+					</ul>
+				</div> <!--面包屑导航---}--> <!--工具栏--{-->
+				<div id="toolbar" class="clearfix"></div> <!--工具栏--}-->
+
+				<div id="main" class="clearfix">
+				<!--  v1.6.7.2 RDPROJECT-711 lx 2014-02-18 start -->
+					<#if map.trialBorrowCount?? || map.fullBorrowCount?? ||map.userMountApplyCount??>
+					<div class="valBox w750">
+						<div class="top">
+							<strong>贷款审核待办</strong>
+						</div>
+						<div class="val clearfix">
+								<#if map.trialBorrowCount??>
+							<ul class="ci">
+								<li>
+									<div class="title">发标待审：</div>
+									<div class="v"><a href="/admin/borrow/showTrialBorrow.html" style="color: blue">${map.trialBorrowCount}个</a></div>
+								</li>
+							</ul>
+								</#if>
+								<#if map.fullBorrowCount??>
+							<ul class="ci">
+								<li>
+									<div class="title">已满标待审：</div>
+									<div class="v"><a href="/admin/borrow/showReviewBorrow.html" style="color: blue">${map.fullBorrowCount}个</a></div>
+								
+								</li>
+							</ul>
+								</#if>
+								<#if map.userMountApplyCount??>
+							<ul class="ci">
+								<li>
+									<div class="title">借款额度审批：</div>
+									<div class="v"><a href="/admin/borrow/amountApply.html" style="color: blue">${map.userMountApplyCount}个</a></div>
+								
+								</li>
+							</ul>
+								</#if>
+								
+						</div>
+						
+					</div>
+					</#if>
+					
+					<#if  map.kfCashCount?? || map.chunaCashCount??>
+					<div class="valBox w750">
+						<div class="top">
+							<strong>资金管理待办</strong>
+						</div>
+						<div class="val clearfix">
+							<#--<#if map.kfCashCount??>
+							<ul class="ci">
+								<li>
+									<div class="title">客户提现初审：</div>
+									<div class="v"><a href="/admin/cash/showFirstVerifyCash.html?verify_step=kefuVerify" style="color: blue">${map.kfCashCount}个</a></div>
+								
+								</li>
+							</ul>
+								</#if>-->
+								<#if map.chunaCashCount??>
+							<ul class="ci">
+								<li>
+									<div class="title">财务提现审核：</div>
+									<div class="v"><a href="/admin/cash/showThirdVerifyCash.html?verify_step=chunaVerify" style="color: blue">${map.chunaCashCount}个</a></div>
+								</li>
+							</ul>
+								</#if>
+								
+						</div>
+						
+					</div>
+					</#if>
+					
+					
+					<#if  map.userRealnameCount?? || map.companyRealnameCount?? || map.userPhoneCount?? || map.userVideoCount?? || map.userRSceneCount??>
+					<div class="valBox w750">
+						<div class="top">
+							<strong>认证管理待办</strong>
+						</div>
+						<div class="val clearfix">
+							<#if map.userRealnameCount??>
+							<ul class="ci">
+								<li>
+									<div class="title">用户实名认证：</div>
+									<div class="v"><a href="/admin/attestation/verifyRealname.html?status=2&company=1" style="color: blue">${map.userRealnameCount}个</a></div>
+								</li>
+							</ul>
+							</#if>
+							<#if map.companyRealnameCount??>
+							<ul class="ci">
+								<li>
+									<div class="title">公司实名认证：</div>
+									<div class="v"><a href="/admin/attestation/verifyRealname.html?status=2&company=2" style="color: blue">${map.companyRealnameCount}个</a></div>
+								</li>
+							</ul>
+							</#if>
+							<#if map.userPhoneCount??>
+							<ul class="ci">
+								<li>
+									<div class="title">手机认证审核：</div>
+									<div class="v"><a href="/admin/attestation/verifyPhone.html?status=2" style="color: blue">${map.userPhoneCount}个</a></div>
+								</li>
+							</ul>
+							</#if>
+							<#if map.userVideoCount??>
+							<ul class="ci">
+								<li>
+									<div class="title">视频认证审核：</div>
+									<div class="v"><a href="/admin/attestation/verifyVideo.html?status=2" style="color: blue">${map.userVideoCount}个</a></div>
+								</li>
+							</ul>
+							</#if>
+							<#if map.userRSceneCount??>
+							<ul class="ci">
+								<li>
+									<div class="title">现场认证审核：</div>
+									<div class="v"><a href="/admin/attestation/verifyScene.html?status=2" style="color: blue">${map.userRSceneCount}个</a></div>
+								</li>
+							</ul>
+							</#if>
+						</div>
+						
+					</div>
+					</#if>
+					
+					<!--  v1.6.7.2 RDPROJECT-711 lx 2014-02-18 end -->
+					
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<!--尾部--{-->
+			<td colspan="3" class="mc-b"><#include "foot.html"></td>
+			<!--尾部--}-->
+		</tr>
+	</table>
+
+</body>
+</html>
+<#include "jsPage.html">

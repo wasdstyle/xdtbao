@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<#assign nid="member">
+<#assign webname='自动投标 - 投标详情 - ${webname!}'>
+<#include "../../include/style.html">
+<body>
+	<div class="autoDetail">
+		<table>
+			<tr>
+			<th>ID</th>
+			<th>用户名</th>
+			<th>实际投标金额</th>
+			<th>结果</th>
+			<th>自动投标时间</th>
+			</tr>
+			<#list list as item>
+			<tr>
+				<td>${item_index+1}</td>
+				<td>${item.username}</td>
+				<td>${item.money}</td>
+				<td>${item.remark?default("")}</td>
+				<td>${dateformat(item.addtime?c)}</td>
+			</tr>
+			</#list>
+		</table>
+	</div>
+</body>
+</html>
